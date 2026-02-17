@@ -9,33 +9,241 @@
       "topics": [
         {
           "id": 1,
-          "name": "Ethics and Trust in the Investment Profession",
-          "notes": "Paste your notes here for this topic. You can use plain text or structure with line breaks.",
-          "questions": [
-            { "q": "Why is ethics important in the investment profession?", "a": "Paste your answer here." }
-          ]
+          "name": "LM1: Ethics and Trust in the Investment Profession",
+          "notes": "",
+          "questions": []
         },
         {
           "id": 2,
-          "name": "Code of Ethics and Standards of Professional Conduct",
+          "name": "LM1: Ethics and Professionalism",
           "notes": "",
           "questions": []
         },
         {
           "id": 3,
-          "name": "Guidance for Standards I–III",
+          "name": "LM1: Challenges to Ethical Conduct",
           "notes": "",
           "questions": []
         },
         {
           "id": 4,
-          "name": "Guidance for Standards IV–VII",
+          "name": "LM1: Ethical vs. Legal Standards",
           "notes": "",
           "questions": []
         },
         {
           "id": 5,
-          "name": "Introduction to GIPS",
+          "name": "LM1: Ethical Decision-Making Frameworks",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 6,
+          "name": "LM2: Code of Ethics and Standards of Professional Conduct",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 7,
+          "name": "LM2: CFA Institute Professional Conduct Program",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 8,
+          "name": "LM3: Standard I - Professionalism",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 9,
+          "name": "LM3: Standard I(A) - Knowledge of the Law",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 10,
+          "name": "LM3: Standard I(B) - Independence and Objectivity",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 11,
+          "name": "LM3: Standard I(C) - Misrepresentation",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 12,
+          "name": "LM3: Standard I(D) - Misconduct",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 13,
+          "name": "LM3: Standard I(E) - Competence",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 14,
+          "name": "LM3: Standard II - Integrity of Capital Markets",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 15,
+          "name": "LM3: Standard II(A) - Material Nonpublic Information",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 16,
+          "name": "LM3: Standard II(B) - Market Manipulation",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 17,
+          "name": "LM3: Standard III - Duties to Clients",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 18,
+          "name": "LM3: Standard III(A) - Loyalty, Prudence, and Care",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 19,
+          "name": "LM3: Standard III(B) - Fair Dealing",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 20,
+          "name": "LM3: Standard III(C) - Suitability",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 21,
+          "name": "LM3: Standard III(D) - Performance Presentation",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 22,
+          "name": "LM3: Standard III(E) - Preservation of Confidentiality",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 23,
+          "name": "LM3: Standard IV - Duties to Employers",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 24,
+          "name": "LM3: Standard IV(A) - Loyalty",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 25,
+          "name": "LM3: Standard IV(B) - Additional Compensation Arrangements",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 26,
+          "name": "LM3: Standard IV(C) - Responsibilities of Supervisors",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 27,
+          "name": "LM3: Standard V - Investment Analysis, Recommendations, and Actions",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 28,
+          "name": "LM3: Standard V(A) - Diligence and Reasonable Basis",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 29,
+          "name": "LM3: Standard V(B) - Communication with Clients and Prospective Clients",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 30,
+          "name": "LM3: Standard V(C) - Record Retention",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 31,
+          "name": "LM3: Standard VI - Conflicts of Interest",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 32,
+          "name": "LM3: Standard VI(A) - Avoid or Disclose Conflicts",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 33,
+          "name": "LM3: Standard VI(B) - Priority of Transactions",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 34,
+          "name": "LM3: Standard VI(C) - Referral Fees",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 35,
+          "name": "LM3: Standard VII - Responsibilities as a CFA Institute Member or CFA Candidate",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 36,
+          "name": "LM3: Standard VII(A) - Conduct as Participants in CFA Institute Programs",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 37,
+          "name": "LM3: Standard VII(B) - Reference to CFA Institute, the CFA Designation, and the CFA Program",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 38,
+          "name": "LM4: Introduction to the Global Investment Performance Standards (GIPS)",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 39,
+          "name": "LM4: Composites and Verification",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 40,
+          "name": "LM5: Ethics Application",
           "notes": "",
           "questions": []
         }
