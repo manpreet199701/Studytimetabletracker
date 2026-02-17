@@ -52,12 +52,20 @@
 .log-controls { display: flex; gap: 0.75rem; align-items: flex-end; flex-wrap: wrap; }
 
 .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 0.75rem; }
-.cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid var(--border); font-size: 0.75rem; position: relative; background: var(--surface); }
+.cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid var(--border); font-size: 0.75rem; position: relative; background: var(--surface); cursor: pointer; transition: all 0.15s; }
+.cal-day:hover:not(.other-month) { background: var(--surface2); border-color: var(--accent); }
 .cal-day.today { border-color: var(--accent); border-width: 2px; }
 .cal-day.has-hours { background: var(--success); color: white; font-weight: 600; }
-.cal-day.other-month { opacity: 0.3; }
+.cal-day.other-month { opacity: 0.3; cursor: default; }
 .cal-hours { font-size: 0.65rem; margin-top: 2px; }
 .cal-header { font-weight: 600; font-size: 0.7rem; color: var(--text-muted); padding: 0.5rem 0; text-align: center; }
+
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+.modal.open { display: flex; }
+.modal-content { background: var(--surface); border-radius: 12px; padding: 1.5rem; max-width: 400px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-dim); }
+.modal-close:hover { color: var(--text); }
 </style>
 </head>
 <body>
@@ -190,6 +198,25 @@
       <div id="calendar"></div>
     </div>
 
+  </div>
+</div>
+
+<!-- EDIT DATE MODAL -->
+<div id="dateModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalDateTitle" style="margin:0">Edit Study Hours</h3>
+      <button class="modal-close" onclick="closeDateModal()">&times;</button>
+    </div>
+    <div class="input-group">
+      <label>Hours studied</label>
+      <input id="modalHoursInput" type="number" min="0" max="24" step="0.5" placeholder="0"/>
+    </div>
+    <div style="display:flex;gap:0.75rem;margin-top:1rem">
+      <button class="btn btn-primary" onclick="saveDateHours()">Save</button>
+      <button class="btn btn-danger" onclick="deleteDateHours()">Delete</button>
+      <button class="btn btn-ghost" onclick="closeDateModal()">Cancel</button>
+    </div>
   </div>
 </div>
 
@@ -350,7 +377,7 @@ function renderCalendar(log) {
     if (isToday) classes.push('today');
     if (hours > 0) classes.push('has-hours');
     
-    html += `<div class="${classes.join(' ')}">
+    html += `<div class="${classes.join(' ')}" onclick="openDateModal('${dateStr}', ${hours})">
       <div>${day}</div>
       ${hours > 0 ? `<div class="cal-hours">${hours}h</div>` : ''}
     </div>`;
@@ -365,6 +392,35 @@ function renderCalendar(log) {
   
   html += '</div>';
   document.getElementById('calendar').innerHTML = html;
+}
+
+let selectedDate = null;
+
+function openDateModal(dateStr, hours) {
+  selectedDate = dateStr;
+  document.getElementById('modalDateTitle').textContent = new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  document.getElementById('modalHoursInput').value = hours || '';
+  document.getElementById('dateModal').classList.add('open');
+}
+
+function closeDateModal() {
+  document.getElementById('dateModal').classList.remove('open');
+  selectedDate = null;
+}
+
+function saveDateHours() {
+  const h = parseFloat(document.getElementById('modalHoursInput').value);
+  if (isNaN(h) || h < 0) return;
+  logHoursForDate(selectedDate, h);
+  closeDateModal();
+  renderAll();
+}
+
+function deleteDateHours() {
+  const log = getStudyLog().filter(l => l.date !== selectedDate);
+  saveStudyLog(log);
+  closeDateModal();
+  renderAll();
 }
 
 // Event listeners
