@@ -588,43 +588,643 @@
       "topics": [
         {
           "id": 1,
-          "name": "Time Value of Money",
+          "name": "Interest Rates and Time Value of Money",
           "notes": "",
           "questions": []
         },
         {
           "id": 2,
-          "name": "Organizing, Visualizing, and Describing Data",
+          "name": "Determinants of Interest Rates",
           "notes": "",
           "questions": []
         },
         {
           "id": 3,
-          "name": "Probability Concepts",
+          "name": "Rates of Return",
           "notes": "",
           "questions": []
         },
         {
           "id": 4,
-          "name": "Common Probability Distributions",
+          "name": "Holding Period Return",
           "notes": "",
           "questions": []
         },
         {
           "id": 5,
-          "name": "Sampling and Estimation",
+          "name": "Arithmetic or Mean Return",
           "notes": "",
           "questions": []
         },
         {
           "id": 6,
-          "name": "Hypothesis Testing",
+          "name": "Geometric Mean Return",
           "notes": "",
           "questions": []
         },
         {
           "id": 7,
+          "name": "The Harmonic Mean",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 8,
+          "name": "Money-Weighted and Time-Weighted Return",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 9,
+          "name": "Calculating the Money Weighted Return",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 10,
+          "name": "Annualized Return",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 11,
+          "name": "Non-annual Compounding",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 12,
+          "name": "Annualizing Returns",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 13,
+          "name": "Continuously Compounded Returns",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 14,
+          "name": "Other Major Return Measures and Their Applications",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 15,
+          "name": "Gross and Net Return",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 16,
+          "name": "Pre-Tax and After-Tax Nominal Return",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 17,
+          "name": "Real Returns",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 18,
+          "name": "Leveraged Return",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 19,
+          "name": "Time Value of Money in Fixed Income and Equity",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 20,
+          "name": "Fixed-Income Instruments and the Time Value of Money",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 21,
+          "name": "Equity Instruments and the Time Value of Money",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 22,
+          "name": "Implied Return and Growth",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 23,
+          "name": "Implied Return for Fixed-Income Instruments",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 24,
+          "name": "Equity Instruments, Implied Return, and Implied Growth",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 25,
+          "name": "Cash Flow Additivity",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 26,
+          "name": "Implied Forward Rates Using Cash Flow Additivity",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 27,
+          "name": "Forward Exchange Rates Using No Arbitrage",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 28,
+          "name": "Option Pricing Using Cash Flow Additivity",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 29,
+          "name": "Measures of Central Tendency and Location",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 30,
+          "name": "Measures of Central Tendency",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 31,
+          "name": "Dealing with Outliers",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 32,
+          "name": "Measures of Location",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 33,
+          "name": "Measures of Dispersion",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 34,
+          "name": "The Range",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 35,
+          "name": "Mean Absolute Deviations",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 36,
+          "name": "Sample Variance and Sample Standard Deviation",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 37,
+          "name": "Downside Deviation and Coefficient of Variation",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 38,
+          "name": "Measures of Shape of a Distribution",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 39,
+          "name": "Correlation between Two Variables",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 40,
+          "name": "Scatter Plot",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 41,
+          "name": "Covariance and Correlation",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 42,
+          "name": "Properties of Correlation",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 43,
+          "name": "Limitations of Correlation Analysis",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 44,
+          "name": "Expected Value and Variance",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 45,
+          "name": "Probability Trees and Conditional Expectations",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 46,
+          "name": "Total Probability Rule for Expected Value",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 47,
+          "name": "Bayes' Formula and Updating Probability Estimates",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 48,
+          "name": "Bayes' Formula",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 49,
+          "name": "Portfolio Expected Return and Variance of Return",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 50,
+          "name": "Covariance",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 51,
+          "name": "Correlation",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 52,
+          "name": "Forecasting Correlation of Returns: Covariance Given a Joint Probability Function",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 53,
+          "name": "Portfolio Risk Measures: Applications of the Normal Distribution",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 54,
+          "name": "Lognormal Distribution and Continuous Compounding",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 55,
+          "name": "The Lognormal Distribution",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 56,
+          "name": "Continuously Compounded Rates of Return",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 57,
+          "name": "Monte Carlo Simulation",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 58,
+          "name": "Bootstrapping",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 59,
+          "name": "Sampling Methods",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 60,
+          "name": "Simple Random Sampling",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 61,
+          "name": "Stratified Random Sampling",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 62,
+          "name": "Cluster Sampling",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 63,
+          "name": "Non-Probability Sampling",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 64,
+          "name": "Sampling from Different Distributions",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 65,
+          "name": "Central Limit Theorem and Inference",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 66,
+          "name": "The Central Limit Theorem",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 67,
+          "name": "Standard Error of the Sample Mean",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 68,
+          "name": "Bootstrapping and Empirical Sampling Distributions",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 69,
+          "name": "Hypothesis Tests for Finance",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 70,
+          "name": "The Process of Hypothesis Testing",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 71,
+          "name": "Tests of Return and Risk in Finance",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 72,
+          "name": "Test Concerning Differences between Means with Dependent Samples",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 73,
+          "name": "Test Concerning the Equality of Two Variances",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 74,
+          "name": "Parametric versus Nonparametric Tests",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 75,
+          "name": "Uses of Nonparametric Tests",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 76,
+          "name": "Nonparametric Inference: Summary",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 77,
+          "name": "Tests Concerning Correlation",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 78,
+          "name": "Parametric Test of a Correlation",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 79,
+          "name": "Non-Parametric Test of Correlation: The Spearman Rank Correlation Coefficient",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 80,
+          "name": "Tests of Independence Using Contingency Table Data",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 81,
+          "name": "Estimation of the Simple Linear Regression Model",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 82,
           "name": "Introduction to Linear Regression",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 83,
+          "name": "Estimating the Parameters of a Simple Linear Regression",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 84,
+          "name": "Assumptions of the Simple Linear Regression Model",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 85,
+          "name": "Assumption 1: Linearity",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 86,
+          "name": "Assumption 2: Homoskedasticity",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 87,
+          "name": "Assumption 3: Independence",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 88,
+          "name": "Assumption 4: Normality",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 89,
+          "name": "Hypothesis Tests in the Simple Linear Regression Model",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 90,
+          "name": "Analysis of Variance",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 91,
+          "name": "Measures of Goodness of Fit",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 92,
+          "name": "Hypothesis Testing of Individual Regression Coefficients",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 93,
+          "name": "Prediction in the Simple Linear Regression Model",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 94,
+          "name": "ANOVA and Standard Error of Estimate in Simple Linear Regression",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 95,
+          "name": "Prediction Using Simple Linear Regression and Prediction Intervals",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 96,
+          "name": "Functional Forms for Simple Linear Regression",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 97,
+          "name": "The Log-Lin Model",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 98,
+          "name": "The Lin-Log Model",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 99,
+          "name": "The Log-Log Model",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 100,
+          "name": "Selecting the Correct Functional Form",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 101,
+          "name": "How Is Fintech used in Quantitative Investment Analysis?",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 102,
+          "name": "Big Data",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 103,
+          "name": "Advanced Analytical Tools: Artificial Intelligence and Machine Learning",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 104,
+          "name": "Tackling Big Data with Data Science",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 105,
+          "name": "Data Processing Methods",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 106,
+          "name": "Data Visualization",
+          "notes": "",
+          "questions": []
+        },
+        {
+          "id": 107,
+          "name": "Text Analytics and Natural Language Processing",
           "notes": "",
           "questions": []
         }
