@@ -55,19 +55,17 @@
 .topic-row.completed .topic-name { text-decoration: line-through; color: var(--text-muted); }
 
 .delete-btn {
-  position: absolute;
-  right: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
   background: var(--danger);
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s;
+  display: none;
+  margin-left: auto;
 }
-.topic-row:hover .delete-btn { opacity: 1; }
+.edit-mode .delete-btn { display: block; }
 .delete-btn:hover { background: #c53030; }
 
 .topic-check {
@@ -144,7 +142,7 @@
     <div style="display:flex;gap:0.5rem">
       <button class="btn btn-primary" id="addChapterBtn" style="padding:0.4rem 0.8rem;font-size:0.8rem">+ Add Chapter</button>
       <button class="btn btn-ghost" id="addTopicBtn" style="padding:0.4rem 0.8rem;font-size:0.8rem">+ Add Sub-topic</button>
-      <button class="toggle-all" id="toggleAllBtn">Mark all complete</button>
+      <button class="btn btn-ghost" id="editModeBtn" style="padding:0.4rem 0.8rem;font-size:0.8rem">Edit</button>
     </div>
   </div>
 
@@ -219,15 +217,7 @@ async function init() {
 
   render(subject);
 
-  document.getElementById('toggleAllBtn').addEventListener('click', () => {
-    const completed = getCompleted();
-    const allDone = subject.topics.every(t => completed[`s${subject.id}_t${t.id}`]);
-    subject.topics.forEach(t => {
-      completed[`s${subject.id}_t${t.id}`] = !allDone;
-    });
-    saveCompleted(completed);
-    render(subject);
-  });
+  document.getElementById('editModeBtn').addEventListener('click', toggleEditMode);
   
   // Check if we just added a chapter and should prompt for subtopics
   const newChapterId = sessionStorage.getItem('newChapterId');
@@ -270,38 +260,12 @@ function render(subject) {
     </div>
   `;
 
-  // Toggle all label
-  const allDone = subject.topics.every(t => completed[`s${subject.id}_t${t.id}`]);
-  document.getElementById('toggleAllBtn').textContent = allDone ? 'Unmark all' : 'Mark all complete';
-
-  // Topics list
+  // Topics list - ONLY show custom chapters and subtopics
   const list = document.getElementById('topicsList');
   let html = '';
   
-  // Render original topics
-  subject.topics.forEach((t, i) => {
-    const isDone = !!completed[`s${subject.id}_t${t.id}`];
-    const isChapter = t.isChapter || false;
-    const rowClass = isChapter ? 'topic-row chapter' : (t.parentId ? 'topic-row subtopic' : 'topic-row');
-    const completedClass = isDone && !isChapter ? 'completed' : '';
-    
-    if (isChapter) {
-      html += `<div class="${rowClass} fade-up" style="animation-delay:${0.05 * i + 0.25}s">
-        <span class="topic-name">📖 ${t.name}</span>
-      </div>`;
-    } else {
-      html += `<div class="${rowClass} ${completedClass} fade-up" style="animation-delay:${0.05 * i + 0.25}s" data-sid="${subject.id}" data-tid="${t.id}">
-        <div class="topic-check ${isDone ? 'done' : ''}" data-check="${subject.id}_${t.id}">
-          ${isDone ? '✓' : ''}
-        </div>
-        <span class="topic-name">${t.name}</span>
-        <a href="topic.html?subject=${subject.id}&topic=${t.id}" class="topic-link-btn">📖 Open →</a>
-      </div>`;
-    }
-  });
-  
   // Render custom chapters and their subtopics
-  if (subject.customChapters) {
+  if (subject.customChapters && subject.customChapters.length > 0) {
     subject.customChapters.forEach((chapter, i) => {
       html += `<div class="topic-row chapter fade-up" style="animation-delay:${0.05 * i + 0.25}s">
         <span class="topic-name">📖 ${chapter.name}</span>
@@ -326,33 +290,47 @@ function render(subject) {
         });
       }
     });
+  } else {
+    html = '<p style="color:var(--text-dim);padding:2rem;text-align:center">No chapters yet. Click "+ Add Chapter" to get started.</p>';
   }
   
   list.innerHTML = html;
 
-  // Click to toggle completion
-  list.querySelectorAll('.topic-row:not(.chapter)').forEach(row => {
+  // Click to toggle completion for subtopics
+  list.querySelectorAll('.topic-row.subtopic').forEach(row => {
     row.addEventListener('click', (e) => {
       // Don't toggle when clicking the link or delete button
       if (e.target.closest('.topic-link-btn') || e.target.closest('.delete-btn')) return;
       
-      if (row.dataset.sid && row.dataset.tid) {
-        // Regular topic
-        const sid = parseInt(row.dataset.sid);
-        const tid = parseInt(row.dataset.tid);
-        toggleCompleted(sid, tid);
-      } else if (row.dataset.chapter && row.dataset.subtopic) {
-        // Subtopic
-        const chapterId = parseInt(row.dataset.chapter);
-        const subtopicId = parseInt(row.dataset.subtopic);
-        const completed = getCompleted();
-        const key = `c${chapterId}_st${subtopicId}`;
-        completed[key] = !completed[key];
-        saveCompleted(completed);
-      }
+      const chapterId = parseInt(row.dataset.chapter);
+      const subtopicId = parseInt(row.dataset.subtopic);
+      const completed = getCompleted();
+      const key = `c${chapterId}_st${subtopicId}`;
+      completed[key] = !completed[key];
+      saveCompleted(completed);
       render(subject);
     });
   });
+}
+
+let editMode = false;
+
+function toggleEditMode() {
+  editMode = !editMode;
+  const list = document.getElementById('topicsList');
+  const btn = document.getElementById('editModeBtn');
+  
+  if (editMode) {
+    list.classList.add('edit-mode');
+    btn.textContent = 'Done';
+    btn.classList.remove('btn-ghost');
+    btn.classList.add('btn-primary');
+  } else {
+    list.classList.remove('edit-mode');
+    btn.textContent = 'Edit';
+    btn.classList.remove('btn-primary');
+    btn.classList.add('btn-ghost');
+  }
 }
 
 let currentSubject = null;
