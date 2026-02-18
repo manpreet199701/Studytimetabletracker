@@ -68,18 +68,6 @@
 .edit-mode .delete-btn { display: block; }
 .delete-btn:hover { background: #c53030; }
 
-.edit-btn {
-  padding: 0.3rem 0.6rem;
-  font-size: 0.75rem;
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-left: 0.5rem;
-}
-.edit-btn:hover { background: #4a8fd9; }
-
 .topic-check {
   width: 22px;
   height: 22px;
@@ -95,7 +83,8 @@
 }
 .topic-check.done { border-color: var(--success); background: var(--success); color: #fff; }
 
-.topic-name { flex: 1; font-weight: 500; font-size: 0.95rem; }
+.topic-name { flex: 1; font-weight: 500; font-size: 0.95rem; cursor: pointer; }
+.topic-name:hover { color: var(--accent); }
 
 .topic-link-btn {
   display: inline-flex;
@@ -289,8 +278,7 @@ function render(subject) {
         <div class="topic-check ${allSubtopicsComplete ? 'done' : ''}" onclick="event.stopPropagation(); toggleChapter(${chapter.id});">
           ${allSubtopicsComplete ? '✓' : ''}
         </div>
-        <span class="topic-name">📖 ${chapter.name}</span>
-        <button class="edit-btn" onclick="event.stopPropagation(); editChapter(${chapter.id}, '${chapter.name.replace(/'/g, "\\'")}'');">Edit</button>
+        <span class="topic-name" onclick="event.stopPropagation(); editChapter(${chapter.id}, '${chapter.name.replace(/'/g, "\\'")}'');">📖 ${chapter.name}</span>
         <a href="topic.html?subject=${subject.id}&chapter=${chapter.id}" class="topic-link-btn" onclick="event.stopPropagation()">📖 Open →</a>
         <button class="delete-btn" onclick="event.stopPropagation(); deleteChapter(${chapter.id});">Delete</button>
       </div>`;
@@ -305,8 +293,7 @@ function render(subject) {
             <div class="topic-check ${isSubtopicDone ? 'done' : ''}" onclick="toggleSubtopic(${chapter.id}, ${subtopic.id}); event.stopPropagation();">
               ${isSubtopicDone ? '✓' : ''}
             </div>
-            <span class="topic-name">• ${subtopic.name}</span>
-            <button class="edit-btn" onclick="event.stopPropagation(); editSubtopic(${chapter.id}, ${subtopic.id}, '${subtopic.name.replace(/'/g, "\\'")}'');">Edit</button>
+            <span class="topic-name" onclick="event.stopPropagation(); editSubtopic(${chapter.id}, ${subtopic.id}, '${subtopic.name.replace(/'/g, "\\'")}'');">• ${subtopic.name}</span>
             <a href="topic.html?subject=${subject.id}&chapter=${chapter.id}" class="topic-link-btn" onclick="event.stopPropagation()">📖 Open →</a>
             <button class="delete-btn" onclick="event.stopPropagation(); deleteSubtopic(${chapter.id}, ${subtopic.id});">Delete</button>
           </div>`;
