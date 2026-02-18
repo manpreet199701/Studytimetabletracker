@@ -106,7 +106,7 @@
         <span style="font-size:1.5rem;color:var(--text-dim);padding-bottom:0.5rem">/</span>
         <div>
           <p class="label" style="margin-bottom:0.4rem">Today's target</p>
-          <p id="todayTarget" class="stat-value" style="font-size:3rem;color:var(--text-muted)">—</p>
+          <input id="todayTarget" class="big-input" type="number" min="0" max="24" step="0.5" style="color:var(--text-muted);cursor:pointer" readonly onclick="this.readOnly=false;this.select()" onblur="updateTodayTarget(this.value)" />
         </div>
         <span style="font-size:1rem;color:var(--text-dim);padding-bottom:0.5rem">hrs</span>
       </div>
