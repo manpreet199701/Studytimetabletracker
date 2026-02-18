@@ -3,100 +3,239 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Study Time Table Tracker — Subject</title>
+<title>CFA Tracker – Subject</title>
 <link rel="stylesheet" href="style.css"/>
 <style>
-.subject-header { display: flex; align-items: center; gap: 1.5rem; padding: 2rem; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 2rem; position: relative; overflow: hidden; }
-.subject-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.subject-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.subject-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
 .subject-header .big-icon { font-size: 3.5rem; flex-shrink: 0; }
 .subject-header .header-info { flex: 1; }
 .subject-header .header-pct { font-family: var(--mono); font-size: 2rem; font-weight: 700; }
+
+/* Action buttons in header */
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+.header-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-family: var(--font);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.header-action-btn:hover { background: var(--surface); color: var(--text); border-color: #444C56; }
+.header-action-btn.danger:hover { background: rgba(248,81,73,0.12); color: #f85149; border-color: #f85149; }
+
 .topics-list { display: flex; flex-direction: column; gap: 0.5rem; }
-.topic-row { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--border); transition: all 0.15s; cursor: pointer; }
-.topic-row.chapter { background: var(--surface2); font-weight: 600; border-left: 3px solid var(--accent); }
-.topic-row.subtopic { margin-left: 2rem; border-left: 2px solid var(--border); }
+
+.topic-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  transition: all 0.15s;
+  cursor: pointer;
+}
 .topic-row:hover { background: var(--surface2); border-color: #444C56; }
 .topic-row.completed { opacity: 0.55; }
 .topic-row.completed .topic-name { text-decoration: line-through; color: var(--text-muted); }
-.delete-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; background: var(--danger); color: white; border: none; border-radius: 4px; cursor: pointer; display: none; margin-left: auto; }
-.edit-mode .delete-btn { display: block; }
-.topic-check { width: 22px; height: 22px; border-radius: 7px; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; font-size: 12px; cursor: pointer; }
+
+.topic-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  font-size: 12px;
+  cursor: pointer;
+}
 .topic-check.done { border-color: var(--success); background: var(--success); color: #fff; }
+
 .topic-name { flex: 1; font-weight: 500; font-size: 0.95rem; }
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+
+.topic-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.topic-link-btn:hover { background: rgba(88,166,255,0.1); border-color: var(--accent); }
+
+.toggle-all { font-size: 0.8rem; color: var(--accent); cursor: pointer; background: none; border: none; font-family: var(--font); font-weight: 600; }
+.toggle-all:hover { text-decoration: underline; }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+.empty-state .empty-icon { font-size: 3rem; margin-bottom: 0.75rem; }
+.empty-state p { font-size: 0.9rem; margin: 0; }
+
+/* Modals */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.55);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
 .modal.open { display: flex; }
-.modal-content { background: var(--surface); border-radius: 12px; padding: 1.5rem; max-width: 400px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-.modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-dim); }
+.modal-content {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 1.75rem;
+  max-width: 440px;
+  width: 92%;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.35);
+  border: 1px solid var(--border);
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+.modal-header h3 { margin: 0; font-size: 1.05rem; }
+.modal-close { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-dim); line-height: 1; }
+.modal-close:hover { color: var(--text); }
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.35rem; }
+.form-group input {
+  width: 100%;
+  padding: 0.55rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+.form-group input:focus { outline: none; border-color: var(--accent); }
+.modal-footer { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; }
+#confirmModal .modal-content { max-width: 360px; text-align: center; }
+#confirmModal p { color: var(--text-muted); margin: 0.5rem 0 1.5rem; font-size: 0.9rem; line-height: 1.5; }
+#confirmModal .modal-footer { justify-content: center; }
 </style>
 </head>
 <body>
+
 <nav>
-  <a href="index.html" class="nav-brand">Study Time Table <span>Tracker</span></a>
+  <a href="index.html" class="nav-brand">CFA <span>Tracker</span></a>
   <div class="nav-links">
     <a href="index.html">Dashboard</a>
     <a href="subjects.html">Subjects</a>
-    <a href="sync.html">Sync</a>
-    <a href="#" id="authLink">Login</a>
   </div>
 </nav>
+
 <div class="page">
   <div class="breadcrumb fade-up">
-    <a href="index.html">Home</a> <span>›</span>
-    <a href="subjects.html">Subjects</a> <span>›</span>
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <a href="subjects.html">Subjects</a>
+    <span>›</span>
     <span id="breadSubject">Subject</span>
   </div>
+
   <div id="subjectHeader" class="subject-header fade-up delay-1"></div>
+
   <div class="section-header fade-up delay-2">
     <div>
       <p class="label">Topics</p>
-      <h2 style="margin-top:0.2rem">Click a topic to mark it complete</h2>
+      <h2 style="margin-top:0.2rem" id="topicsHeading">Click a topic to open its notes &amp; questions</h2>
     </div>
-    <div id="customControls" style="display:none;gap:0.5rem">
-      <button class="btn btn-primary" id="addChapterBtn" style="padding:0.4rem 0.8rem;font-size:0.8rem">+ Add Chapter</button>
-      <button class="btn btn-ghost" id="addTopicBtn" style="padding:0.4rem 0.8rem;font-size:0.8rem">+ Add Sub-topic</button>
-      <button class="btn btn-ghost" id="editModeBtn" style="padding:0.4rem 0.8rem;font-size:0.8rem">Delete Mode</button>
-    </div>
+    <button class="toggle-all" id="toggleAllBtn">Mark all complete</button>
   </div>
+
   <div id="topicsList" class="topics-list" style="margin-top:1rem"></div>
 </div>
 
-<div id="addChapterModal" class="modal">
+<!-- Edit Modal -->
+<div id="editModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
-      <h3 style="margin:0">Add New Chapter</h3>
-      <button class="modal-close" onclick="closeAddChapterModal()">&times;</button>
+      <h3>✏️ Edit Subject</h3>
+      <button class="modal-close" id="editModalClose">×</button>
     </div>
-    <div class="input-group">
-      <label>Chapter Name</label>
-      <input id="newChapterName" type="text" placeholder="Enter chapter name"/>
+    <div class="form-group">
+      <label>Subject Name</label>
+      <input type="text" id="editName"/>
     </div>
-    <div style="display:flex;gap:0.75rem;margin-top:1rem">
-      <button class="btn btn-primary" onclick="saveNewChapter()">Add Chapter</button>
-      <button class="btn btn-ghost" onclick="closeAddChapterModal()">Cancel</button>
+    <div class="form-group">
+      <label>Short Name</label>
+      <input type="text" id="editShortName"/>
+    </div>
+    <div class="form-group">
+      <label>Icon (emoji)</label>
+      <input type="text" id="editIcon" maxlength="4"/>
+    </div>
+    <div class="form-group">
+      <label>Color</label>
+      <input type="color" id="editColor"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="editCancelBtn">Cancel</button>
+      <button class="btn btn-primary" id="editSaveBtn">💾 Save Changes</button>
     </div>
   </div>
 </div>
 
-<div id="addTopicModal" class="modal">
-  <div class="modal-content" style="max-width:500px">
-    <div class="modal-header">
-      <h3 style="margin:0">Add Sub-topics</h3>
-      <button class="modal-close" onclick="closeAddTopicModal()">&times;</button>
+<!-- Confirm Delete Modal -->
+<div id="confirmModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header" style="justify-content:center;margin-bottom:0.25rem">
+      <h3>🗑️ Delete Subject</h3>
     </div>
-    <div class="input-group">
-      <label>Select Chapter</label>
-      <select id="chapterSelect" style="width:100%;padding:0.5rem;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:var(--font)">
-        <option value="">Select a chapter...</option>
-      </select>
-    </div>
-    <div class="input-group">
-      <label>Sub-topics (one per line)</label>
-      <textarea id="newTopicsInput" rows="6" placeholder="Enter sub-topic names, one per line" style="width:100%;padding:0.5rem;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:var(--font);resize:vertical"></textarea>
-    </div>
-    <div style="display:flex;gap:0.75rem;margin-top:1rem">
-      <button class="btn btn-primary" onclick="saveNewTopics()">Add Sub-topics</button>
-      <button class="btn btn-ghost" onclick="closeAddTopicModal()">Cancel</button>
+    <p id="confirmText">Are you sure? This cannot be undone.</p>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="confirmCancelBtn">Cancel</button>
+      <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
     </div>
   </div>
 </div>
@@ -104,224 +243,236 @@
 <script src="app.js"></script>
 <script>
 setActiveNav();
+
 const params = new URLSearchParams(window.location.search);
 const subjectId = parseInt(params.get('id'));
 let currentSubject = null;
+
+function isCustomSubject(id) {
+  const custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+  return custom.some(s => s.id === id);
+}
 
 async function init() {
   const data = await loadData();
   const subject = data.subjects.find(s => s.id === subjectId);
   if (!subject) {
-    document.body.innerHTML = '<div class="page"><h2>Subject not found.</h2><a href="subjects.html">Back to Subjects</a></div>';
+    document.body.innerHTML = '<div class="page"><h2>Subject not found.</h2><a href="subjects.html">← Back</a></div>';
     return;
   }
+
   currentSubject = subject;
-  const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
-  if (customOverlay[subjectId] && customOverlay[subjectId].chapters) {
-    subject.customChapters = customOverlay[subjectId].chapters;
-  }
-  document.title = `Study Time Table Tracker — ${subject.shortName || subject.name}`;
+  document.title = `CFA Tracker – ${subject.shortName || subject.name}`;
   document.getElementById('breadSubject').textContent = subject.shortName || subject.name;
-  const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
-  const isCustom = !!customSubjects.find(s => s.id === subjectId);
-  if (isCustom || (subject.customChapters && subject.customChapters.length > 0)) {
-    document.getElementById('customControls').style.display = 'flex';
-    document.getElementById('addChapterBtn').addEventListener('click', openAddChapterModal);
-    document.getElementById('addTopicBtn').addEventListener('click', openAddTopicModal);
-    document.getElementById('editModeBtn').addEventListener('click', toggleEditMode);
-  }
+
   render(subject);
-  const newChapterId = sessionStorage.getItem('newChapterId');
-  const newChapterName = sessionStorage.getItem('newChapterName');
-  if (newChapterId && newChapterName) {
-    sessionStorage.removeItem('newChapterId');
-    sessionStorage.removeItem('newChapterName');
-    setTimeout(() => { if (confirm(`Chapter "${newChapterName}" created! Add sub-topics now?`)) openAddTopicModal(); }, 500);
-  }
+
+  document.getElementById('toggleAllBtn').addEventListener('click', () => {
+    const completed = getCompleted();
+    // For built-in subjects with flat topics array
+    if (subject.topics && subject.topics.length > 0) {
+      const allDone = subject.topics.every(t => completed[`s${subject.id}_t${t.id}`]);
+      subject.topics.forEach(t => {
+        completed[`s${subject.id}_t${t.id}`] = allDone ? false : today();
+      });
+    }
+    // For custom subjects with customChapters
+    if (subject.customChapters) {
+      const allKeys = [];
+      subject.customChapters.forEach(ch => {
+        (ch.subtopics || []).forEach(st => allKeys.push(`c${ch.id}_st${st.id}`));
+      });
+      const allDone = allKeys.length > 0 && allKeys.every(k => completed[k] && completed[k] !== false);
+      allKeys.forEach(k => { completed[k] = allDone ? false : today(); });
+    }
+    saveCompleted(completed);
+    render(subject);
+  });
 }
 
 function render(subject) {
   const completed = getCompleted();
   const total = countSubtopics(subject);
-  const done = countCompletedSubtopics(subject, completed);
-  const pct = total ? Math.round(done / total * 100) : 0;
+  const done  = countCompletedSubtopics(subject, completed);
+  const pct   = total ? Math.round(done / total * 100) : 0;
+  const custom = isCustomSubject(subject.id);
+
+  // Edit/Delete buttons for custom subjects
+  const actionsHTML = custom ? `
+    <div class="header-actions">
+      <button class="header-action-btn" id="editSubjectBtn">✏️ Edit</button>
+      <button class="header-action-btn danger" id="deleteSubjectBtn">🗑️ Delete</button>
+    </div>` : '';
+
+  // Header
   document.getElementById('subjectHeader').innerHTML = `
     <style>#subjectHeader::before { background: ${subject.color}; }</style>
     <div class="big-icon">${subject.icon}</div>
     <div class="header-info">
-      <p class="label">CFA Level I</p>
+      <p class="label">Subject</p>
       <h1 style="margin-top:0.2rem;margin-bottom:0.5rem">${subject.name}</h1>
-      <div class="header-pct" style="color:${subject.color}">${pct}%</div>
-      <div class="stat-sub">${done} of ${total} topics completed</div>
+      <div style="display:flex;align-items:center;gap:1.5rem">
+        <div>
+          <div class="header-pct" style="color:${subject.color}">${pct}%</div>
+          <div class="stat-sub">${done} of ${total} topics completed</div>
+        </div>
+      </div>
       <div class="progress-track" style="margin-top:0.8rem;max-width:400px">
         <div class="progress-fill" style="width:${pct}%;background:${subject.color}"></div>
       </div>
     </div>
+    ${actionsHTML}
   `;
-  let html = '';
-  if (subject.topics && subject.topics.length > 0) {
-    subject.topics.forEach((topic, i) => {
-      const key = `s${subject.id}_t${topic.id}`;
-      const isDone = !!(completed[key] && completed[key] !== false);
-      html += `<div class="topic-row ${isDone ? 'completed' : ''} fade-up" style="animation-delay:${Math.min(i*0.02,0.5)+0.1}s" onclick="toggleBuiltInTopic(${topic.id}, this)">
-        <div class="topic-check ${isDone ? 'done' : ''}" onclick="event.stopPropagation(); toggleBuiltInTopic(${topic.id}, this.closest('.topic-row'));">${isDone ? '✓' : ''}</div>
-        <span class="topic-name">${topic.name}</span>
-      </div>`;
-    });
+
+  // Wire up edit/delete buttons
+  if (custom) {
+    document.getElementById('editSubjectBtn').addEventListener('click', () => openEdit(subject));
+    document.getElementById('deleteSubjectBtn').addEventListener('click', () => openDelete(subject));
   }
-  if (subject.customChapters && subject.customChapters.length > 0) {
-    if (subject.topics && subject.topics.length > 0) {
-      html += `<div style="margin:1.5rem 0 0.75rem;font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Custom Chapters</div>`;
-    }
-    subject.customChapters.forEach((chapter, i) => {
-      const allDone = chapter.subtopics && chapter.subtopics.length > 0 && chapter.subtopics.every(st => completed[`c${chapter.id}_st${st.id}`]);
-      html += `<div class="topic-row chapter ${allDone ? 'completed' : ''} fade-up" style="animation-delay:${0.05*i+0.25}s">
-        <div class="topic-check ${allDone ? 'done' : ''}" onclick="toggleChapter(${chapter.id}); event.stopPropagation();">${allDone ? '✓' : ''}</div>
-        <span class="topic-name">📖 ${chapter.name}</span>
-        <button class="delete-btn" onclick="event.stopPropagation(); deleteChapter(${chapter.id});">Delete</button>
+
+  // Toggle all label
+  const allKeys = getAllTopicKeys(subject);
+  const allDone = allKeys.length > 0 && allKeys.every(k => completed[k] && completed[k] !== false);
+  document.getElementById('toggleAllBtn').textContent = allDone ? 'Unmark all' : 'Mark all complete';
+
+  // Topics list
+  const list = document.getElementById('topicsList');
+
+  // If no topics at all — show empty state (no "94 topics" bug)
+  if (total === 0) {
+    list.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">📭</div>
+      <p>No topics added yet.</p>
+    </div>`;
+    document.getElementById('toggleAllBtn').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('toggleAllBtn').style.display = '';
+
+  // Render built-in flat topics
+  if (subject.topics && subject.topics.length > 0 && !subject.customChapters) {
+    list.innerHTML = subject.topics.map((t, i) => {
+      const isDone = !!completed[`s${subject.id}_t${t.id}`];
+      return `<div class="topic-row ${isDone ? 'completed' : ''} fade-up" style="animation-delay:${0.05*i+0.25}s" data-key="s${subject.id}_t${t.id}">
+        <div class="topic-check ${isDone ? 'done' : ''}">${isDone ? '✓' : ''}</div>
+        <span class="topic-name">${i+1}. ${t.name}</span>
+        <a href="topic.html?subject=${subject.id}&topic=${t.id}" class="topic-link-btn">📖 Open →</a>
       </div>`;
-      if (chapter.subtopics && chapter.subtopics.length > 0) {
-        chapter.subtopics.forEach(subtopic => {
-          const key = `c${chapter.id}_st${subtopic.id}`;
-          const isDone = !!completed[key];
-          html += `<div class="topic-row subtopic ${isDone ? 'completed' : ''} fade-up">
-            <div class="topic-check ${isDone ? 'done' : ''}" onclick="toggleSubtopic(${chapter.id}, ${subtopic.id}, this); event.stopPropagation();">${isDone ? '✓' : ''}</div>
-            <span class="topic-name">• ${subtopic.name}</span>
-            <button class="delete-btn" onclick="event.stopPropagation(); deleteSubtopic(${chapter.id}, ${subtopic.id});">Delete</button>
+    }).join('');
+
+    list.querySelectorAll('.topic-row').forEach(row => {
+      row.addEventListener('click', e => {
+        if (e.target.closest('.topic-link-btn')) return;
+        const key = row.dataset.key;
+        const c = getCompleted();
+        c[key] = c[key] ? false : today();
+        saveCompleted(c);
+        render(subject);
+      });
+    });
+    return;
+  }
+
+  // Render custom subjects with chapters/subtopics
+  if (subject.customChapters) {
+    let html = '';
+    subject.customChapters.forEach((ch, ci) => {
+      if (ch.subtopics && ch.subtopics.length > 0) {
+        html += `<div class="label" style="margin:1rem 0 0.4rem;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">
+          ${ch.name || `Chapter ${ci+1}`}
+        </div>`;
+        ch.subtopics.forEach((st, si) => {
+          const key = `c${ch.id}_st${st.id}`;
+          const isDone = !!(completed[key] && completed[key] !== false);
+          html += `<div class="topic-row ${isDone ? 'completed' : ''} fade-up" style="animation-delay:${0.04*(ci*10+si)+0.2}s" data-key="${key}">
+            <div class="topic-check ${isDone ? 'done' : ''}">${isDone ? '✓' : ''}</div>
+            <span class="topic-name">${si+1}. ${st.name}</span>
           </div>`;
         });
       }
     });
+    list.innerHTML = html || `<div class="empty-state"><div class="empty-icon">📭</div><p>No subtopics added yet.</p></div>`;
+
+    list.querySelectorAll('.topic-row').forEach(row => {
+      row.addEventListener('click', () => {
+        const key = row.dataset.key;
+        const c = getCompleted();
+        c[key] = c[key] ? false : today();
+        saveCompleted(c);
+        render(subject);
+      });
+    });
   }
-  if (!html) html = '<p style="color:var(--text-dim);padding:2rem;text-align:center">No topics found.</p>';
-  document.getElementById('topicsList').innerHTML = html;
 }
 
-function updateHeader() {
-  const completed = getCompleted();
-  const total = countSubtopics(currentSubject);
-  const done = countCompletedSubtopics(currentSubject, completed);
-  const pct = total ? Math.round(done / total * 100) : 0;
-  const el = document.querySelector('.header-pct');
-  if (el) el.textContent = pct + '%';
-  const sub = document.querySelector('#subjectHeader .stat-sub');
-  if (sub) sub.textContent = `${done} of ${total} topics completed`;
-  const fill = document.querySelector('#subjectHeader .progress-fill');
-  if (fill) fill.style.width = pct + '%';
-}
-
-function toggleBuiltInTopic(topicId, row) {
-  const completed = getCompleted();
-  const key = `s${subjectId}_t${topicId}`;
-  const isDone = !!(completed[key] && completed[key] !== false);
-  completed[key] = isDone ? false : today();
-  saveCompleted(completed);
-  const checkbox = row.querySelector('.topic-check');
-  if (!isDone) { checkbox.classList.add('done'); checkbox.innerHTML = '✓'; row.classList.add('completed'); }
-  else { checkbox.classList.remove('done'); checkbox.innerHTML = ''; row.classList.remove('completed'); }
-  updateHeader();
-}
-
-function toggleChapter(chapterId) {
-  const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
-  if (!customOverlay[subjectId]) return;
-  const chapter = customOverlay[subjectId].chapters.find(c => c.id === chapterId);
-  if (!chapter || !chapter.subtopics || chapter.subtopics.length === 0) return;
-  const completed = getCompleted();
-  const allComplete = chapter.subtopics.every(st => completed[`c${chapterId}_st${st.id}`]);
-  chapter.subtopics.forEach(st => { completed[`c${chapterId}_st${st.id}`] = !allComplete; });
-  saveCompleted(completed);
-  location.reload();
-}
-
-function toggleSubtopic(chapterId, subtopicId, checkbox) {
-  const completed = getCompleted();
-  const key = `c${chapterId}_st${subtopicId}`;
-  const isDone = !!completed[key];
-  completed[key] = !isDone;
-  saveCompleted(completed);
-  const row = checkbox.closest('.topic-row');
-  if (!isDone) { checkbox.classList.add('done'); checkbox.innerHTML = '✓'; row.classList.add('completed'); }
-  else { checkbox.classList.remove('done'); checkbox.innerHTML = ''; row.classList.remove('completed'); }
-  updateHeader();
-}
-
-let editMode = false;
-function toggleEditMode() {
-  editMode = !editMode;
-  const list = document.getElementById('topicsList');
-  const btn = document.getElementById('editModeBtn');
-  if (editMode) { list.classList.add('edit-mode'); btn.textContent = 'Done'; btn.classList.remove('btn-ghost'); btn.classList.add('btn-primary'); }
-  else { list.classList.remove('edit-mode'); btn.textContent = 'Delete Mode'; btn.classList.remove('btn-primary'); btn.classList.add('btn-ghost'); }
-}
-
-function openAddChapterModal() { document.getElementById('addChapterModal').classList.add('open'); }
-function closeAddChapterModal() { document.getElementById('addChapterModal').classList.remove('open'); document.getElementById('newChapterName').value = ''; }
-function saveNewChapter() {
-  const name = document.getElementById('newChapterName').value.trim();
-  if (!name) { alert('Please enter a chapter name'); return; }
-  const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
-  if (!customOverlay[subjectId]) customOverlay[subjectId] = { chapters: [] };
-  const newChapterId = Date.now();
-  customOverlay[subjectId].chapters.push({ id: newChapterId, name, notes: '', questions: [], subtopics: [] });
-  localStorage.setItem('cfa_subject_overlays', JSON.stringify(customOverlay));
-  closeAddChapterModal();
-  sessionStorage.setItem('newChapterId', newChapterId);
-  sessionStorage.setItem('newChapterName', name);
-  location.reload();
-}
-function openAddTopicModal() {
-  const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
-  const chapters = (customOverlay[subjectId] && customOverlay[subjectId].chapters) || [];
-  if (chapters.length === 0) { alert('Please add a chapter first'); return; }
-  const select = document.getElementById('chapterSelect');
-  select.innerHTML = '<option value="">Select a chapter...</option>' + chapters.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-  document.getElementById('addTopicModal').classList.add('open');
-}
-function closeAddTopicModal() { document.getElementById('addTopicModal').classList.remove('open'); document.getElementById('newTopicsInput').value = ''; }
-function saveNewTopics() {
-  const topicsText = document.getElementById('newTopicsInput').value.trim();
-  const parentId = parseInt(document.getElementById('chapterSelect').value);
-  if (!topicsText) { alert('Please enter at least one sub-topic name'); return; }
-  if (!parentId) { alert('Please select a chapter'); return; }
-  const topicNames = topicsText.split('\n').map(t => t.trim()).filter(t => t.length > 0);
-  const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
-  if (!customOverlay[subjectId]) customOverlay[subjectId] = { chapters: [] };
-  const chapter = customOverlay[subjectId].chapters.find(c => c.id === parentId);
-  if (chapter) {
-    if (!chapter.subtopics) chapter.subtopics = [];
-    topicNames.forEach(name => { chapter.subtopics.push({ id: Date.now() + Math.random(), name }); });
-    localStorage.setItem('cfa_subject_overlays', JSON.stringify(customOverlay));
+function getAllTopicKeys(subject) {
+  const keys = [];
+  if (subject.topics) subject.topics.forEach(t => keys.push(`s${subject.id}_t${t.id}`));
+  if (subject.customChapters) {
+    subject.customChapters.forEach(ch => {
+      (ch.subtopics || []).forEach(st => keys.push(`c${ch.id}_st${st.id}`));
+    });
   }
-  closeAddTopicModal();
-  location.reload();
+  return keys;
 }
-function deleteChapter(chapterId) {
-  if (!confirm('Delete this chapter and all its sub-topics?')) return;
-  const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
-  if (customOverlay[subjectId]) {
-    customOverlay[subjectId].chapters = customOverlay[subjectId].chapters.filter(c => c.id !== chapterId);
-    localStorage.setItem('cfa_subject_overlays', JSON.stringify(customOverlay));
+
+// ── Edit ─────────────────────────────────────────────
+function openEdit(subject) {
+  document.getElementById('editName').value      = subject.name      || '';
+  document.getElementById('editShortName').value = subject.shortName || '';
+  document.getElementById('editIcon').value      = subject.icon      || '';
+  document.getElementById('editColor').value     = subject.color     || '#58a6ff';
+  document.getElementById('editModal').classList.add('open');
+}
+function closeEdit() { document.getElementById('editModal').classList.remove('open'); }
+document.getElementById('editModalClose').addEventListener('click', closeEdit);
+document.getElementById('editCancelBtn').addEventListener('click', closeEdit);
+
+document.getElementById('editSaveBtn').addEventListener('click', () => {
+  if (!currentSubject) return;
+  const name      = document.getElementById('editName').value.trim();
+  const shortName = document.getElementById('editShortName').value.trim();
+  const icon      = document.getElementById('editIcon').value.trim();
+  const color     = document.getElementById('editColor').value;
+  if (!name) { alert('Name is required.'); return; }
+
+  const custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+  const idx = custom.findIndex(s => s.id === currentSubject.id);
+  if (idx !== -1) {
+    custom[idx].name      = name;
+    custom[idx].shortName = shortName || name;
+    if (icon) custom[idx].icon = icon;
+    custom[idx].color = color;
+    localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
   }
-  location.reload();
+  closeEdit();
+  init(); // reload with updated data
+});
+
+// ── Delete ────────────────────────────────────────────
+function openDelete(subject) {
+  document.getElementById('confirmText').textContent =
+    `Are you sure you want to delete "${subject.name}"? All progress data will be lost. This cannot be undone.`;
+  document.getElementById('confirmModal').classList.add('open');
 }
-function deleteSubtopic(chapterId, subtopicId) {
-  if (!confirm('Delete this sub-topic?')) return;
-  const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
-  if (customOverlay[subjectId]) {
-    const chapter = customOverlay[subjectId].chapters.find(c => c.id === chapterId);
-    if (chapter && chapter.subtopics) {
-      chapter.subtopics = chapter.subtopics.filter(st => st.id !== subtopicId);
-      localStorage.setItem('cfa_subject_overlays', JSON.stringify(customOverlay));
-    }
-  }
-  const completed = getCompleted();
-  delete completed[`c${chapterId}_st${subtopicId}`];
-  saveCompleted(completed);
-  location.reload();
-}
-document.getElementById('addChapterModal').addEventListener('click', function(e) { if (e.target === this) closeAddChapterModal(); });
-document.getElementById('addTopicModal').addEventListener('click', function(e) { if (e.target === this) closeAddTopicModal(); });
+document.getElementById('confirmCancelBtn').addEventListener('click', () => {
+  document.getElementById('confirmModal').classList.remove('open');
+});
+document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+  if (!currentSubject) return;
+  let custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+  custom = custom.filter(s => s.id !== currentSubject.id);
+  localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
+
+  const overlays = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
+  delete overlays[currentSubject.id];
+  localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
+
+  document.getElementById('confirmModal').classList.remove('open');
+  window.location.href = 'subjects.html'; // go back after delete
+});
+
 init();
 </script>
 </body>
