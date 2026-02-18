@@ -320,6 +320,7 @@
 </div>
 
 <script src="app.js"></script>
+<script type="module" src="firebase-sync.js"></script>
 <script>
 setActiveNav();
 
@@ -336,6 +337,7 @@ function getCustomSubjects() {
 }
 function saveCustomSubjects(arr) {
   localStorage.setItem('cfa_custom_subjects', JSON.stringify(arr));
+  queueSync('custom-subjects');
 }
 function persistSubject() {
   if (isCustom(subject.id)) {
@@ -348,6 +350,7 @@ function persistSubject() {
     if (!overlays[subject.id]) overlays[subject.id] = {};
     overlays[subject.id].chapters = subject.customChapters;
     localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
+    queueSync('subject-overlays');
   }
 }
 function nextChapterId() {
@@ -592,11 +595,11 @@ function confirmDeleteChapter(chId) {
     // Clear completion data for all subtopics in this chapter
     const c = getCompleted();
     (ch.subtopics || []).forEach(st => delete c[`c${ch.id}_st${st.id}`]);
-    saveCompleted(c);
-    subject.customChapters = subject.customChapters.filter(c => c.id !== chId);
-    persistSubject();
-    closeConfirm();
-    render();
+  saveCompleted(c);
+  subject.customChapters = subject.customChapters.filter(c => c.id !== chId);
+  persistSubject();
+  closeConfirm();
+  render();
   };
 }
 
@@ -627,12 +630,13 @@ function openDeleteSubject() {
   document.getElementById('confirmModal').classList.add('open');
   document.getElementById('confirmOk').onclick = () => {
     saveCustomSubjects(getCustomSubjects().filter(s => s.id !== subject.id));
-    const overlays = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
-    delete overlays[subject.id];
-    localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
-    closeConfirm();
-    window.location.href = 'subjects.html';
-  };
+  const overlays = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
+  delete overlays[subject.id];
+  localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
+  queueSync('subject-overlays');
+  closeConfirm();
+  window.location.href = 'subjects.html';
+};
 }
 
 function closeConfirm() {
