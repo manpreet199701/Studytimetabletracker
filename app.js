@@ -98,10 +98,17 @@ async function loadData() {
   try {
     const res = await fetch('data.json');
     if (!res.ok) throw new Error('Failed to load data.json');
-    return await res.json();
+    const data = await res.json();
+    
+    // Merge with custom subjects from localStorage
+    const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+    data.subjects = [...data.subjects, ...customSubjects];
+    
+    return data;
   } catch (e) {
     console.error('Could not load data.json:', e);
-    return { subjects: [] };
+    const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+    return { subjects: customSubjects };
   }
 }
 
