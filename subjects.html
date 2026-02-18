@@ -145,8 +145,8 @@ async function init() {
   const completed = getCompleted();
   const subjects = data.subjects;
 
-  const totalTopics = subjects.reduce((s, sub) => s + sub.topics.length, 0);
-  const doneTopics = subjects.reduce((s, sub) => s + sub.topics.filter(t => completed[`s${sub.id}_t${t.id}`]).length, 0);
+  const totalTopics = subjects.reduce((s, sub) => s + countSubtopics(sub), 0);
+  const doneTopics = subjects.reduce((s, sub) => s + countCompletedSubtopics(sub, completed), 0);
   const overallPct = totalTopics ? Math.round(doneTopics / totalTopics * 100) : 0;
 
   // Summary strip
@@ -172,8 +172,9 @@ async function init() {
   // Subject cards
   const grid = document.getElementById('subjectsGrid');
   grid.innerHTML = subjects.map((s, i) => {
-    const done = s.topics.filter(t => completed[`s${s.id}_t${t.id}`]).length;
-    const pct = s.topics.length ? Math.round(done / s.topics.length * 100) : 0;
+    const total = countSubtopics(s);
+    const done = countCompletedSubtopics(s, completed);
+    const pct = total ? Math.round(done / total * 100) : 0;
     const delay = Math.min(i * 0.05, 0.5);
     const deleteBtn = s.custom ? `<button class="delete-subject-btn" onclick="deleteSubject(${s.id}); event.preventDefault(); event.stopPropagation();">Delete</button>` : '';
     return `<a href="subject.html?id=${s.id}" class="card subject-card-full fade-up" style="animation-delay:${delay + 0.2}s">
@@ -183,7 +184,7 @@ async function init() {
         <div class="big-icon">${s.icon}</div>
         <div class="sub-name">${s.name}</div>
         <div class="sub-meta">
-          <span class="topic-count">${done}/${s.topics.length} topics</span>
+          <span class="topic-count">${done}/${total} topics</span>
           <span class="sub-pct" style="color:${s.color}">${pct}%</span>
         </div>
         <div class="progress-track" style="margin-top:0.6rem">
