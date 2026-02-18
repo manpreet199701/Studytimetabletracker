@@ -338,9 +338,17 @@ function saveCustomSubjects(arr) {
   localStorage.setItem('cfa_custom_subjects', JSON.stringify(arr));
 }
 function persistSubject() {
-  const arr = getCustomSubjects();
-  const idx = arr.findIndex(s => s.id === subject.id);
-  if (idx !== -1) { arr[idx] = subject; saveCustomSubjects(arr); }
+  if (isCustom(subject.id)) {
+    const arr = getCustomSubjects();
+    const idx = arr.findIndex(s => s.id === subject.id);
+    if (idx !== -1) { arr[idx] = subject; saveCustomSubjects(arr); }
+  } else {
+    // Built-in subject — save chapters to overlays
+    const overlays = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
+    if (!overlays[subject.id]) overlays[subject.id] = {};
+    overlays[subject.id].chapters = subject.customChapters;
+    localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
+  }
 }
 function nextChapterId() {
   const ids = (subject.customChapters || []).map(c => c.id);
@@ -377,12 +385,12 @@ function render() {
   const custom    = isCustom(subject.id);
 
   // Header
-  const actionsHTML = custom ? `
+  const actionsHTML = `
     <div class="header-actions">
       <button class="hdr-btn primary" id="addChapterBtn">＋ Add Chapter</button>
-      <button class="hdr-btn" id="editSubjectBtn">✏️ Edit</button>
-      <button class="hdr-btn danger" id="deleteSubjectBtn">🗑️ Delete</button>
-    </div>` : '';
+      ${custom ? `<button class="hdr-btn" id="editSubjectBtn">✏️ Edit</button>` : ''}
+      ${custom ? `<button class="hdr-btn danger" id="deleteSubjectBtn">🗑️ Delete</button>` : ''}
+    </div>`;
 
   document.getElementById('subjectHeader').innerHTML = `
     <style>#subjectHeader::before { background: ${subject.color}; }</style>
@@ -399,8 +407,8 @@ function render() {
     ${actionsHTML}
   `;
 
+  document.getElementById('addChapterBtn').onclick = () => openChapterModal();
   if (custom) {
-    document.getElementById('addChapterBtn').onclick = () => openChapterModal();
     document.getElementById('editSubjectBtn').onclick = openEditModal;
     document.getElementById('deleteSubjectBtn').onclick = openDeleteSubject;
   }
