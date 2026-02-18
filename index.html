@@ -222,7 +222,7 @@ async function init() {
 
 function renderAll() {
   const todayStr = today();
-  const log = ensureDailyEntries();
+  const log = getStudyLog();
   const goal = getDailyGoal();
   const hoursToday = getHoursForDate(todayStr);
   const target = getTodayTarget();
@@ -376,8 +376,8 @@ function renderCalendar(log, goal = getDailyGoal()) {
     if (isLogged && hours === 0) classes.push('logged-zero');
 
     const missed = (isPast || isToday) ? Math.max(0, goal - hours) : 0;
-    const showMissed = missed > 0;
-    const showHours = isLogged && (hours > 0 || !isAuto);
+    const showMissed = isLogged && missed > 0;
+    const showHours = isLogged;
 
     let title = `${dateStr}${isLogged ? `: ${hours}h logged` : ': no log yet'}`;
     if (showMissed) title += `, missed ${formatHours(missed)}`;
@@ -446,12 +446,12 @@ document.getElementById('clearTodayBtn').addEventListener('click', () => {
 
 document.getElementById('prevMonth').addEventListener('click', () => {
   currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() - 1);
-  renderCalendar(ensureDailyEntries(), getDailyGoal());
+  renderCalendar(getStudyLog(), getDailyGoal());
 });
 
 document.getElementById('nextMonth').addEventListener('click', () => {
   currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() + 1);
-  renderCalendar(ensureDailyEntries(), getDailyGoal());
+  renderCalendar(getStudyLog(), getDailyGoal());
 });
 
 let editModeMini = false;
