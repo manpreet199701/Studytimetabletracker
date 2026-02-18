@@ -211,6 +211,22 @@ async function init() {
     saveCompleted(completed);
     render(subject);
   });
+  
+  // Check if we just added a chapter and should prompt for subtopics
+  const newChapterId = sessionStorage.getItem('newChapterId');
+  const newChapterName = sessionStorage.getItem('newChapterName');
+  if (newChapterId && newChapterName) {
+    sessionStorage.removeItem('newChapterId');
+    sessionStorage.removeItem('newChapterName');
+    
+    setTimeout(() => {
+      if (confirm(`Chapter "${newChapterName}" created! Would you like to add sub-topics to this chapter now?`)) {
+        // Pre-select the chapter in the dropdown
+        document.getElementById('chapterSelect').value = newChapterId;
+        openAddTopicModal();
+      }
+    }, 500);
+  }
 }
 
 function render(subject) {
@@ -322,6 +338,8 @@ function saveNewChapter() {
   let customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
   let subject = customSubjects.find(s => s.id === subjectId);
   
+  let newChapterId;
+  
   if (!subject) {
     // Create a custom overlay for this subject
     const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
@@ -329,7 +347,7 @@ function saveNewChapter() {
       customOverlay[subjectId] = { chapters: [] };
     }
     
-    const newChapterId = Date.now();
+    newChapterId = Date.now();
     customOverlay[subjectId].chapters.push({
       id: newChapterId,
       name: name,
@@ -342,6 +360,7 @@ function saveNewChapter() {
     localStorage.setItem('cfa_subject_overlays', JSON.stringify(customOverlay));
   } else {
     const newTopicId = Math.max(0, ...subject.topics.map(t => t.id)) + 1;
+    newChapterId = newTopicId;
     subject.topics.push({
       id: newTopicId,
       name: name,
@@ -354,6 +373,11 @@ function saveNewChapter() {
   }
   
   closeAddChapterModal();
+  
+  // Store the new chapter ID and show prompt to add subtopics
+  sessionStorage.setItem('newChapterId', newChapterId);
+  sessionStorage.setItem('newChapterName', name);
+  
   location.reload();
 }
 
@@ -378,6 +402,12 @@ function openAddTopicModal() {
   const select = document.getElementById('chapterSelect');
   select.innerHTML = '<option value="">Select a chapter...</option>' + 
     chapters.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+  
+  // If there's a pre-selected chapter from sessionStorage, select it
+  const preSelectedChapter = sessionStorage.getItem('newChapterId');
+  if (preSelectedChapter) {
+    select.value = preSelectedChapter;
+  }
   
   document.getElementById('addTopicModal').classList.add('open');
 }
