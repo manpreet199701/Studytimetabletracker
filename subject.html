@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CFA Tracker — Subject</title>
+<title>Study Time Table Tracker — Subject</title>
 <link rel="stylesheet" href="style.css"/>
 <style>
 .subject-header {
@@ -79,12 +79,19 @@
 
 .toggle-all { font-size: 0.8rem; color: var(--accent); cursor: pointer; background: none; border: none; font-family: var(--font); font-weight: 600; }
 .toggle-all:hover { text-decoration: underline; }
+
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+.modal.open { display: flex; }
+.modal-content { background: var(--surface); border-radius: 12px; padding: 1.5rem; max-width: 400px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-dim); }
+.modal-close:hover { color: var(--text); }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="nav-brand">CFA <span>Tracker</span></a>
+  <a href="index.html" class="nav-brand">Study Time Table <span>Tracker</span></a>
   <div class="nav-links">
     <a href="index.html">Dashboard</a>
     <a href="subjects.html">Subjects</a>
@@ -107,10 +114,31 @@
       <p class="label">Topics</p>
       <h2 style="margin-top:0.2rem">Click a topic to open its notes & questions</h2>
     </div>
-    <button class="toggle-all" id="toggleAllBtn">Mark all complete</button>
+    <div style="display:flex;gap:0.5rem">
+      <button class="btn btn-primary" id="addTopicBtn" style="padding:0.4rem 0.8rem;font-size:0.8rem">+ Add Topic</button>
+      <button class="toggle-all" id="toggleAllBtn">Mark all complete</button>
+    </div>
   </div>
 
   <div id="topicsList" class="topics-list" style="margin-top:1rem"></div>
+</div>
+
+<!-- ADD TOPIC MODAL -->
+<div id="addTopicModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 style="margin:0">Add New Topic</h3>
+      <button class="modal-close" onclick="closeAddTopicModal()">&times;</button>
+    </div>
+    <div class="input-group">
+      <label>Topic Name</label>
+      <input id="newTopicName" type="text" placeholder="Enter topic name"/>
+    </div>
+    <div style="display:flex;gap:0.75rem;margin-top:1rem">
+      <button class="btn btn-primary" onclick="saveNewTopic()">Add Topic</button>
+      <button class="btn btn-ghost" onclick="closeAddTopicModal()">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <script src="app.js"></script>
@@ -128,7 +156,7 @@ async function init() {
     return;
   }
 
-  document.title = `CFA Tracker — ${subject.shortName}`;
+  document.title = `Study Time Table Tracker — ${subject.shortName}`;
   document.getElementById('breadSubject').textContent = subject.shortName;
 
   render(subject);
@@ -197,6 +225,43 @@ function render(subject) {
     });
   });
 }
+
+function openAddTopicModal() {
+  document.getElementById('addTopicModal').classList.add('open');
+}
+
+function closeAddTopicModal() {
+  document.getElementById('addTopicModal').classList.remove('open');
+  document.getElementById('newTopicName').value = '';
+}
+
+function saveNewTopic() {
+  const name = document.getElementById('newTopicName').value.trim();
+  if (!name) {
+    alert('Please enter a topic name');
+    return;
+  }
+  
+  const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+  const subject = customSubjects.find(s => s.id === subjectId);
+  
+  if (subject) {
+    const newTopicId = subject.topics.length + 1;
+    subject.topics.push({
+      id: newTopicId,
+      name: name,
+      notes: '',
+      questions: []
+    });
+    localStorage.setItem('cfa_custom_subjects', JSON.stringify(customSubjects));
+    closeAddTopicModal();
+    location.reload();
+  } else {
+    alert('Can only add topics to custom subjects');
+  }
+}
+
+document.getElementById('addTopicBtn').addEventListener('click', openAddTopicModal);
 
 init();
 </script>
