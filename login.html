@@ -15,48 +15,57 @@
 .login-card {
   max-width: 400px;
   width: 100%;
-}
-.phone-input {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-.country-code {
-  width: 80px;
-  padding: 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--text);
-  font-family: var(--mono);
-}
-.phone-number {
-  flex: 1;
-  padding: 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--text);
-  font-family: var(--mono);
-  font-size: 1rem;
-}
-#recaptcha-container {
-  margin: 1rem 0;
-  display: flex;
-  justify-content: center;
-}
-.otp-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--text);
-  font-family: var(--mono);
-  font-size: 1.2rem;
   text-align: center;
-  letter-spacing: 0.5rem;
+}
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: #fff;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
   margin-bottom: 1rem;
+}
+.google-btn:hover {
+  background: #f5f5f5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.google-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.google-logo {
+  width: 22px;
+  height: 22px;
+}
+.divider {
+  margin: 1.5rem 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+.skip-link {
+  display: block;
+  margin-top: 1rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+.skip-link:hover {
+  color: var(--accent);
+}
+#errorMsg {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: 0.75rem;
+  display: none;
 }
 </style>
 </head>
@@ -66,167 +75,98 @@
   <div class="login-container fade-up">
     <div class="login-card card">
       <h1 style="margin-bottom:0.5rem">Study Time Table Tracker</h1>
-      <p style="color:var(--text-muted);margin-bottom:2rem">Sign in with your phone number</p>
-      
-      <div id="phoneStep">
-        <div class="phone-input">
-          <input type="text" class="country-code" value="+1" id="countryCode" placeholder="+1"/>
-          <input type="tel" class="phone-number" id="phoneNumber" placeholder="(555) 123-4567"/>
-        </div>
-        <div id="recaptcha-container"></div>
-        <button id="sendOTP" class="btn btn-primary" style="width:100%">Send OTP</button>
-      </div>
+      <p style="color:var(--text-muted);margin-bottom:2rem">Sign in to sync your progress across devices</p>
 
-      <div id="otpStep" style="display:none">
-        <p style="color:var(--text-muted);margin-bottom:1rem;font-size:0.875rem">Enter the 6-digit code sent to <span id="phoneDisplay" style="font-weight:600;color:var(--text)"></span></p>
-        <input type="text" class="otp-input" id="otpCode" placeholder="000000" maxlength="6"/>
-        <button id="verifyOTP" class="btn btn-primary" style="width:100%;margin-bottom:0.5rem">Verify & Sign In</button>
-        <button id="backToPhone" class="btn btn-ghost" style="width:100%">← Change Number</button>
-      </div>
+      <button id="googleSignIn" class="google-btn">
+        <svg class="google-logo" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+        Sign in with Google
+      </button>
 
-      <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border)">
-        <p style="font-size:0.875rem;color:var(--text-muted)">
-          <strong>Setup Required:</strong><br/>
-          To enable phone authentication:
-        </p>
-        <ol style="text-align:left;font-size:0.875rem;color:var(--text-muted);margin-top:1rem;line-height:1.8">
-          <li>Create a Firebase project at <a href="https://console.firebase.google.com" target="_blank" style="color:var(--accent)">console.firebase.google.com</a></li>
-          <li>Enable Phone Authentication</li>
-          <li>Add your Firebase config below</li>
-        </ol>
-        <a href="index.html" class="btn btn-ghost" style="margin-top:1.5rem">Skip Login (Use Local Storage)</a>
-      </div>
+      <p id="errorMsg"></p>
+
+      <hr class="divider"/>
+
+      <a href="index.html" class="skip-link">Skip Login (Use Local Storage)</a>
     </div>
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
-const currentUser = localStorage.getItem('user_phone');
+// Redirect if already logged in
+const currentUser = localStorage.getItem('user_id');
 if (currentUser) {
   window.location.href = 'index.html';
 }
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyC_MRBp_-Zhkq52OEV7W3e3JDDxjkf60dw",
+  authDomain: "studytimetabletracker-f882c.firebaseapp.com",
+  projectId: "studytimetabletracker-f882c",
+  storageBucket: "studytimetabletracker-f882c.firebasestorage.app",
+  messagingSenderId: "93337267809",
+  appId: "1:93337267809:web:835f83be980310a54a0420"
 };
 
-if (firebaseConfig.apiKey === "YOUR_API_KEY") {
-  document.getElementById('sendOTP').disabled = true;
-  document.getElementById('sendOTP').style.opacity = '0.5';
-  document.getElementById('sendOTP').textContent = 'Configure Firebase First';
-} else {
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+let isSigningIn = false;
+
+document.getElementById('googleSignIn').addEventListener('click', async () => {
+  if (isSigningIn) return; // prevent double click
+  isSigningIn = true;
+
+  const btn = document.getElementById('googleSignIn');
+  const errorMsg = document.getElementById('errorMsg');
   
-  let confirmationResult;
-  let recaptchaVerifier;
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Signing in...';
+  errorMsg.style.display = 'none';
 
-  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-    'size': 'normal',
-    'callback': (response) => {
-      document.getElementById('sendOTP').disabled = false;
-    },
-    'expired-callback': () => {
-      document.getElementById('sendOTP').disabled = true;
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    localStorage.setItem('user_id', user.uid);
+    localStorage.setItem('user_email', user.email);
+    localStorage.setItem('user_name', user.displayName);
+
+    // Load cloud data if exists
+    const docRef = doc(db, 'users', user.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const cloudData = docSnap.data();
+      if (cloudData.studyLog) localStorage.setItem('cfa_study_log', JSON.stringify(cloudData.studyLog));
+      if (cloudData.dailyGoal) localStorage.setItem('cfa_daily_goal', cloudData.dailyGoal);
+      if (cloudData.completed) localStorage.setItem('cfa_completed', JSON.stringify(cloudData.completed));
+      if (cloudData.customSubjects) localStorage.setItem('cfa_custom_subjects', JSON.stringify(cloudData.customSubjects));
+      if (cloudData.subjectOverlays) localStorage.setItem('cfa_subject_overlays', JSON.stringify(cloudData.subjectOverlays));
     }
-  });
-  
-  recaptchaVerifier = window.recaptchaVerifier;
-  recaptchaVerifier.render();
 
-  document.getElementById('sendOTP').addEventListener('click', async () => {
-    const countryCode = document.getElementById('countryCode').value.trim();
-    const phoneNumber = document.getElementById('phoneNumber').value.trim().replace(/\D/g, '');
-    const fullPhone = countryCode + phoneNumber;
+    window.location.href = 'index.html';
+
+  } catch (error) {
+    isSigningIn = false;
+    btn.disabled = false;
+    btn.innerHTML = `<svg class="google-logo" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Sign in with Google`;
     
-    if (!phoneNumber || phoneNumber.length < 10) {
-      alert('Please enter a valid phone number');
-      return;
+    if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
+      errorMsg.style.display = 'block';
+      errorMsg.textContent = 'Sign-in failed: ' + error.message;
     }
-    
-    try {
-      document.getElementById('sendOTP').disabled = true;
-      document.getElementById('sendOTP').textContent = 'Sending...';
-      
-      confirmationResult = await signInWithPhoneNumber(auth, fullPhone, recaptchaVerifier);
-      
-      document.getElementById('phoneDisplay').textContent = fullPhone;
-      document.getElementById('phoneStep').style.display = 'none';
-      document.getElementById('otpStep').style.display = 'block';
-      document.getElementById('otpCode').focus();
-    } catch (error) {
-      alert('Error sending OTP: ' + error.message);
-      document.getElementById('sendOTP').disabled = false;
-      document.getElementById('sendOTP').textContent = 'Send OTP';
-      recaptchaVerifier.render();
-    }
-  });
-
-  document.getElementById('verifyOTP').addEventListener('click', async () => {
-    const code = document.getElementById('otpCode').value.trim();
-    
-    if (code.length !== 6) {
-      alert('Please enter the 6-digit code');
-      return;
-    }
-    
-    try {
-      document.getElementById('verifyOTP').disabled = true;
-      document.getElementById('verifyOTP').textContent = 'Verifying...';
-      
-      const result = await confirmationResult.confirm(code);
-      const user = result.user;
-      
-      localStorage.setItem('user_phone', user.phoneNumber);
-      localStorage.setItem('user_id', user.uid);
-      
-      const docRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(docRef);
-      
-      if (docSnap.exists()) {
-        const cloudData = docSnap.data();
-        if (cloudData.studyLog) localStorage.setItem('cfa_study_log', JSON.stringify(cloudData.studyLog));
-        if (cloudData.dailyGoal) localStorage.setItem('cfa_daily_goal', cloudData.dailyGoal);
-        if (cloudData.completed) localStorage.setItem('cfa_completed', JSON.stringify(cloudData.completed));
-        if (cloudData.customSubjects) localStorage.setItem('cfa_custom_subjects', JSON.stringify(cloudData.customSubjects));
-        if (cloudData.subjectOverlays) localStorage.setItem('cfa_subject_overlays', JSON.stringify(cloudData.subjectOverlays));
-      }
-      
-      window.location.href = 'index.html';
-    } catch (error) {
-      alert('Invalid code. Please try again.');
-      document.getElementById('verifyOTP').disabled = false;
-      document.getElementById('verifyOTP').textContent = 'Verify & Sign In';
-      document.getElementById('otpCode').value = '';
-      document.getElementById('otpCode').focus();
-    }
-  });
-
-  document.getElementById('backToPhone').addEventListener('click', () => {
-    document.getElementById('phoneStep').style.display = 'block';
-    document.getElementById('otpStep').style.display = 'none';
-    document.getElementById('sendOTP').disabled = false;
-    document.getElementById('sendOTP').textContent = 'Send OTP';
-    document.getElementById('otpCode').value = '';
-    window.location.reload();
-  });
-
-  document.getElementById('otpCode').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      document.getElementById('verifyOTP').click();
-    }
-  });
-}
+  }
+});
 </script>
 </body>
 </html>
