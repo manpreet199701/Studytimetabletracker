@@ -133,7 +133,7 @@ if (!dateStr) {
   window.location.href = 'index.html';
 }
 
-let log = ensureDailyEntries();
+let log = getStudyLog();
 let entry = log.find(l => l.date === dateStr);
 
 function formatDateLabel(dateStr) {
@@ -163,6 +163,9 @@ function hasSession(e) {
 function ensureEntryExists() {
   if (!entry) {
     entry = { date: dateStr, hours: 0, topics: [], auto: false };
+    if (typeof applyEntryMetrics === 'function') {
+      applyEntryMetrics(entry, getDailyGoal());
+    }
     log.push(entry);
   }
   if (!Array.isArray(entry.topics)) entry.topics = [];
@@ -217,6 +220,9 @@ function editSession() {
   
   entry.hours = hours;
   entry.auto = false;
+  if (typeof applyEntryMetrics === 'function') {
+    applyEntryMetrics(entry, getDailyGoal());
+  }
   saveStudyLog(log);
   render();
 }
