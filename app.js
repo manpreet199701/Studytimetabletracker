@@ -4,6 +4,11 @@ const KEYS = {
   completed: 'cfa_completed',
 };
 
+// Queue a cloud sync if the helper is available (set by firebase-sync.js)
+function queueSync(reason = 'change') {
+  if (window.queueCloudSync) window.queueCloudSync(reason);
+}
+
 function today() {
   return new Date().toISOString().split('T')[0];
 }
@@ -12,18 +17,21 @@ function getStudyLog() {
 }
 function saveStudyLog(log) {
   localStorage.setItem(KEYS.studyLog, JSON.stringify(log));
+  queueSync('study-log');
 }
 function getDailyGoal() {
   return parseFloat(localStorage.getItem(KEYS.dailyGoal) || '3');
 }
 function saveDailyGoal(g) {
   localStorage.setItem(KEYS.dailyGoal, g.toString());
+  queueSync('daily-goal');
 }
 function getCompleted() {
   return JSON.parse(localStorage.getItem(KEYS.completed) || '{}');
 }
 function saveCompleted(c) {
   localStorage.setItem(KEYS.completed, JSON.stringify(c));
+  queueSync('completed');
 }
 function toggleCompleted(subjectId, topicId) {
   const c = getCompleted();
@@ -182,7 +190,14 @@ function initUserNav() {
   toggle.addEventListener('click', (e) => { e.stopPropagation(); if (menu.classList.contains('open')) closeMenu(); else openMenu(); });
   menu.addEventListener('click', (e) => { e.stopPropagation(); });
   document.addEventListener('click', (e) => { if (!menu.contains(e.target)) closeMenu(); });
-  logoutBtn.addEventListener('click', () => {
+  logoutBtn.addEventListener('click', async () => {
+    if (window.firebaseSignOut) {
+      try {
+        await window.firebaseSignOut();
+      } catch (err) {
+        console.warn('Firebase sign-out failed', err);
+      }
+    }
     localStorage.removeItem('user_id');
     localStorage.removeItem('user_email');
     localStorage.removeItem('user_name');
