@@ -159,14 +159,28 @@ setActiveNav();
 const params = new URLSearchParams(window.location.search);
 const subjectId = parseInt(params.get('subject'));
 const topicId = parseInt(params.get('topic'));
+const chapterId = parseInt(params.get('chapter'));
 
 async function init() {
   const data = await loadData();
   const subject = data.subjects.find(s => s.id === subjectId);
   if (!subject) { notFound(); return; }
-  const topic = subject.topics.find(t => t.id === topicId);
-  if (!topic) { notFound(); return; }
-  const topicIndex = subject.topics.indexOf(topic);
+  
+  let topic, topicIndex;
+  
+  // Check if it's a chapter
+  if (chapterId) {
+    const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
+    if (customOverlay[subjectId] && customOverlay[subjectId].chapters) {
+      topic = customOverlay[subjectId].chapters.find(c => c.id === chapterId);
+      topicIndex = 0;
+    }
+    if (!topic) { notFound(); return; }
+  } else {
+    topic = subject.topics.find(t => t.id === topicId);
+    if (!topic) { notFound(); return; }
+    topicIndex = subject.topics.indexOf(topic);
+  }
 
   document.title = `Study Time Table Tracker — ${topic.name}`;
 
