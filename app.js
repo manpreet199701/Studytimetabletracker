@@ -19,7 +19,7 @@ function saveStudyLog(log) {
 }
 
 function getDailyGoal() {
-  return parseFloat(localStorage.getItem(KEYS.dailyGoal) || '4');
+  return parseFloat(localStorage.getItem(KEYS.dailyGoal) || '3');
 }
 
 function saveDailyGoal(g) {
