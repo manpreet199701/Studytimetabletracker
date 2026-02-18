@@ -238,8 +238,9 @@ async function init() {
 
 function render(subject) {
   const completed = getCompleted();
-  const done = subject.topics.filter(t => completed[`s${subject.id}_t${t.id}`]).length;
-  const pct = subject.topics.length ? Math.round(done / subject.topics.length * 100) : 0;
+  const total = countSubtopics(subject);
+  const done = countCompletedSubtopics(subject, completed);
+  const pct = total ? Math.round(done / total * 100) : 0;
 
   // Header
   document.getElementById('subjectHeader').innerHTML = `
@@ -251,7 +252,7 @@ function render(subject) {
       <div style="display:flex;align-items:center;gap:1.5rem">
         <div>
           <div class="header-pct" style="color:${subject.color}">${pct}%</div>
-          <div class="stat-sub">${done} of ${subject.topics.length} topics completed</div>
+          <div class="stat-sub">${done} of ${total} topics completed</div>
         </div>
       </div>
       <div class="progress-track" style="margin-top:0.8rem;max-width:400px">
