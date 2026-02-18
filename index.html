@@ -205,6 +205,10 @@
       <label>Hours studied</label>
       <input id="modalHoursInput" type="number" min="0" max="24" step="0.5" placeholder="0"/>
     </div>
+    <div id="topicsCoveredSection" style="margin-top:1rem">
+      <label style="display:block;margin-bottom:0.5rem;font-weight:600;font-size:0.875rem">Topics covered</label>
+      <div id="topicsCoveredList" style="color:var(--text-muted);font-size:0.875rem"></div>
+    </div>
     <div style="display:flex;gap:0.75rem;margin-top:1rem">
       <button class="btn btn-primary" onclick="saveDateHours()">Save</button>
       <button class="btn btn-danger" onclick="deleteDateHours()">Delete</button>
@@ -390,8 +394,20 @@ let selectedDate = null;
 
 function openDateModal(dateStr, hours) {
   selectedDate = dateStr;
+  const log = getStudyLog();
+  const entry = log.find(l => l.date === dateStr);
+  
   document.getElementById('modalDateTitle').textContent = new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
   document.getElementById('modalHoursInput').value = hours || '';
+  
+  // Show topics covered on this date
+  const topicsList = document.getElementById('topicsCoveredList');
+  if (entry && entry.topics && entry.topics.length > 0) {
+    topicsList.innerHTML = entry.topics.map(t => `<div style="padding:0.25rem 0">• ${t}</div>`).join('');
+  } else {
+    topicsList.innerHTML = '<div style="font-style:italic">No topics recorded for this date</div>';
+  }
+  
   document.getElementById('dateModal').classList.add('open');
 }
 
