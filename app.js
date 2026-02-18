@@ -104,12 +104,49 @@ async function loadData() {
     const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
     data.subjects = [...data.subjects, ...customSubjects];
     
+    // Merge custom chapters/subtopics into subjects
+    const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
+    data.subjects.forEach(subject => {
+      if (customOverlay[subject.id] && customOverlay[subject.id].chapters) {
+        subject.customChapters = customOverlay[subject.id].chapters;
+      }
+    });
+    
     return data;
   } catch (e) {
     console.error('Could not load data.json:', e);
     const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
     return { subjects: customSubjects };
   }
+}
+
+// ── COUNT SUBTOPICS ──
+function countSubtopics(subject) {
+  let count = 0;
+  if (subject.customChapters) {
+    subject.customChapters.forEach(chapter => {
+      if (chapter.subtopics) {
+        count += chapter.subtopics.length;
+      }
+    });
+  }
+  return count;
+}
+
+// ── COUNT COMPLETED SUBTOPICS ──
+function countCompletedSubtopics(subject, completed) {
+  let count = 0;
+  if (subject.customChapters) {
+    subject.customChapters.forEach(chapter => {
+      if (chapter.subtopics) {
+        chapter.subtopics.forEach(subtopic => {
+          const key = `c${chapter.id}_st${subtopic.id}`;
+          if (completed[key]) count++;
+        });
+      }
+    });
+  }
+  return count;
 }
 
 // ── ACTIVE NAV ──
