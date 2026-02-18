@@ -81,9 +81,11 @@ if (!entry) {
           <p class="label" style="margin-bottom:0.4rem">Hours Studied</p>
           <input id="pastHoursInput" type="number" min="0" max="24" step="0.5" placeholder="e.g. 2.5"
             style="width:100%;padding:0.6rem 0.85rem;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--font);font-size:1rem"/>
+          <p style="margin-top:0.45rem;color:var(--text-dim);font-size:0.82rem">Use <strong>0</strong> to mark a no-study day.</p>
         </div>
         <div style="display:flex;gap:0.75rem">
           <button class="btn btn-primary" onclick="logPastSession()">Log Hours</button>
+          <button class="btn btn-ghost" onclick="markNoStudyDay()">Mark 0h</button>
           <a href="index.html" class="btn btn-ghost">← Back</a>
         </div>
       </div>
@@ -118,8 +120,8 @@ function editSession() {
   if (newHours === null) return;
   
   const hours = parseFloat(newHours);
-  if (isNaN(hours) || hours < 0) {
-    alert('Please enter a valid number');
+  if (isNaN(hours) || hours < 0 || hours > 24) {
+    alert('Please enter a valid number between 0 and 24.');
     return;
   }
   
@@ -138,11 +140,16 @@ function deleteSession() {
 function logPastSession() {
   const input = document.getElementById('pastHoursInput');
   const hours = parseFloat(input.value);
-  if (isNaN(hours) || hours < 0) {
-    alert('Please enter a valid number of hours.');
+  if (isNaN(hours) || hours < 0 || hours > 24) {
+    alert('Please enter a valid number of hours between 0 and 24.');
     return;
   }
   logHoursForDate(dateStr, hours);
+  window.location.reload();
+}
+
+function markNoStudyDay() {
+  logHoursForDate(dateStr, 0);
   window.location.reload();
 }
 </script>
