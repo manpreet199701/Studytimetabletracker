@@ -3,7 +3,6 @@ const KEYS = {
   dailyGoal: 'cfa_daily_goal',
   completed: 'cfa_completed',
 };
-const AUTO_FILL_DAYS = 365;
 
 // Queue a cloud sync if the helper is available (set by firebase-sync.js)
 function queueSync(reason = 'change') {
@@ -15,6 +14,12 @@ function today() {
 }
 function getStudyLog() {
   return JSON.parse(localStorage.getItem(KEYS.studyLog) || '[]');
+}
+function applyEntryMetrics(entry, goal) {
+  const hours = Number(entry.hours || 0);
+  const missed = Math.max(0, goal - hours);
+  entry.missed = missed;
+  entry.rollover = goal - hours;
 }
 function saveStudyLog(log) {
   localStorage.setItem(KEYS.studyLog, JSON.stringify(log));
@@ -47,60 +52,48 @@ function isCompleted(subjectId, topicId) {
 function logHoursForDate(date, hours) {
   const log = getStudyLog();
   const existing = log.find(l => l.date === date);
+  const goal = getDailyGoal();
   if (existing) {
     existing.hours = hours;
     existing.auto = false;
     if (!Array.isArray(existing.topics)) existing.topics = [];
+    applyEntryMetrics(existing, goal);
   } else {
-    log.push({ date, hours, topics: [], auto: false });
+    const entry = { date, hours, topics: [], auto: false };
+    applyEntryMetrics(entry, goal);
+    log.push(entry);
   }
   log.sort((a, b) => a.date.localeCompare(b.date));
   saveStudyLog(log);
 }
 
-// Backfill missing days (as 0h) so rollover + calendar show gaps consistently.
-// Only fills up to the past year, and only if there is at least one entry already.
-function ensureDailyEntries(days = AUTO_FILL_DAYS) {
+// Remove any auto-filled entries so missing days don't affect rollover.
+function purgeAutoEntries() {
   const log = getStudyLog();
-  if (!log.length || !days || days <= 0) return log;
+  const filtered = log.filter(l => !(l && l.auto));
+  if (filtered.length !== log.length) {
+    saveStudyLog(filtered);
+  }
+}
 
-  let earliest = null;
-  log.forEach(l => {
-    if (l && l.date && (!earliest || l.date < earliest)) earliest = l.date;
-  });
-  if (!earliest) return log;
-
-  const startLimit = new Date();
-  startLimit.setDate(startLimit.getDate() - days);
-  startLimit.setHours(0, 0, 0, 0);
-
-  const earliestDate = new Date(earliest + 'T00:00:00');
-  const startDate = earliestDate > startLimit ? earliestDate : startLimit;
-
-  const endDate = new Date();
-  endDate.setDate(endDate.getDate() - 1);
-  endDate.setHours(0, 0, 0, 0);
-
-  if (endDate < startDate) return log;
-
-  const byDate = new Map(log.map(l => [l.date, l]));
+function enrichStudyLogWithMetrics() {
+  const goal = getDailyGoal();
+  const log = getStudyLog();
   let changed = false;
-
-  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-    const dateStr = d.toISOString().split('T')[0];
-    if (!byDate.has(dateStr)) {
-      log.push({ date: dateStr, hours: 0, topics: [], auto: true });
-      changed = true;
-    }
-  }
-
-  if (changed) {
-    log.sort((a, b) => a.date.localeCompare(b.date));
-    saveStudyLog(log);
-  }
-
+  log.forEach(entry => {
+    if (!entry || !entry.date) return;
+    if (!Array.isArray(entry.topics)) { entry.topics = []; changed = true; }
+    const beforeMissed = entry.missed;
+    const beforeRollover = entry.rollover;
+    applyEntryMetrics(entry, goal);
+    if (beforeMissed !== entry.missed || beforeRollover !== entry.rollover) changed = true;
+  });
+  if (changed) saveStudyLog(log);
   return log;
 }
+
+// Backfill missing days (as 0h) so rollover + calendar show gaps consistently.
+// Only fills up to the past year, and only if there is at least one entry already.
 function getHoursForDate(date) {
   const log = getStudyLog();
   const entry = log.find(l => l.date === date);
@@ -111,7 +104,7 @@ function getTodayTarget() {
   const log = getStudyLog();
   const todayStr = today();
   let deficit = 0;
-  log.filter(l => l.date < todayStr).forEach(l => { deficit += (goal - l.hours); });
+  log.filter(l => l.date < todayStr && !l.auto).forEach(l => { deficit += (goal - l.hours); });
   return Math.max(0, goal + deficit);
 }
 function progressRing(pct, color, size = 80, stroke = 7) {
@@ -229,6 +222,8 @@ function initUserNav() {
     <div class="user-menu-dropdown" hidden>
       <p class="user-menu-name">${profile.name}</p>
       <p class="user-menu-email">${profile.email || 'No email available'}</p>
+      <button type="button" class="user-save-btn">Sync Now</button>
+      <button type="button" class="user-save-logout-btn">Sync & Logout</button>
       <button type="button" class="user-logout-btn">Logout</button>
     </div>
   `;
@@ -236,6 +231,8 @@ function initUserNav() {
   const toggle = menu.querySelector('.user-menu-toggle');
   const dropdown = menu.querySelector('.user-menu-dropdown');
   const logoutBtn = menu.querySelector('.user-logout-btn');
+  const saveBtn = menu.querySelector('.user-save-btn');
+  const saveLogoutBtn = menu.querySelector('.user-save-logout-btn');
   const closeMenu = () => { dropdown.hidden = true; toggle.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); };
   const openMenu = () => { dropdown.hidden = false; toggle.setAttribute('aria-expanded', 'true'); menu.classList.add('open'); };
   toggle.addEventListener('click', (e) => { e.stopPropagation(); if (menu.classList.contains('open')) closeMenu(); else openMenu(); });
@@ -254,6 +251,44 @@ function initUserNav() {
     localStorage.removeItem('user_name');
     window.location.href = 'login.html';
   });
+
+  async function saveAllData(reason = 'manual-save') {
+    enrichStudyLogWithMetrics();
+    if (window.forceCloudSync) {
+      await window.forceCloudSync(reason);
+      return;
+    }
+    if (window.queueCloudSync) window.queueCloudSync(reason);
+  }
+
+  async function runSave(button, labelWhenDone = 'Saved') {
+    if (!button) return;
+    const original = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Saving...';
+    try {
+      if (window.cloudSyncReady) await window.cloudSyncReady;
+      await saveAllData();
+      button.textContent = labelWhenDone;
+      setTimeout(() => { button.textContent = original; button.disabled = false; }, 1200);
+    } catch (err) {
+      console.warn('Save failed', err);
+      button.textContent = original;
+      button.disabled = false;
+      alert('Save failed. Please try again.');
+    }
+  }
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', () => runSave(saveBtn, 'Saved'));
+  }
+
+  if (saveLogoutBtn) {
+    saveLogoutBtn.addEventListener('click', async () => {
+      await runSave(saveLogoutBtn, 'Saved');
+      logoutBtn.click();
+    });
+  }
 }
 
 function initQA() {
@@ -268,6 +303,7 @@ function initQA() {
 }
 
 initUserNav();
+purgeAutoEntries();
 
 function buildHeatmap(containerId, log, goal) {
   const el = document.getElementById(containerId);
