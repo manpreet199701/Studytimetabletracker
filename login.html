@@ -167,7 +167,12 @@ document.getElementById('googleSignIn').addEventListener('click', async () => {
     
     if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
       errorMsg.style.display = 'block';
-      errorMsg.textContent = 'Sign-in failed: ' + error.message;
+      if (error.code === 'auth/unauthorized-domain') {
+        const host = window.location.hostname || '(no hostname)';
+        errorMsg.textContent = `Sign-in blocked: "${host}" is not in Firebase Auth authorized domains. Add it in Firebase Console -> Authentication -> Settings -> Authorized domains.`;
+      } else {
+        errorMsg.textContent = 'Sign-in failed: ' + error.message;
+      }
     }
   }
 });
