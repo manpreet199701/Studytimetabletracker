@@ -1,39 +1,30 @@
-// ── STORAGE KEYS ──
 const KEYS = {
-  studyLog: 'cfa_study_log',       // [{date:'YYYY-MM-DD', hours:2.5, topics:[]}]
-  dailyGoal: 'cfa_daily_goal',     // number
-  completed: 'cfa_completed',      // {`s${id}_t${id}`: true}
+  studyLog: 'cfa_study_log',
+  dailyGoal: 'cfa_daily_goal',
+  completed: 'cfa_completed',
 };
 
-// ── HELPERS ──
 function today() {
   return new Date().toISOString().split('T')[0];
 }
-
 function getStudyLog() {
   return JSON.parse(localStorage.getItem(KEYS.studyLog) || '[]');
 }
-
 function saveStudyLog(log) {
   localStorage.setItem(KEYS.studyLog, JSON.stringify(log));
 }
-
 function getDailyGoal() {
   return parseFloat(localStorage.getItem(KEYS.dailyGoal) || '3');
 }
-
 function saveDailyGoal(g) {
   localStorage.setItem(KEYS.dailyGoal, g.toString());
 }
-
 function getCompleted() {
   return JSON.parse(localStorage.getItem(KEYS.completed) || '{}');
 }
-
 function saveCompleted(c) {
   localStorage.setItem(KEYS.completed, JSON.stringify(c));
 }
-
 function toggleCompleted(subjectId, topicId) {
   const c = getCompleted();
   const key = `s${subjectId}_t${topicId}`;
@@ -41,43 +32,29 @@ function toggleCompleted(subjectId, topicId) {
   saveCompleted(c);
   return c[key];
 }
-
 function isCompleted(subjectId, topicId) {
   return !!getCompleted()[`s${subjectId}_t${topicId}`];
 }
-
-// ── STUDY HOURS ──
 function logHoursForDate(date, hours) {
   const log = getStudyLog();
   const existing = log.find(l => l.date === date);
-  if (existing) {
-    existing.hours = hours;
-  } else {
-    log.push({ date, hours });
-  }
+  if (existing) { existing.hours = hours; } else { log.push({ date, hours }); }
   log.sort((a, b) => a.date.localeCompare(b.date));
   saveStudyLog(log);
 }
-
 function getHoursForDate(date) {
   const log = getStudyLog();
   const entry = log.find(l => l.date === date);
   return entry ? entry.hours : 0;
 }
-
-// ── ROLLOVER CALCULATION ──
 function getTodayTarget() {
   const goal = getDailyGoal();
   const log = getStudyLog();
   const todayStr = today();
   let deficit = 0;
-  log.filter(l => l.date < todayStr).forEach(l => {
-    deficit += (goal - l.hours);
-  });
+  log.filter(l => l.date < todayStr).forEach(l => { deficit += (goal - l.hours); });
   return Math.max(0, goal + deficit);
 }
-
-// ── PROGRESS RING SVG ──
 function progressRing(pct, color, size = 80, stroke = 7) {
   const r = (size - stroke * 2) / 2;
   const circ = 2 * Math.PI * r;
@@ -89,26 +66,19 @@ function progressRing(pct, color, size = 80, stroke = 7) {
       style="transition:stroke-dashoffset 0.6s ease"/>
   </svg>`;
 }
-
-// ── LOAD DATA.JSON ──
 async function loadData() {
   try {
     const res = await fetch('data.json');
     if (!res.ok) throw new Error('Failed to load data.json');
     const data = await res.json();
-
-    // Merge with custom subjects from localStorage
     const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
     data.subjects = [...data.subjects, ...customSubjects];
-
-    // Merge custom chapters/subtopics into subjects
     const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
     data.subjects.forEach(subject => {
       if (customOverlay[subject.id] && customOverlay[subject.id].chapters) {
         subject.customChapters = customOverlay[subject.id].chapters;
       }
     });
-
     return data;
   } catch (e) {
     console.error('Could not load data.json:', e);
@@ -117,16 +87,10 @@ async function loadData() {
   }
 }
 
-// ── COUNT SUBTOPICS ──
-// Handles both built-in subjects (flat `topics` array) and
-// custom subjects (nested `customChapters` with `subtopics`)
+// Handles both built-in subjects (flat topics array) AND custom subjects (customChapters)
 function countSubtopics(subject) {
   let count = 0;
-  // Built-in subjects use a flat `topics` array
-  if (subject.topics) {
-    count += subject.topics.length;
-  }
-  // Custom subjects use `customChapters` with nested subtopics
+  if (subject.topics) { count += subject.topics.length; }
   if (subject.customChapters) {
     subject.customChapters.forEach(chapter => {
       if (chapter.subtopics) count += chapter.subtopics.length;
@@ -135,19 +99,14 @@ function countSubtopics(subject) {
   return count;
 }
 
-// ── COUNT COMPLETED SUBTOPICS ──
-// Handles both built-in subjects (key: s${subjectId}_t${topicId}) and
-// custom subjects (key: c${chapterId}_st${subtopicId})
 function countCompletedSubtopics(subject, completed) {
   let count = 0;
-  // Built-in subjects: key format is s${subjectId}_t${topicId}
   if (subject.topics) {
     subject.topics.forEach(topic => {
       const key = `s${subject.id}_t${topic.id}`;
       if (completed[key] && completed[key] !== false) count++;
     });
   }
-  // Custom subjects: key format is c${chapterId}_st${subtopicId}
   if (subject.customChapters) {
     subject.customChapters.forEach(chapter => {
       if (chapter.subtopics) {
@@ -161,7 +120,6 @@ function countCompletedSubtopics(subject, completed) {
   return count;
 }
 
-// ── ACTIVE NAV ──
 function setActiveNav() {
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a').forEach(a => {
@@ -175,25 +133,20 @@ function setActiveNav() {
 function getUserProfile() {
   const userId = localStorage.getItem('user_id');
   if (!userId) return null;
-
   const email = (localStorage.getItem('user_email') || '').trim();
   const storedName = (localStorage.getItem('user_name') || '').trim();
   const fallbackName = email ? email.split('@')[0] : 'Student';
   const name = storedName || fallbackName;
-
   return { userId, name, email };
 }
 
 function initUserNav() {
   const navLinks = document.querySelector('.nav-links');
   if (!navLinks) return;
-
   const existingMenu = navLinks.querySelector('.user-menu');
   if (existingMenu) existingMenu.remove();
-
   const loginAnchor = navLinks.querySelector('a[href="login.html"]');
   const profile = getUserProfile();
-
   if (!profile) {
     if (!loginAnchor) {
       const login = document.createElement('a');
@@ -205,16 +158,8 @@ function initUserNav() {
     }
     return;
   }
-
   if (loginAnchor) loginAnchor.remove();
-
-  const initials = profile.name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map(part => part[0].toUpperCase())
-    .join('') || 'U';
-
+  const initials = profile.name.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0].toUpperCase()).join('') || 'U';
   const menu = document.createElement('div');
   menu.className = 'user-menu';
   menu.innerHTML = `
@@ -229,37 +174,14 @@ function initUserNav() {
     </div>
   `;
   navLinks.appendChild(menu);
-
   const toggle = menu.querySelector('.user-menu-toggle');
   const dropdown = menu.querySelector('.user-menu-dropdown');
   const logoutBtn = menu.querySelector('.user-logout-btn');
-
-  const closeMenu = () => {
-    dropdown.hidden = true;
-    toggle.setAttribute('aria-expanded', 'false');
-    menu.classList.remove('open');
-  };
-
-  const openMenu = () => {
-    dropdown.hidden = false;
-    toggle.setAttribute('aria-expanded', 'true');
-    menu.classList.add('open');
-  };
-
-  toggle.addEventListener('click', (event) => {
-    event.stopPropagation();
-    if (menu.classList.contains('open')) closeMenu();
-    else openMenu();
-  });
-
-  menu.addEventListener('click', (event) => {
-    event.stopPropagation();
-  });
-
-  document.addEventListener('click', (event) => {
-    if (!menu.contains(event.target)) closeMenu();
-  });
-
+  const closeMenu = () => { dropdown.hidden = true; toggle.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); };
+  const openMenu = () => { dropdown.hidden = false; toggle.setAttribute('aria-expanded', 'true'); menu.classList.add('open'); };
+  toggle.addEventListener('click', (e) => { e.stopPropagation(); if (menu.classList.contains('open')) closeMenu(); else openMenu(); });
+  menu.addEventListener('click', (e) => { e.stopPropagation(); });
+  document.addEventListener('click', (e) => { if (!menu.contains(e.target)) closeMenu(); });
   logoutBtn.addEventListener('click', () => {
     localStorage.removeItem('user_id');
     localStorage.removeItem('user_email');
@@ -268,7 +190,6 @@ function initUserNav() {
   });
 }
 
-// ── QA ACCORDIONS ──
 function initQA() {
   document.querySelectorAll('.qa-question').forEach(q => {
     q.addEventListener('click', () => {
@@ -282,14 +203,13 @@ function initQA() {
 
 initUserNav();
 
-// ── HEATMAP ──
 function buildHeatmap(containerId, log, goal) {
   const el = document.getElementById(containerId);
   if (!el) return;
-  const today = new Date();
+  const todayDate = new Date();
   const cells = [];
   for (let i = 89; i >= 0; i--) {
-    const d = new Date(today);
+    const d = new Date(todayDate);
     d.setDate(d.getDate() - i);
     const dateStr = d.toISOString().split('T')[0];
     const entry = log.find(l => l.date === dateStr);
