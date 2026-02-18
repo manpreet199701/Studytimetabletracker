@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Study Time Table Tracker — Study Session</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Study Time Table <span>Tracker</span></a>
+  <div class="nav-links">
+    <a href="index.html">Dashboard</a>
+    <a href="subjects.html">Subjects</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="breadcrumb fade-up">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <span id="breadDate">Study Session</span>
+  </div>
+
+  <div class="card fade-up delay-1">
+    <h1 id="dateTitle" style="margin-bottom:0.5rem">Study Session</h1>
+    <div style="display:flex;gap:2rem;margin-top:1.5rem">
+      <div>
+        <p class="label">Hours Studied</p>
+        <p id="hoursStudied" class="stat-value" style="color:var(--accent);margin-top:0.5rem">0h</p>
+      </div>
+      <div>
+        <p class="label">Topics Covered</p>
+        <p id="topicsCount" class="stat-value" style="color:var(--success);margin-top:0.5rem">0</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card fade-up delay-2" style="margin-top:1.5rem">
+    <h3 style="margin-bottom:1rem">Topics Covered</h3>
+    <div id="topicsList" style="display:flex;flex-direction:column;gap:0.5rem"></div>
+  </div>
+
+  <div style="margin-top:1.5rem;display:flex;gap:0.75rem">
+    <button class="btn btn-primary" onclick="editSession()">Edit Session</button>
+    <button class="btn btn-danger" onclick="deleteSession()">Delete Session</button>
+    <a href="index.html" class="btn btn-ghost">← Back to Dashboard</a>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+setActiveNav();
+
+const params = new URLSearchParams(window.location.search);
+const dateStr = params.get('date');
+
+if (!dateStr) {
+  window.location.href = 'index.html';
+}
+
+const log = getStudyLog();
+const entry = log.find(l => l.date === dateStr);
+
+if (!entry) {
+  document.querySelector('.page').innerHTML = `
+    <div class="breadcrumb fade-up">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span>Study Session</span>
+    </div>
+    <div class="card fade-up delay-1">
+      <h2>No study session found for this date</h2>
+      <a href="index.html" class="btn btn-primary" style="margin-top:1rem">← Back to Dashboard</a>
+    </div>
+  `;
+} else {
+  const date = new Date(dateStr + 'T00:00:00');
+  const formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  
+  document.getElementById('breadDate').textContent = formattedDate;
+  document.getElementById('dateTitle').textContent = formattedDate;
+  document.getElementById('hoursStudied').textContent = entry.hours + 'h';
+  
+  const topics = entry.topics || [];
+  document.getElementById('topicsCount').textContent = topics.length;
+  
+  const topicsList = document.getElementById('topicsList');
+  if (topics.length > 0) {
+    topicsList.innerHTML = topics.map(t => `
+      <div style="padding:0.75rem;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;gap:0.5rem">
+        <span style="color:var(--success);font-size:1.2rem">✓</span>
+        <span>${t}</span>
+      </div>
+    `).join('');
+  } else {
+    topicsList.innerHTML = '<p style="color:var(--text-dim);font-style:italic">No topics recorded for this session</p>';
+  }
+}
+
+function editSession() {
+  const newHours = prompt('Edit hours studied:', entry.hours);
+  if (newHours === null) return;
+  
+  const hours = parseFloat(newHours);
+  if (isNaN(hours) || hours < 0) {
+    alert('Please enter a valid number');
+    return;
+  }
+  
+  entry.hours = hours;
+  saveStudyLog(log);
+  location.reload();
+}
+
+function deleteSession() {
+  if (!confirm('Delete this study session?')) return;
+  
+  const newLog = log.filter(l => l.date !== dateStr);
+  saveStudyLog(newLog);
+  window.location.href = 'index.html';
+}
+</script>
+</body>
+</html>
