@@ -138,6 +138,16 @@ document.getElementById('googleSignIn').addEventListener('click', async () => {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
+    const previousUserId = localStorage.getItem('user_id');
+    if (previousUserId && previousUserId !== user.uid) {
+      localStorage.removeItem('cfa_study_log');
+      localStorage.removeItem('cfa_daily_goal');
+      localStorage.removeItem('cfa_completed');
+      localStorage.removeItem('cfa_custom_subjects');
+      localStorage.removeItem('cfa_subject_overlays');
+      localStorage.removeItem('cfa_last_updated');
+    }
+
     const defaultName = user.displayName || (user.email ? user.email.split('@')[0] : '');
     const enteredName = window.prompt('What name should appear on your profile?', defaultName);
     const finalName = enteredName && enteredName.trim() ? enteredName.trim() : (defaultName || 'Student');
@@ -156,6 +166,9 @@ document.getElementById('googleSignIn').addEventListener('click', async () => {
       if (cloudData.completed) localStorage.setItem('cfa_completed', JSON.stringify(cloudData.completed));
       if (cloudData.customSubjects) localStorage.setItem('cfa_custom_subjects', JSON.stringify(cloudData.customSubjects));
       if (cloudData.subjectOverlays) localStorage.setItem('cfa_subject_overlays', JSON.stringify(cloudData.subjectOverlays));
+      localStorage.setItem('cfa_last_updated', cloudData.updatedAt || new Date().toISOString());
+    } else {
+      localStorage.setItem('cfa_last_updated', new Date().toISOString());
     }
 
     window.location.href = 'index.html';
