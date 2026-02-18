@@ -160,6 +160,102 @@ function setActiveNav() {
   });
 }
 
+function getUserProfile() {
+  const userId = localStorage.getItem('user_id');
+  if (!userId) return null;
+
+  const email = (localStorage.getItem('user_email') || '').trim();
+  const storedName = (localStorage.getItem('user_name') || '').trim();
+  const fallbackName = email ? email.split('@')[0] : 'Student';
+  const name = storedName || fallbackName;
+
+  return { userId, name, email };
+}
+
+function initUserNav() {
+  const navLinks = document.querySelector('.nav-links');
+  if (!navLinks) return;
+
+  const existingMenu = navLinks.querySelector('.user-menu');
+  if (existingMenu) existingMenu.remove();
+
+  const loginAnchor = navLinks.querySelector('a[href="login.html"]');
+  const profile = getUserProfile();
+
+  if (!profile) {
+    if (!loginAnchor) {
+      const login = document.createElement('a');
+      login.href = 'login.html';
+      login.textContent = 'Login';
+      navLinks.appendChild(login);
+    } else {
+      loginAnchor.textContent = 'Login';
+    }
+    return;
+  }
+
+  if (loginAnchor) loginAnchor.remove();
+
+  const initials = profile.name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(part => part[0].toUpperCase())
+    .join('') || 'U';
+
+  const menu = document.createElement('div');
+  menu.className = 'user-menu';
+  menu.innerHTML = `
+    <button type="button" class="user-menu-toggle" aria-expanded="false">
+      <span class="user-avatar">${initials}</span>
+      <span class="user-name">${profile.name}</span>
+    </button>
+    <div class="user-menu-dropdown" hidden>
+      <p class="user-menu-name">${profile.name}</p>
+      <p class="user-menu-email">${profile.email || 'No email available'}</p>
+      <button type="button" class="user-logout-btn">Logout</button>
+    </div>
+  `;
+  navLinks.appendChild(menu);
+
+  const toggle = menu.querySelector('.user-menu-toggle');
+  const dropdown = menu.querySelector('.user-menu-dropdown');
+  const logoutBtn = menu.querySelector('.user-logout-btn');
+
+  const closeMenu = () => {
+    dropdown.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    menu.classList.remove('open');
+  };
+
+  const openMenu = () => {
+    dropdown.hidden = false;
+    toggle.setAttribute('aria-expanded', 'true');
+    menu.classList.add('open');
+  };
+
+  toggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    if (menu.classList.contains('open')) closeMenu();
+    else openMenu();
+  });
+
+  menu.addEventListener('click', (event) => {
+    event.stopPropagation();
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!menu.contains(event.target)) closeMenu();
+  });
+
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('user_email');
+    localStorage.removeItem('user_name');
+    window.location.href = 'login.html';
+  });
+}
+
 // ── QA ACCORDIONS ──
 function initQA() {
   document.querySelectorAll('.qa-question').forEach(q => {
@@ -171,6 +267,8 @@ function initQA() {
     });
   });
 }
+
+initUserNav();
 
 // ── HEATMAP ──
 function buildHeatmap(containerId, log, goal) {
