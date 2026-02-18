@@ -10,6 +10,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.25rem;
+  position: relative;
 }
 
 .subject-card-full {
@@ -23,6 +24,23 @@
   transition: transform 0.2s, border-color 0.2s;
 }
 .subject-card-full:hover { transform: translateY(-3px); }
+
+.delete-subject-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.7rem;
+  background: var(--danger);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: none;
+  z-index: 10;
+}
+.edit-mode .delete-subject-btn { display: block; }
+.delete-subject-btn:hover { background: #c53030; }
 
 .subject-card-full .top-bar {
   position: absolute;
@@ -76,7 +94,10 @@
         <p class="label">CFA Level I</p>
         <h1 style="margin-top:0.25rem">All Subjects</h1>
       </div>
-      <button id="addSubjectBtn" class="btn btn-primary">+ Add Custom Subject</button>
+      <div style="display:flex;gap:0.5rem">
+        <button id="editModeBtn" class="btn btn-ghost">Edit</button>
+        <button id="addSubjectBtn" class="btn btn-primary">+ Add Custom Subject</button>
+      </div>
     </div>
   </div>
 
@@ -154,8 +175,10 @@ async function init() {
     const done = s.topics.filter(t => completed[`s${s.id}_t${t.id}`]).length;
     const pct = s.topics.length ? Math.round(done / s.topics.length * 100) : 0;
     const delay = Math.min(i * 0.05, 0.5);
+    const deleteBtn = s.custom ? `<button class="delete-subject-btn" onclick="deleteSubject(${s.id}); event.preventDefault(); event.stopPropagation();">Delete</button>` : '';
     return `<a href="subject.html?id=${s.id}" class="card subject-card-full fade-up" style="animation-delay:${delay + 0.2}s">
       <div class="top-bar" style="background:${s.color}"></div>
+      ${deleteBtn}
       <div class="card-body">
         <div class="big-icon">${s.icon}</div>
         <div class="sub-name">${s.name}</div>
@@ -171,46 +194,41 @@ async function init() {
   }).join('');
 }
 
-function openAddSubjectModal() {
-  document.getElementById('addSubjectModal').classList.add('open');
-}
+let editMode = false;
 
-function closeAddSubjectModal() {
-  document.getElementById('addSubjectModal').classList.remove('open');
-  document.getElementById('newSubjectName').value = '';
-  document.getElementById('newSubjectShort').value = '';
-  document.getElementById('newSubjectIcon').value = '';
-}
-
-function saveNewSubject() {
-  const name = document.getElementById('newSubjectName').value.trim();
-  const shortName = document.getElementById('newSubjectShort').value.trim();
-  const icon = document.getElementById('newSubjectIcon').value.trim();
-  const color = document.getElementById('newSubjectColor').value;
+function toggleEditMode() {
+  editMode = !editMode;
+  const grid = document.getElementById('subjectsGrid');
+  const btn = document.getElementById('editModeBtn');
   
-  if (!name || !shortName) {
-    alert('Please enter subject name and short name');
-    return;
+  if (editMode) {
+    grid.classList.add('edit-mode');
+    btn.textContent = 'Done';
+    btn.classList.remove('btn-ghost');
+    btn.classList.add('btn-primary');
+  } else {
+    grid.classList.remove('edit-mode');
+    btn.textContent = 'Edit';
+    btn.classList.remove('btn-primary');
+    btn.classList.add('btn-ghost');
   }
+}
+
+function deleteSubject(subjectId) {
+  if (!confirm('Delete this subject and all its chapters/topics?')) return;
   
-  const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
-  const newId = 1000 + customSubjects.length;
-  
-  customSubjects.push({
-    id: newId,
-    name: name,
-    shortName: shortName,
-    color: color,
-    icon: icon || '📚',
-    topics: [],
-    custom: true
-  });
-  
+  let customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+  customSubjects = customSubjects.filter(s => s.id !== subjectId);
   localStorage.setItem('cfa_custom_subjects', JSON.stringify(customSubjects));
-  closeAddSubjectModal();
+  
+  const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
+  delete customOverlay[subjectId];
+  localStorage.setItem('cfa_subject_overlays', JSON.stringify(customOverlay));
+  
   location.reload();
 }
 
+document.getElementById('editModeBtn').addEventListener('click', toggleEditMode);
 document.getElementById('addSubjectBtn').addEventListener('click', openAddSubjectModal);
 
 init();
