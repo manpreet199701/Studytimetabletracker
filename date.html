@@ -5,6 +5,58 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Study Time Table Tracker — Study Session</title>
 <link rel="stylesheet" href="style.css"/>
+<style>
+.session-form {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(88,166,255,0.05);
+}
+.session-form input {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 1rem;
+}
+.session-actions { margin-top: 0.75rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.topic-editor { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+.topic-editor input {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.95rem;
+}
+.topic-item {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  background: var(--surface2);
+}
+.topic-remove {
+  border: 1px solid rgba(248,81,73,0.35);
+  background: rgba(248,81,73,0.15);
+  color: var(--danger);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+.topic-remove:hover { background: rgba(248,81,73,0.22); }
+</style>
 </head>
 <body>
 
@@ -35,16 +87,36 @@
         <p id="topicsCount" class="stat-value" style="color:var(--success);margin-top:0.5rem">0</p>
       </div>
     </div>
+
+    <div id="emptyState" class="session-form" hidden>
+      <p class="stat-sub">No session logged for this date yet.</p>
+      <div style="margin-top:0.75rem">
+        <p class="label" style="margin-bottom:0.4rem">Hours Studied</p>
+        <input id="pastHoursInput" type="number" min="0" max="24" step="0.5" placeholder="e.g. 2.5"/>
+        <p style="margin-top:0.45rem;color:var(--text-dim);font-size:0.82rem">Use <strong>0</strong> to mark a no-study day.</p>
+      </div>
+      <div class="session-actions">
+        <button class="btn btn-primary" onclick="logPastSession()">Log Hours</button>
+        <button class="btn btn-ghost" onclick="markNoStudyDay()">Mark 0h</button>
+      </div>
+    </div>
   </div>
 
   <div class="card fade-up delay-2" style="margin-top:1.5rem">
     <h3 style="margin-bottom:1rem">Topics Covered</h3>
     <div id="topicsList" style="display:flex;flex-direction:column;gap:0.5rem"></div>
+    <div class="topic-editor">
+      <input id="topicInput" type="text" placeholder="Add a topic you studied…"/>
+      <button class="btn btn-primary" onclick="addTopic()">Add Topic</button>
+    </div>
+    <p class="stat-sub" style="margin-top:0.5rem">These topics are saved with this date and synced.</p>
   </div>
 
-  <div style="margin-top:1.5rem;display:flex;gap:0.75rem">
-    <button class="btn btn-primary" onclick="editSession()">Edit Session</button>
-    <button class="btn btn-danger" onclick="deleteSession()">Delete Session</button>
+  <div style="margin-top:1.5rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+    <div id="sessionActions" style="display:flex;gap:0.75rem">
+      <button class="btn btn-primary" onclick="editSession()">Edit Session</button>
+      <button class="btn btn-danger" onclick="deleteSession()">Delete Session</button>
+    </div>
     <a href="index.html" class="btn btn-ghost">← Back to Dashboard</a>
   </div>
 </div>
@@ -61,62 +133,79 @@ if (!dateStr) {
   window.location.href = 'index.html';
 }
 
-const log = getStudyLog();
-const entry = log.find(l => l.date === dateStr);
+let log = ensureDailyEntries();
+let entry = log.find(l => l.date === dateStr);
 
-if (!entry) {
+function formatDateLabel(dateStr) {
   const date = new Date(dateStr + 'T00:00:00');
-  const formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-  document.getElementById('breadDate').textContent = formattedDate;
-  document.querySelector('.page').innerHTML = `
-    <div class="breadcrumb fade-up">
-      <a href="index.html">Home</a>
-      <span>›</span>
-      <span>${formattedDate}</span>
-    </div>
-    <div class="card fade-up delay-1">
-      <h2 style="margin-bottom:0.5rem">${formattedDate}</h2>
-      <p class="stat-sub">No session logged for this date yet.</p>
-      <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:1rem;max-width:300px">
-        <div>
-          <p class="label" style="margin-bottom:0.4rem">Hours Studied</p>
-          <input id="pastHoursInput" type="number" min="0" max="24" step="0.5" placeholder="e.g. 2.5"
-            style="width:100%;padding:0.6rem 0.85rem;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--font);font-size:1rem"/>
-          <p style="margin-top:0.45rem;color:var(--text-dim);font-size:0.82rem">Use <strong>0</strong> to mark a no-study day.</p>
-        </div>
-        <div style="display:flex;gap:0.75rem">
-          <button class="btn btn-primary" onclick="logPastSession()">Log Hours</button>
-          <button class="btn btn-ghost" onclick="markNoStudyDay()">Mark 0h</button>
-          <a href="index.html" class="btn btn-ghost">← Back</a>
-        </div>
-      </div>
-    </div>
-  `;
-} else {
-  const date = new Date(dateStr + 'T00:00:00');
-  const formattedDate = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-  
-  document.getElementById('breadDate').textContent = formattedDate;
-  document.getElementById('dateTitle').textContent = formattedDate;
-  document.getElementById('hoursStudied').textContent = entry.hours + 'h';
-  
-  const topics = entry.topics || [];
-  document.getElementById('topicsCount').textContent = topics.length;
-  
-  const topicsList = document.getElementById('topicsList');
-  if (topics.length > 0) {
-    topicsList.innerHTML = topics.map(t => `
-      <div style="padding:0.75rem;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;gap:0.5rem">
-        <span style="color:var(--success);font-size:1.2rem">✓</span>
-        <span>${t}</span>
-      </div>
-    `).join('');
-  } else {
-    topicsList.innerHTML = '<p style="color:var(--text-dim);font-style:italic">No topics recorded for this session</p>';
-  }
+  return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 }
 
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function refreshEntry() {
+  log = getStudyLog();
+  entry = log.find(l => l.date === dateStr);
+}
+
+function hasSession(e) {
+  if (!e) return false;
+  if (e.auto) {
+    const t = Array.isArray(e.topics) ? e.topics.length : 0;
+    return (e.hours || 0) > 0 || t > 0;
+  }
+  return true;
+}
+
+function ensureEntryExists() {
+  if (!entry) {
+    entry = { date: dateStr, hours: 0, topics: [], auto: false };
+    log.push(entry);
+  }
+  if (!Array.isArray(entry.topics)) entry.topics = [];
+}
+
+function renderTopics() {
+  const topics = entry && Array.isArray(entry.topics) ? entry.topics : [];
+  document.getElementById('topicsCount').textContent = topics.length;
+  const topicsList = document.getElementById('topicsList');
+  if (!topics.length) {
+    topicsList.innerHTML = '<p style="color:var(--text-dim);font-style:italic">No topics recorded for this session</p>';
+    return;
+  }
+  topicsList.innerHTML = topics.map((t, i) => `
+    <div class="topic-item">
+      <span>${escapeHtml(t)}</span>
+      <button class="topic-remove" data-idx="${i}">Remove</button>
+    </div>
+  `).join('');
+  topicsList.querySelectorAll('.topic-remove').forEach(btn => {
+    btn.addEventListener('click', () => removeTopic(parseInt(btn.dataset.idx)));
+  });
+}
+
+function render() {
+  refreshEntry();
+  const formattedDate = formatDateLabel(dateStr);
+  document.getElementById('breadDate').textContent = formattedDate;
+  document.getElementById('dateTitle').textContent = formattedDate;
+  document.getElementById('hoursStudied').textContent = ((entry && entry.hours != null) ? entry.hours : 0) + 'h';
+
+  const empty = !hasSession(entry);
+  document.getElementById('emptyState').hidden = !empty;
+  const actions = document.getElementById('sessionActions');
+  if (actions) actions.style.display = empty ? 'none' : 'flex';
+
+  renderTopics();
+}
+
+render();
+
 function editSession() {
+  if (!entry) return;
   const newHours = prompt('Edit hours studied:', entry.hours);
   if (newHours === null) return;
   
@@ -127,11 +216,13 @@ function editSession() {
   }
   
   entry.hours = hours;
+  entry.auto = false;
   saveStudyLog(log);
-  location.reload();
+  render();
 }
 
 function deleteSession() {
+  if (!entry) return;
   if (!confirm('Delete this study session?')) return;
   
   const newLog = log.filter(l => l.date !== dateStr);
@@ -146,12 +237,34 @@ function logPastSession() {
     return;
   }
   logHoursForDate(dateStr, hours);
-  window.location.reload();
+  render();
 }
 
 function markNoStudyDay() {
   logHoursForDate(dateStr, 0);
-  window.location.reload();
+  render();
+}
+
+function addTopic() {
+  const input = document.getElementById('topicInput');
+  const name = (input ? input.value : '').trim();
+  if (!name) return;
+  refreshEntry();
+  ensureEntryExists();
+  entry.topics.push(name);
+  entry.auto = false;
+  saveStudyLog(log);
+  input.value = '';
+  render();
+}
+
+function removeTopic(idx) {
+  refreshEntry();
+  if (!entry || !Array.isArray(entry.topics)) return;
+  entry.topics.splice(idx, 1);
+  entry.auto = false;
+  saveStudyLog(log);
+  render();
 }
 </script>
 </body>
