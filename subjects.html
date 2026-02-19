@@ -188,9 +188,16 @@
 </nav>
 
 <div class="page">
-  <div class="fade-up">
-    <p class="label">Study Plan</p>
-    <h1 style="margin-top:0.25rem;margin-bottom:1.5rem">All Subjects</h1>
+  <div class="section-header fade-up" style="margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+    <div>
+      <p class="label">Study Plan</p>
+      <h1 style="margin-top:0.25rem;margin-bottom:0">All Subjects</h1>
+      <p id="subjectsHint" style="color:var(--text-muted);margin:0.5rem 0 0;font-size:0.9rem"></p>
+    </div>
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:flex-end">
+      <button class="btn btn-primary" id="addSubjectBtn">＋ Add Subject</button>
+      <button class="btn btn-ghost" id="toggleHiddenBtn">Show Deleted</button>
+    </div>
   </div>
 
   <div id="summaryStrip" class="summary-strip fade-up delay-1"></div>
@@ -201,7 +208,7 @@
 <div id="editModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
-      <h3>✏️ Edit Subject</h3>
+      <h3 id="editModalTitle">✏️ Edit Subject</h3>
       <button class="modal-close" id="editModalClose">×</button>
     </div>
     <div class="form-group">
@@ -249,24 +256,75 @@ setActiveNav();
 let ALL_DATA = null;
 let editingSubjectId = null;
 let deletingSubjectId = null;
+let showHidden = false;
 
 async function init() {
-  ALL_DATA = await loadData();
+  ALL_DATA = await loadData({ includeHidden: true });
+  renderHint();
+  updateHiddenToggleLabel();
   render();
 }
 
-function isCustomSubject(id) {
-  const custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
-  return custom.some(s => s.id === id);
+function renderHint() {
+  const hintEl = document.getElementById('subjectsHint');
+  if (!hintEl) return;
+  const profile = getUserProfile ? getUserProfile() : null;
+  hintEl.textContent = profile
+    ? `Signed in as ${profile.name} — subject changes will sync to your profile.`
+    : 'Not signed in — subject changes are saved only in this browser.';
+}
+
+function updateHiddenToggleLabel() {
+  const btn = document.getElementById('toggleHiddenBtn');
+  if (!btn) return;
+  btn.textContent = showHidden ? 'Hide Deleted' : 'Show Deleted';
+}
+
+function getSubjectById(id) {
+  if (!ALL_DATA || !Array.isArray(ALL_DATA.subjects)) return null;
+  return ALL_DATA.subjects.find(s => s.id === id) || null;
+}
+
+function generateSubjectId() {
+  return Date.now() + Math.floor(Math.random() * 1000);
+}
+
+function getOverlays() {
+  return JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
+}
+
+function saveOverlays(overlays) {
+  localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
+  queueSync('subject-overlays');
+}
+
+function deleteCompletedForSubject(subject) {
+  const completed = getCompleted();
+  if (Array.isArray(subject.topics)) {
+    subject.topics.forEach(t => { delete completed[`s${subject.id}_t${t.id}`]; });
+  }
+  if (Array.isArray(subject.customChapters)) {
+    subject.customChapters.forEach(ch => {
+      (ch.subtopics || []).forEach(st => { delete completed[`c${ch.id}_st${st.id}`]; });
+    });
+  }
+  saveCompleted(completed);
+}
+
+function getVisibleSubjects() {
+  const subjects = (ALL_DATA && Array.isArray(ALL_DATA.subjects)) ? ALL_DATA.subjects : [];
+  return showHidden ? subjects : subjects.filter(s => !s.isHidden);
 }
 
 function render() {
   const completed = getCompleted();
-  const subjects = ALL_DATA.subjects;
+  const allSubjects = (ALL_DATA && Array.isArray(ALL_DATA.subjects)) ? ALL_DATA.subjects : [];
+  const activeSubjects = allSubjects.filter(s => !s.isHidden);
+  const subjects = showHidden ? allSubjects : activeSubjects;
 
   // Use countSubtopics from app.js — handles both built-in (topics[]) and custom (customChapters)
-  const totalTopics = subjects.reduce((sum, s) => sum + countSubtopics(s), 0);
-  const doneTopics  = subjects.reduce((sum, s) => sum + countCompletedSubtopics(s, completed), 0);
+  const totalTopics = activeSubjects.reduce((sum, s) => sum + countSubtopics(s), 0);
+  const doneTopics  = activeSubjects.reduce((sum, s) => sum + countCompletedSubtopics(s, completed), 0);
   const overallPct  = totalTopics ? Math.round(doneTopics / totalTopics * 100) : 0;
 
   document.getElementById('summaryStrip').innerHTML = `
@@ -283,7 +341,7 @@ function render() {
       <div class="lbl">Overall Progress</div>
     </div>
     <div class="summary-stat">
-      <div class="val">${subjects.length}</div>
+      <div class="val">${activeSubjects.length}</div>
       <div class="lbl">Subjects</div>
     </div>
   `;
@@ -294,32 +352,40 @@ function render() {
     const done  = countCompletedSubtopics(s, completed);
     const pct   = total ? Math.round(done / total * 100) : 0;
     const delay = Math.min(i * 0.05, 0.5);
-    const custom = isCustomSubject(s.id);
+    const isHidden = !!s.isHidden;
 
-    const actionsHTML = custom ? `
+    const actionsHTML = `
       <button class="card-actions-btn" data-id="${s.id}" title="Options">⋯</button>
       <div class="card-actions-dropdown" id="dd-${s.id}">
-        <button data-action="edit" data-id="${s.id}">✏️ Edit</button>
-        <hr/>
-        <button class="danger" data-action="delete" data-id="${s.id}">🗑️ Delete</button>
-      </div>` : '';
+        ${isHidden
+          ? `<button data-action="restore" data-id="${s.id}">♻️ Restore</button>`
+          : `<button data-action="edit" data-id="${s.id}">✏️ Edit</button>
+             <hr/>
+             <button class="danger" data-action="delete" data-id="${s.id}">🗑️ Delete</button>`
+        }
+      </div>`;
+
+    const cardOpen = isHidden
+      ? `<div class="card subject-card-full" style="opacity:0.55;cursor:not-allowed" aria-disabled="true">`
+      : `<a href="subject.html?id=${s.id}" class="card subject-card-full">`;
+    const cardClose = isHidden ? `</div>` : `</a>`;
 
     return `<div class="card-wrapper fade-up" style="animation-delay:${delay + 0.2}s">
       ${actionsHTML}
-      <a href="subject.html?id=${s.id}" class="card subject-card-full">
+      ${cardOpen}
         <div class="top-bar" style="background:${s.color}"></div>
         <div class="card-body">
           <div class="big-icon">${s.icon}</div>
           <div class="sub-name">${s.name}</div>
           <div class="sub-meta">
-            <span class="topic-count">${done}/${total} topics</span>
-            <span class="sub-pct" style="color:${s.color}">${pct}%</span>
+            <span class="topic-count">${isHidden ? 'Deleted' : `${done}/${total} topics`}</span>
+            <span class="sub-pct" style="color:${s.color}">${isHidden ? '' : `${pct}%`}</span>
           </div>
           <div class="progress-track" style="margin-top:0.6rem">
-            <div class="progress-fill" style="width:${pct}%;background:${s.color}"></div>
+            <div class="progress-fill" style="width:${isHidden ? 0 : pct}%;background:${s.color}"></div>
           </div>
         </div>
-      </a>
+      ${cardClose}
     </div>`;
   }).join('');
 
@@ -343,6 +409,7 @@ function render() {
       const id = parseInt(btn.dataset.id);
       if (btn.dataset.action === 'edit') openEdit(id);
       if (btn.dataset.action === 'delete') openDelete(id);
+      if (btn.dataset.action === 'restore') restoreSubject(id);
     });
   });
 }
@@ -353,15 +420,31 @@ document.addEventListener('click', () => {
 });
 
 // ── Edit ──────────────────────────────────────────────
-function openEdit(id) {
-  const s = ALL_DATA.subjects.find(s => s.id === id);
-  if (!s) return;
-  editingSubjectId = id;
-  document.getElementById('editName').value      = s.name      || '';
-  document.getElementById('editShortName').value = s.shortName || '';
-  document.getElementById('editIcon').value      = s.icon      || '';
-  document.getElementById('editColor').value     = s.color     || '#58a6ff';
+function openEdit(id = null) {
+  const isAdd = id == null;
+  const title = document.getElementById('editModalTitle');
+  const saveBtn = document.getElementById('editSaveBtn');
+  if (isAdd) {
+    editingSubjectId = null;
+    if (title) title.textContent = '➕ Add Subject';
+    if (saveBtn) saveBtn.textContent = '➕ Add Subject';
+    document.getElementById('editName').value      = '';
+    document.getElementById('editShortName').value = '';
+    document.getElementById('editIcon').value      = '';
+    document.getElementById('editColor').value     = '#58a6ff';
+  } else {
+    const s = getSubjectById(id);
+    if (!s || s.isHidden) return;
+    editingSubjectId = id;
+    if (title) title.textContent = '✏️ Edit Subject';
+    if (saveBtn) saveBtn.textContent = '💾 Save Changes';
+    document.getElementById('editName').value      = s.name      || '';
+    document.getElementById('editShortName').value = s.shortName || '';
+    document.getElementById('editIcon').value      = s.icon      || '';
+    document.getElementById('editColor').value     = s.color     || '#58a6ff';
+  }
   document.getElementById('editModal').classList.add('open');
+  setTimeout(() => document.getElementById('editName').focus(), 80);
 }
 
 function closeEdit() {
@@ -370,36 +453,82 @@ function closeEdit() {
 }
 document.getElementById('editModalClose').addEventListener('click', closeEdit);
 document.getElementById('editCancelBtn').addEventListener('click', closeEdit);
+document.getElementById('addSubjectBtn').addEventListener('click', () => openEdit(null));
+document.getElementById('toggleHiddenBtn').addEventListener('click', () => {
+  showHidden = !showHidden;
+  updateHiddenToggleLabel();
+  render();
+});
 
 document.getElementById('editSaveBtn').addEventListener('click', () => {
-  if (!editingSubjectId) return;
   const name      = document.getElementById('editName').value.trim();
   const shortName = document.getElementById('editShortName').value.trim();
   const icon      = document.getElementById('editIcon').value.trim();
   const color     = document.getElementById('editColor').value;
   if (!name) { alert('Name is required.'); return; }
 
-  const custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
-  const idx = custom.findIndex(s => s.id === editingSubjectId);
-  if (idx !== -1) {
-    custom[idx].name      = name;
-    custom[idx].shortName = shortName || name;
-    if (icon)  custom[idx].icon  = icon;
-    custom[idx].color = color;
+  // Add new subject
+  if (editingSubjectId == null) {
+    const newId = generateSubjectId();
+    const custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+    custom.push({
+      id: newId,
+      name,
+      shortName: shortName || name,
+      icon: icon || '📘',
+      color: color || '#58a6ff',
+      topics: [],
+      customChapters: []
+    });
     localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
     queueSync('custom-subjects');
+    closeEdit();
+    init();
+    return;
   }
+
+  const subject = getSubjectById(editingSubjectId);
+  if (!subject) return;
+
+  // Edit custom subject
+  if (subject.isCustom) {
+    const custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+    const idx = custom.findIndex(s => s.id === editingSubjectId);
+    if (idx !== -1) {
+      custom[idx].name      = name;
+      custom[idx].shortName = shortName || name;
+      if (icon) custom[idx].icon = icon;
+      custom[idx].color = color;
+      localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
+      queueSync('custom-subjects');
+    }
+    closeEdit();
+    init();
+    return;
+  }
+
+  // Edit built-in subject (store overrides in overlays)
+  const overlays = getOverlays();
+  if (!overlays[editingSubjectId]) overlays[editingSubjectId] = {};
+  overlays[editingSubjectId].name = name;
+  overlays[editingSubjectId].shortName = shortName || name;
+  if (icon) overlays[editingSubjectId].icon = icon;
+  else delete overlays[editingSubjectId].icon;
+  overlays[editingSubjectId].color = color;
+  if (overlays[editingSubjectId].hidden) delete overlays[editingSubjectId].hidden;
+  saveOverlays(overlays);
   closeEdit();
   init();
 });
 
 // ── Delete ────────────────────────────────────────────
 function openDelete(id) {
-  const s = ALL_DATA.subjects.find(s => s.id === id);
-  if (!s) return;
+  const s = getSubjectById(id);
+  if (!s || s.isHidden) return;
   deletingSubjectId = id;
-  document.getElementById('confirmText').textContent =
-    `Are you sure you want to delete "${s.name}"? All progress data for this subject will be lost. This cannot be undone.`;
+  document.getElementById('confirmText').textContent = s.isCustom
+    ? `Are you sure you want to delete "${s.name}"? This will remove it from your profile and clear its progress. This cannot be undone.`
+    : `Are you sure you want to delete "${s.name}"? This will hide it from your profile (you can restore it later from "Show Deleted") and clear any chapters/progress saved for it.`;
   document.getElementById('confirmModal').classList.add('open');
 }
 
@@ -409,24 +538,46 @@ document.getElementById('confirmCancelBtn').addEventListener('click', () => {
 });
 
 document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
-  if (!deletingSubjectId) return;
+  if (deletingSubjectId == null) return;
+  const s = getSubjectById(deletingSubjectId);
+  if (!s) return;
 
-  // Remove from custom subjects list
-  let custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
-  custom = custom.filter(s => s.id !== deletingSubjectId);
-  localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
-  queueSync('custom-subjects');
+  // Clear topic/subtopic completion data tied to this subject
+  deleteCompletedForSubject(s);
 
-  // Remove subject overlay
-  const overlays = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
-  delete overlays[deletingSubjectId];
-  localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
-  queueSync('subject-overlays');
+  if (s.isCustom) {
+    // Remove custom subject permanently
+    let custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+    custom = custom.filter(sub => sub.id !== deletingSubjectId);
+    localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
+    queueSync('custom-subjects');
+
+    // Clean up any overlay leftovers
+    const overlays = getOverlays();
+    if (overlays[deletingSubjectId]) {
+      delete overlays[deletingSubjectId];
+      saveOverlays(overlays);
+    }
+  } else {
+    // Built-in subject: mark hidden via overlays
+    const overlays = getOverlays();
+    overlays[deletingSubjectId] = { hidden: true };
+    saveOverlays(overlays);
+  }
 
   deletingSubjectId = null;
   document.getElementById('confirmModal').classList.remove('open');
   init();
 });
+
+function restoreSubject(id) {
+  const overlays = getOverlays();
+  if (!overlays[id]) return;
+  delete overlays[id].hidden;
+  if (Object.keys(overlays[id]).length === 0) delete overlays[id];
+  saveOverlays(overlays);
+  init();
+}
 
 init();
 </script>
