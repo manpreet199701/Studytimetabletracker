@@ -629,6 +629,13 @@ function openDeleteSubject() {
     `Delete "${subject.name}" and all its chapters and progress? This cannot be undone.`;
   document.getElementById('confirmModal').classList.add('open');
   document.getElementById('confirmOk').onclick = () => {
+    // Clear completion data for this subject (topics + custom chapters)
+    const c = getCompleted();
+    if (subject.topics) subject.topics.forEach(t => delete c[`s${subject.id}_t${t.id}`]);
+    if (subject.customChapters) subject.customChapters.forEach(ch =>
+      (ch.subtopics || []).forEach(st => delete c[`c${ch.id}_st${st.id}`]));
+    saveCompleted(c);
+
     saveCustomSubjects(getCustomSubjects().filter(s => s.id !== subject.id));
   const overlays = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
   delete overlays[subject.id];
