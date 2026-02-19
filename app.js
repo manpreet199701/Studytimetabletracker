@@ -118,24 +118,50 @@ function progressRing(pct, color, size = 80, stroke = 7) {
       style="transition:stroke-dashoffset 0.6s ease"/>
   </svg>`;
 }
-async function loadData() {
+async function loadData(options = {}) {
+  const includeHidden = options && options.includeHidden === true;
   try {
     const res = await fetch('data.json');
     if (!res.ok) throw new Error('Failed to load data.json');
     const data = await res.json();
     const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+    const customIds = new Set(customSubjects.map(s => s.id));
     data.subjects = [...data.subjects, ...customSubjects];
     const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
     data.subjects.forEach(subject => {
-      if (customOverlay[subject.id] && customOverlay[subject.id].chapters) {
-        subject.customChapters = customOverlay[subject.id].chapters;
+      const overlay = customOverlay[subject.id] || null;
+      subject.isCustom = customIds.has(subject.id);
+      subject.isHidden = !!(overlay && overlay.hidden);
+      if (overlay) {
+        if (overlay.name) subject.name = overlay.name;
+        if (overlay.shortName) subject.shortName = overlay.shortName;
+        if (overlay.icon) subject.icon = overlay.icon;
+        if (overlay.color) subject.color = overlay.color;
+        if (overlay.chapters) subject.customChapters = overlay.chapters;
       }
     });
+    if (!includeHidden) {
+      data.subjects = data.subjects.filter(s => !s.isHidden);
+    }
     return data;
   } catch (e) {
     console.error('Could not load data.json:', e);
     const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
-    return { subjects: customSubjects };
+    const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
+    const subjects = customSubjects.map(subject => {
+      const overlay = customOverlay[subject.id] || null;
+      subject.isCustom = true;
+      subject.isHidden = !!(overlay && overlay.hidden);
+      if (overlay) {
+        if (overlay.name) subject.name = overlay.name;
+        if (overlay.shortName) subject.shortName = overlay.shortName;
+        if (overlay.icon) subject.icon = overlay.icon;
+        if (overlay.color) subject.color = overlay.color;
+        if (overlay.chapters) subject.customChapters = overlay.chapters;
+      }
+      return subject;
+    });
+    return { subjects: includeHidden ? subjects : subjects.filter(s => !s.isHidden) };
   }
 }
 
