@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>French A0→A1 · Study Checklist</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=Petit+Formal+Script&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #faf7f2;
+  --ink: #1c1917;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: #e8e0d5;
+  background-image:
+    radial-gradient(ellipse at 20% 20%, #d4c9b8 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, #c8bfb0 0%, transparent 60%);
+  min-height: 100vh;
+  padding: 48px 24px;
+}
+
+/* ── HEADER ── */
+.page-header {
+  text-align: center;
+  margin-bottom: 56px;
+  position: relative;
+}
+
+.page-header .script-line {
+  font-family: 'Petit Formal Script', cursive;
+  font-size: 1.3rem;
+  color: #8b7355;
+  display: block;
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+
+.page-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: #1c1917;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.page-header h1 span {
+  font-style: italic;
+  color: #8b4513;
+}
+
+.page-header .tagline {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #8b7355;
+  margin-top: 10px;
+  display: block;
+}
+
+.header-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.header-divider .line {
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #8b7355, transparent);
+}
+
+.header-divider .fleur {
+  font-size: 1.1rem;
+  color: #8b7355;
+}
+
+/* ── GRID ── */
+.weeks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+/* ── CARD BASE ── */
+.week-card {
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.04),
+    0 8px 24px rgba(0,0,0,0.10),
+    0 24px 48px rgba(0,0,0,0.08);
+  position: relative;
+  page-break-inside: avoid;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.week-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.06),
+    0 16px 40px rgba(0,0,0,0.14),
+    0 32px 64px rgba(0,0,0,0.10);
+}
+
+/* ── CARD HEADER BAND ── */
+.card-header {
+  padding: 22px 28px 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.25);
+}
+
+/* Large decorative number */
+.deco-num {
+  position: absolute;
+  right: -8px;
+  top: -16px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.12;
+  color: white;
+  pointer-events: none;
+  user-select: none;
+}
+
+.card-header .week-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-header .week-label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1.5px;
+  background: rgba(255,255,255,0.5);
+}
+
+.card-header .week-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.card-header .week-dates {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-header .week-dates::before {
+  content: '📅';
+  font-size: 0.75rem;
+}
+
+/* Progress bar */
+.progress-bar-wrap {
+  margin-top: 12px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 100px;
+  height: 5px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: rgba(255,255,255,0.7);
+  border-radius: 100px;
+  transition: width 0.6s ease;
+}
+
+/* ── CARD BODY ── */
+.card-body {
+  background: var(--paper);
+  padding: 22px 26px 24px;
+  position: relative;
+}
+
+/* subtle paper lines */
+.card-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    #e8e2d9 31px,
+    #e8e2d9 32px
+  );
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.topic-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.topic-row:last-child { margin-bottom: 0; }
+
+/* Custom checkbox */
+.cb-wrap {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+}
+
+.cb-wrap input[type="checkbox"] {
+  display: none;
+}
+
+.cb-custom {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 2px solid #ccc;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.cb-wrap input:checked + .cb-custom {
+  border-color: transparent;
+  color: white;
+}
+
+.cb-wrap input:checked + .cb-custom::after {
+  content: '✓';
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+}
+
+.topic-content { flex: 1; }
+
+.topic-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #2c2825;
+  line-height: 1.35;
+  transition: color 0.2s;
+}
+
+.topic-row:has(input:checked) .topic-name {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+.cat-pill {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 100px;
+  margin-top: 4px;
+}
+
+/* ── WEEK COLOR THEMES ── */
+
+/* W1 — Indigo + Gold */
+.w1 .card-header { background: linear-gradient(135deg, #1e3a5f 0%, #2563a8 70%, #3b82c4 100%); }
+.w1 .deco-num { color: #60a5fa; }
+.w1 .cb-wrap input:checked + .cb-custom { background: #2563a8; }
+.w1 .cat-pill { background: #dbeafe; color: #1e40af; }
+.w1 .card-header .week-label::before { background: rgba(255,255,255,0.5); }
+
+/* W2 — Terracotta */
+.w2 .card-header { background: linear-gradient(135deg, #7c2d12 0%, #c2410c 70%, #ea580c 100%); }
+.w2 .deco-num { color: #fb923c; }
+.w2 .cb-wrap input:checked + .cb-custom { background: #c2410c; }
+.w2 .cat-pill { background: #ffedd5; color: #9a3412; }
+
+/* W3 — Emerald */
+.w3 .card-header { background: linear-gradient(135deg, #14532d 0%, #15803d 70%, #22c55e 100%); }
+.w3 .deco-num { color: #4ade80; }
+.w3 .cb-wrap input:checked + .cb-custom { background: #15803d; }
+.w3 .cat-pill { background: #dcfce7; color: #14532d; }
+
+/* W4 — Amber */
+.w4 .card-header { background: linear-gradient(135deg, #78350f 0%, #b45309 70%, #d97706 100%); }
+.w4 .deco-num { color: #fcd34d; }
+.w4 .cb-wrap input:checked + .cb-custom { background: #b45309; }
+.w4 .cat-pill { background: #fef3c7; color: #78350f; }
+
+/* W5 — Violet */
+.w5 .card-header { background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 70%, #8b5cf6 100%); }
+.w5 .deco-num { color: #a78bfa; }
+.w5 .cb-wrap input:checked + .cb-custom { background: #6d28d9; }
+.w5 .cat-pill { background: #ede9fe; color: #4c1d95; }
+
+/* W6 — Teal */
+.w6 .card-header { background: linear-gradient(135deg, #134e4a 0%, #0f766e 70%, #14b8a6 100%); }
+.w6 .deco-num { color: #5eead4; }
+.w6 .cb-wrap input:checked + .cb-custom { background: #0f766e; }
+.w6 .cat-pill { background: #ccfbf1; color: #134e4a; }
+
+/* W7 — Rose */
+.w7 .card-header { background: linear-gradient(135deg, #881337 0%, #be123c 70%, #f43f5e 100%); }
+.w7 .deco-num { color: #fb7185; }
+.w7 .cb-wrap input:checked + .cb-custom { background: #be123c; }
+.w7 .cat-pill { background: #ffe4e6; color: #881337; }
+
+/* W8 — Noir + Gold (special exam card) */
+.w8 .card-header { background: linear-gradient(135deg, #0f0f0f 0%, #1c1c1c 50%, #2d2010 100%); }
+.w8 .deco-num { color: #d4a017; opacity: 0.2; }
+.w8 .week-title { color: #f5c842; }
+.w8 .week-label { color: rgba(245,200,66,0.7); }
+.w8 .week-label::before { background: rgba(245,200,66,0.4); }
+.w8 .week-dates { color: rgba(245,200,66,0.65); }
+.w8 .progress-bar-wrap { background: rgba(245,200,66,0.15); }
+.w8 .progress-bar-fill { background: rgba(245,200,66,0.6); }
+.w8 .cb-wrap input:checked + .cb-custom { background: #b8860b; }
+.w8 .cat-pill { background: #fef9c3; color: #713f12; }
+
+/* ── CARD FOOTER ── */
+.card-footer {
+  padding: 10px 26px 16px;
+  background: var(--paper);
+  border-top: 1px dashed #d9d0c4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-count {
+  font-size: 0.68rem;
+  color: #a09880;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.footer-emoji { font-size: 1rem; }
+
+/* ── PAGE FOOTER ── */
+.page-footer {
+  text-align: center;
+  margin-top: 52px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #8b7355;
+  letter-spacing: 1px;
+}
+
+.page-footer span {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.65rem;
+  font-style: normal;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: 4px;
+  opacity: 0.6;
+}
+
+/* ── PRINT ── */
+@media print {
+  body { background: white; padding: 12px; }
+  .week-card { box-shadow: 0 0 0 1px #ddd; break-inside: avoid; }
+  .week-card:hover { transform: none; }
+}
+
+@media (max-width: 720px) {
+  .weeks-grid { grid-template-columns: 1fr; }
+  .page-header h1 { font-size: 2.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <span class="script-line">Mon voyage vers le français</span>
+  <h1>French <span>A0 → A1</span></h1>
+  <span class="tagline">8-Week Study Checklist &nbsp;·&nbsp; March – April 2026</span>
+  <div class="header-divider">
+    <div class="line"></div>
+    <div class="fleur">✦ ⚜ ✦</div>
+    <div class="line"></div>
+  </div>
+</div>
+
+<div class="weeks-grid">
+
+  <!-- ══ WEEK 1 ══ -->
+  <div class="week-card w1">
+    <div class="card-header">
+      <div class="deco-num">1</div>
+      <div class="week-label">Week One</div>
+      <div class="week-title">The Absolute Foundation</div>
+      <div class="week-dates">3 March – 9 March 2026</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb1"></div></div>
+    </div>
+    <div class="card-body">
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w1t1" onchange="updateProgress('pb1','w1')"><label class="cb-custom" for="w1t1"></label></div><div class="topic-content"><div class="topic-name">French alphabet + accent marks (é, è, ê, à, ç)</div><span class="cat-pill">Pronunciation</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w1t2" onchange="updateProgress('pb1','w1')"><label class="cb-custom" for="w1t2"></label></div><div class="topic-content"><div class="topic-name">Nasal sounds + silent letters rule</div><span class="cat-pill">Pronunciation</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w1t3" onchange="updateProgress('pb1','w1')"><label class="cb-custom" for="w1t3"></label></div><div class="topic-content"><div class="topic-name">Gender of nouns — masculine vs feminine</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w1t4" onchange="updateProgress('pb1','w1')"><label class="cb-custom" for="w1t4"></label></div><div class="topic-content"><div class="topic-name">Definite articles le/la/les + indefinite un/une/des</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w1t5" onchange="updateProgress('pb1','w1')"><label class="cb-custom" for="w1t5"></label></div><div class="topic-content"><div class="topic-name">Greetings, farewells + Numbers 1–20</div><span class="cat-pill">Vocabulary</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w1t6" onchange="updateProgress('pb1','w1')"><label class="cb-custom" for="w1t6"></label></div><div class="topic-content"><div class="topic-name">Days of the week + Colors</div><span class="cat-pill">Vocabulary</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w1t7" onchange="updateProgress('pb1','w1')"><label class="cb-custom" for="w1t7"></label></div><div class="topic-content"><div class="topic-name">Write 5 intro sentences about yourself</div><span class="cat-pill">Writing · Review</span></div></div>
+    </div>
+    <div class="card-footer">
+      <span class="footer-count" id="fc1">0 of 7 completed</span>
+      <span class="footer-emoji">🔤</span>
+    </div>
+  </div>
+
+  <!-- ══ WEEK 2 ══ -->
+  <div class="week-card w2">
+    <div class="card-header">
+      <div class="deco-num">2</div>
+      <div class="week-label">Week Two</div>
+      <div class="week-title">Personal Identity & Basic Verbs</div>
+      <div class="week-dates">10 March – 16 March 2026</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb2"></div></div>
+    </div>
+    <div class="card-body">
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w2t1" onchange="updateProgress('pb2','w2')"><label class="cb-custom" for="w2t1"></label></div><div class="topic-content"><div class="topic-name">Personal pronouns je/tu/il/elle/nous/vous/ils/elles</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w2t2" onchange="updateProgress('pb2','w2')"><label class="cb-custom" for="w2t2"></label></div><div class="topic-content"><div class="topic-name">Verb être — full present tense conjugation</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w2t3" onchange="updateProgress('pb2','w2')"><label class="cb-custom" for="w2t3"></label></div><div class="topic-content"><div class="topic-name">Verb avoir — full present tense conjugation</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w2t4" onchange="updateProgress('pb2','w2')"><label class="cb-custom" for="w2t4"></label></div><div class="topic-content"><div class="topic-name">Simple negation with ne...pas</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w2t5" onchange="updateProgress('pb2','w2')"><label class="cb-custom" for="w2t5"></label></div><div class="topic-content"><div class="topic-name">Family members + Nationalities + Professions</div><span class="cat-pill">Vocabulary</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w2t6" onchange="updateProgress('pb2','w2')"><label class="cb-custom" for="w2t6"></label></div><div class="topic-content"><div class="topic-name">Numbers 20–100 + Listen to intro dialogues</div><span class="cat-pill">Vocabulary · Listening</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w2t7" onchange="updateProgress('pb2','w2')"><label class="cb-custom" for="w2t7"></label></div><div class="topic-content"><div class="topic-name">Fill out a personal information form</div><span class="cat-pill">Writing · Review</span></div></div>
+    </div>
+    <div class="card-footer">
+      <span class="footer-count" id="fc2">0 of 7 completed</span>
+      <span class="footer-emoji">👤</span>
+    </div>
+  </div>
+
+  <!-- ══ WEEK 3 ══ -->
+  <div class="week-card w3">
+    <div class="card-header">
+      <div class="deco-num">3</div>
+      <div class="week-label">Week Three</div>
+      <div class="week-title">Daily Life & Regular Verbs</div>
+      <div class="week-dates">17 March – 23 March 2026</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb3"></div></div>
+    </div>
+    <div class="card-body">
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w3t1" onchange="updateProgress('pb3','w3')"><label class="cb-custom" for="w3t1"></label></div><div class="topic-content"><div class="topic-name">Regular -er verbs: parler, manger, habiter, aimer</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w3t2" onchange="updateProgress('pb3','w3')"><label class="cb-custom" for="w3t2"></label></div><div class="topic-content"><div class="topic-name">Basic sentence structure + yes/no questions (est-ce que)</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w3t3" onchange="updateProgress('pb3','w3')"><label class="cb-custom" for="w3t3"></label></div><div class="topic-content"><div class="topic-name">Daily routine vocabulary + Times of day</div><span class="cat-pill">Vocabulary</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w3t4" onchange="updateProgress('pb3','w3')"><label class="cb-custom" for="w3t4"></label></div><div class="topic-content"><div class="topic-name">Places in a city vocabulary</div><span class="cat-pill">Vocabulary</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w3t5" onchange="updateProgress('pb3','w3')"><label class="cb-custom" for="w3t5"></label></div><div class="topic-content"><div class="topic-name">Read a short paragraph about a daily routine</div><span class="cat-pill">Reading</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w3t6" onchange="updateProgress('pb3','w3')"><label class="cb-custom" for="w3t6"></label></div><div class="topic-content"><div class="topic-name">Listen to someone describe their daily schedule</div><span class="cat-pill">Listening</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w3t7" onchange="updateProgress('pb3','w3')"><label class="cb-custom" for="w3t7"></label></div><div class="topic-content"><div class="topic-name">Write a 60–80 word paragraph about your day</div><span class="cat-pill">Writing · Review</span></div></div>
+    </div>
+    <div class="card-footer">
+      <span class="footer-count" id="fc3">0 of 7 completed</span>
+      <span class="footer-emoji">🌅</span>
+    </div>
+  </div>
+
+  <!-- ══ WEEK 4 ══ -->
+  <div class="week-card w4">
+    <div class="card-header">
+      <div class="deco-num">4</div>
+      <div class="week-label">Week Four</div>
+      <div class="week-title">Questions, Descriptions & Preferences</div>
+      <div class="week-dates">24 March – 30 March 2026</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb4"></div></div>
+    </div>
+    <div class="card-body">
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w4t1" onchange="updateProgress('pb4','w4')"><label class="cb-custom" for="w4t1"></label></div><div class="topic-content"><div class="topic-name">Question words: qui, quoi, où, quand, comment, pourquoi</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w4t2" onchange="updateProgress('pb4','w4')"><label class="cb-custom" for="w4t2"></label></div><div class="topic-content"><div class="topic-name">Adjective agreement — masculine and feminine forms</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w4t3" onchange="updateProgress('pb4','w4')"><label class="cb-custom" for="w4t3"></label></div><div class="topic-content"><div class="topic-name">Possessive adjectives: mon/ma/mes, ton/ta/tes, son/sa/ses</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w4t4" onchange="updateProgress('pb4','w4')"><label class="cb-custom" for="w4t4"></label></div><div class="topic-content"><div class="topic-name">Physical + personality description vocabulary</div><span class="cat-pill">Vocabulary</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w4t5" onchange="updateProgress('pb4','w4')"><label class="cb-custom" for="w4t5"></label></div><div class="topic-content"><div class="topic-name">Hobbies + leisure + express likes/dislikes (j'aime / je n'aime pas)</div><span class="cat-pill">Vocabulary · Speaking</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w4t6" onchange="updateProgress('pb4','w4')"><label class="cb-custom" for="w4t6"></label></div><div class="topic-content"><div class="topic-name">Listen to a likes/dislikes dialogue + short reading</div><span class="cat-pill">Listening · Reading</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w4t7" onchange="updateProgress('pb4','w4')"><label class="cb-custom" for="w4t7"></label></div><div class="topic-content"><div class="topic-name">Write a description of yourself or a friend</div><span class="cat-pill">Writing · Review</span></div></div>
+    </div>
+    <div class="card-footer">
+      <span class="footer-count" id="fc4">0 of 7 completed</span>
+      <span class="footer-emoji">💬</span>
+    </div>
+  </div>
+
+  <!-- ══ WEEK 5 ══ -->
+  <div class="week-card w5">
+    <div class="card-header">
+      <div class="deco-num">5</div>
+      <div class="week-label">Week Five</div>
+      <div class="week-title">Shopping, Food & Numbers in Context</div>
+      <div class="week-dates">31 March – 6 April 2026</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb5"></div></div>
+    </div>
+    <div class="card-body">
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w5t1" onchange="updateProgress('pb5','w5')"><label class="cb-custom" for="w5t1"></label></div><div class="topic-content"><div class="topic-name">Partitive articles: du / de la / de l' / des</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w5t2" onchange="updateProgress('pb5','w5')"><label class="cb-custom" for="w5t2"></label></div><div class="topic-content"><div class="topic-name">Verbs vouloir and pouvoir — present tense</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w5t3" onchange="updateProgress('pb5','w5')"><label class="cb-custom" for="w5t3"></label></div><div class="topic-content"><div class="topic-name">Quantities: un kilo de, beaucoup de, un peu de</div><span class="cat-pill">Vocabulary · Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w5t4" onchange="updateProgress('pb5','w5')"><label class="cb-custom" for="w5t4"></label></div><div class="topic-content"><div class="topic-name">Food, drinks + shops vocabulary</div><span class="cat-pill">Vocabulary</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w5t5" onchange="updateProgress('pb5','w5')"><label class="cb-custom" for="w5t5"></label></div><div class="topic-content"><div class="topic-name">Money + prices + read a menu or shopping list</div><span class="cat-pill">Vocabulary · Reading</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w5t6" onchange="updateProgress('pb5','w5')"><label class="cb-custom" for="w5t6"></label></div><div class="topic-content"><div class="topic-name">Listen to a shopping dialogue + role-play buying something</div><span class="cat-pill">Listening · Speaking</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w5t7" onchange="updateProgress('pb5','w5')"><label class="cb-custom" for="w5t7"></label></div><div class="topic-content"><div class="topic-name">Write a short shopping dialogue (3 sentences)</div><span class="cat-pill">Writing · Review</span></div></div>
+    </div>
+    <div class="card-footer">
+      <span class="footer-count" id="fc5">0 of 7 completed</span>
+      <span class="footer-emoji">🛒</span>
+    </div>
+  </div>
+
+  <!-- ══ WEEK 6 ══ -->
+  <div class="week-card w6">
+    <div class="card-header">
+      <div class="deco-num">6</div>
+      <div class="week-label">Week Six</div>
+      <div class="week-title">Time, Weather & Location</div>
+      <div class="week-dates">7 April – 13 April 2026</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb6"></div></div>
+    </div>
+    <div class="card-body">
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w6t1" onchange="updateProgress('pb6','w6')"><label class="cb-custom" for="w6t1"></label></div><div class="topic-content"><div class="topic-name">Telling time: il est... heures</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w6t2" onchange="updateProgress('pb6','w6')"><label class="cb-custom" for="w6t2"></label></div><div class="topic-content"><div class="topic-name">Prepositions of place: à/de/sur/sous/dans/devant/derrière</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w6t3" onchange="updateProgress('pb6','w6')"><label class="cb-custom" for="w6t3"></label></div><div class="topic-content"><div class="topic-name">Verb aller + near future: aller + infinitive</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w6t4" onchange="updateProgress('pb6','w6')"><label class="cb-custom" for="w6t4"></label></div><div class="topic-content"><div class="topic-name">Weather + Months + Seasons vocabulary</div><span class="cat-pill">Vocabulary</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w6t5" onchange="updateProgress('pb6','w6')"><label class="cb-custom" for="w6t5"></label></div><div class="topic-content"><div class="topic-name">Directions: à gauche, à droite, tout droit, près de</div><span class="cat-pill">Vocabulary</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w6t6" onchange="updateProgress('pb6','w6')"><label class="cb-custom" for="w6t6"></label></div><div class="topic-content"><div class="topic-name">Listen to a weather forecast + practice giving directions</div><span class="cat-pill">Listening · Speaking</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w6t7" onchange="updateProgress('pb6','w6')"><label class="cb-custom" for="w6t7"></label></div><div class="topic-content"><div class="topic-name">Write a short message: weather + plans for the day</div><span class="cat-pill">Writing · Review</span></div></div>
+    </div>
+    <div class="card-footer">
+      <span class="footer-count" id="fc6">0 of 7 completed</span>
+      <span class="footer-emoji">🌦️</span>
+    </div>
+  </div>
+
+  <!-- ══ WEEK 7 ══ -->
+  <div class="week-card w7">
+    <div class="card-header">
+      <div class="deco-num">7</div>
+      <div class="week-label">Week Seven</div>
+      <div class="week-title">Communication & Social Situations</div>
+      <div class="week-dates">14 April – 20 April 2026</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb7"></div></div>
+    </div>
+    <div class="card-body">
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w7t1" onchange="updateProgress('pb7','w7')"><label class="cb-custom" for="w7t1"></label></div><div class="topic-content"><div class="topic-name">Irregular verbs faire and prendre — present tense</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w7t2" onchange="updateProgress('pb7','w7')"><label class="cb-custom" for="w7t2"></label></div><div class="topic-content"><div class="topic-name">Irregular verbs venir and savoir — present tense</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w7t3" onchange="updateProgress('pb7','w7')"><label class="cb-custom" for="w7t3"></label></div><div class="topic-content"><div class="topic-name">Stressed pronouns + conjunctions et/mais/ou/parce que</div><span class="cat-pill">Grammar</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w7t4" onchange="updateProgress('pb7','w7')"><label class="cb-custom" for="w7t4"></label></div><div class="topic-content"><div class="topic-name">Transport + communication vocabulary</div><span class="cat-pill">Vocabulary</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w7t5" onchange="updateProgress('pb7','w7')"><label class="cb-custom" for="w7t5"></label></div><div class="topic-content"><div class="topic-name">Common expressions: s'il vous plaît, je ne comprends pas</div><span class="cat-pill">Vocabulary · Speaking</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w7t6" onchange="updateProgress('pb7','w7')"><label class="cb-custom" for="w7t6"></label></div><div class="topic-content"><div class="topic-name">Read an informal email + listen to a phone conversation</div><span class="cat-pill">Reading · Listening</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w7t7" onchange="updateProgress('pb7','w7')"><label class="cb-custom" for="w7t7"></label></div><div class="topic-content"><div class="topic-name">Write an 80–100 word informal email making plans</div><span class="cat-pill">Writing · Review</span></div></div>
+    </div>
+    <div class="card-footer">
+      <span class="footer-count" id="fc7">0 of 7 completed</span>
+      <span class="footer-emoji">📱</span>
+    </div>
+  </div>
+
+  <!-- ══ WEEK 8 ══ -->
+  <div class="week-card w8">
+    <div class="card-header">
+      <div class="deco-num">8</div>
+      <div class="week-label">Week Eight · Final Week</div>
+      <div class="week-title">Full Integration & Exam Readiness</div>
+      <div class="week-dates">21 April – 27 April 2026</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pb8"></div></div>
+    </div>
+    <div class="card-body">
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w8t1" onchange="updateProgress('pb8','w8')"><label class="cb-custom" for="w8t1"></label></div><div class="topic-content"><div class="topic-name">Full grammar review: articles, pronouns, negation, adjectives</div><span class="cat-pill">Grammar Review</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w8t2" onchange="updateProgress('pb8','w8')"><label class="cb-custom" for="w8t2"></label></div><div class="topic-content"><div class="topic-name">Full vocabulary review: all themes from weeks 1–7</div><span class="cat-pill">Vocabulary Review</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w8t3" onchange="updateProgress('pb8','w8')"><label class="cb-custom" for="w8t3"></label></div><div class="topic-content"><div class="topic-name">Timed listening — 3-minute dialogue + comprehension questions</div><span class="cat-pill">Listening Practice</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w8t4" onchange="updateProgress('pb8','w8')"><label class="cb-custom" for="w8t4"></label></div><div class="topic-content"><div class="topic-name">Timed reading — short texts + fill-in comprehension</div><span class="cat-pill">Reading Practice</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w8t5" onchange="updateProgress('pb8','w8')"><label class="cb-custom" for="w8t5"></label></div><div class="topic-content"><div class="topic-name">Timed writing — personal info form + 80-word paragraph</div><span class="cat-pill">Writing Practice</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w8t6" onchange="updateProgress('pb8','w8')"><label class="cb-custom" for="w8t6"></label></div><div class="topic-content"><div class="topic-name">Mock speaking — record intro + role-play dialogue</div><span class="cat-pill">Speaking Practice</span></div></div>
+      <div class="topic-row"><div class="cb-wrap"><input type="checkbox" id="w8t7" onchange="updateProgress('pb8','w8')"><label class="cb-custom" for="w8t7"></label></div><div class="topic-content"><div class="topic-name">Final full mock test — all 4 skills in DELF A1 format</div><span class="cat-pill">Full Mock Test</span></div></div>
+    </div>
+    <div class="card-footer">
+      <span class="footer-count" id="fc8">0 of 7 completed</span>
+      <span class="footer-emoji">🏆</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  "Une langue différente est une vision différente de la vie."
+  <span>Print · Check · Repeat · Bonne chance! 🇫🇷</span>
+</div>
+
+<script>
+function updateProgress(pbId, weekPrefix) {
+  const allBoxes = document.querySelectorAll(`[id^="${weekPrefix}t"]`);
+  const checked = document.querySelectorAll(`[id^="${weekPrefix}t"]:checked`).length;
+  const total = allBoxes.length;
+  const pct = (checked / total) * 100;
+  document.getElementById(pbId).style.width = pct + '%';
+  const num = weekPrefix.replace('w', '');
+  document.getElementById('fc' + num).textContent = `${checked} of ${total} completed`;
+}
+</script>
+
+</body>
+</html>
