@@ -354,3 +354,10 @@ function buildHeatmap(containerId, log, goal) {
   }
   el.innerHTML = cells.join('');
 }
+
+function getStartDate() {
+  return localStorage.getItem('cfa_start_date') || null;
+}
+function setStartDate(d) {
+  localStorage.setItem('cfa_start_date', d);
+}
