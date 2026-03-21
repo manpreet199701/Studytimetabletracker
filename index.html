@@ -137,10 +137,14 @@
         <p id="totalDays" class="stat-sub">across 0 sessions</p>
       </div>
 
-      <div class="card fade-up delay-2">
+      <div class="card fade-up delay-2" style="cursor:pointer" onclick="window.location.href='rollover.html'">
         <p class="label">Rollover Balance</p>
         <p id="rolloverHours" class="stat-value" style="margin-top:0.5rem">—</p>
         <p id="rolloverDesc" class="stat-sub">—</p>
+        <div onclick="event.stopPropagation()" style="margin-top:0.75rem">
+          <p class="label" style="margin-bottom:0.25rem">Plan start date</p>
+          <input type="date" id="startDateInput" style="font-family:var(--mono);font-size:0.8rem;padding:0.3rem 0.5rem;border:1.5px solid var(--border);border-radius:8px;background:var(--surface2);color:var(--text)"/>
+        </div>
       </div>
 
       <div class="card fade-up delay-3" style="cursor:pointer" onclick="window.location.href='completed.html'">
