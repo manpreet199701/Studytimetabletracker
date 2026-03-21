@@ -59,39 +59,36 @@ function setStartDate(dateStr) {
 }
 
 // ── Today's Target (with rollover) ───────────────────────
-// Walks EVERY calendar day from cfa_start_date to yesterday.
-// Unlogged days count as 0h — a full day's deficit.
-// Surplus days reduce the running deficit (but never below 0).
+// Formula: rollover = max(0, days_since_start × goal − total_hours_studied)
+// today's target = goal + rollover
+//
+// "days since start" = number of full calendar days from cfa_start_date up to
+// (but not including) today. Each of those days you owed `goal` hours.
+// Total hours studied = sum of all real (non-auto) log entries in that range.
+// Surplus days correctly offset deficit days — no artificial floor per day.
 function getTodayTarget() {
   const goal      = getDailyGoal();
   const log       = getStudyLog();
   const todayStr  = today();
   const startDate = getStartDate();
 
-  if (!startDate) return goal; // no history yet
+  if (!startDate || startDate >= todayStr) return goal; // nothing to roll over yet
 
-  let deficit = 0;
-
-  // Walk noon-to-noon to avoid DST / midnight edge cases
+  // Count past days (noon-to-noon avoids DST / midnight edge cases)
   const cursor = new Date(startDate + 'T12:00:00');
-  const stopAt = new Date(todayStr  + 'T12:00:00');
+  const stopAt  = new Date(todayStr  + 'T12:00:00');
+  let dayCount  = 0;
+  while (cursor < stopAt) { dayCount++; cursor.setDate(cursor.getDate() + 1); }
 
-  while (cursor < stopAt) {
-    const ds =
-      cursor.getFullYear() + '-' +
-      String(cursor.getMonth() + 1).padStart(2, '0') + '-' +
-      String(cursor.getDate()).padStart(2, '0');
+  // Sum all real study hours in the past (before today, excluding auto entries)
+  const hoursStudied = log
+    .filter(l => l.date >= startDate && l.date < todayStr && !l.auto)
+    .reduce((sum, l) => sum + (l.hours || 0), 0);
 
-    const entry = log.find(l => l.date === ds && !l.auto);
-    const hours = entry ? entry.hours : 0; // unlogged = 0h = full deficit
+  const totalOwed  = dayCount * goal;
+  const rollover   = Math.max(0, totalOwed - hoursStudied);
 
-    deficit += (goal - hours);
-    if (deficit < 0) deficit = 0; // surplus floors at 0, can't reduce today's base goal
-
-    cursor.setDate(cursor.getDate() + 1);
-  }
-
-  return goal + deficit;
+  return goal + rollover;
 }
 
 // ── Completed Topics ─────────────────────────────────────
