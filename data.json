@@ -88,7 +88,7 @@
             },
             {
               "id": 4,
-              "name": "Summary of the 2023 Revisions"
+              "name": "Summary of the 2023 Revisions to the Code and Standards"
             },
             {
               "id": 5,
@@ -104,14 +104,22 @@
             },
             {
               "id": 8,
-              "name": "Why Ethics Matters"
+              "name": "Ethics and the Investment Industry"
             },
             {
               "id": 9,
-              "name": "The Code of Ethics"
+              "name": "Why Ethics Matters"
             },
             {
               "id": 10,
+              "name": "Preamble"
+            },
+            {
+              "id": 11,
+              "name": "The Code of Ethics"
+            },
+            {
+              "id": 12,
               "name": "Standards of Professional Conduct"
             }
           ]
@@ -130,7 +138,7 @@
             },
             {
               "id": 3,
-              "name": "I(A) Knowledge of the Law \u2013 Application"
+              "name": "I(A) Knowledge of the Law \u2013 Application of the Standard"
             },
             {
               "id": 4,
@@ -142,7 +150,7 @@
             },
             {
               "id": 6,
-              "name": "I(B) Independence and Objectivity \u2013 Application"
+              "name": "I(B) Independence and Objectivity \u2013 Application of the Standard"
             },
             {
               "id": 7,
@@ -154,7 +162,7 @@
             },
             {
               "id": 9,
-              "name": "I(C) Misrepresentation \u2013 Application"
+              "name": "I(C) Misrepresentation \u2013 Application of the Standard"
             },
             {
               "id": 10,
@@ -162,19 +170,23 @@
             },
             {
               "id": 11,
-              "name": "I(D) Misconduct \u2013 Application"
+              "name": "I(D) Misconduct \u2013 Recommended Procedures"
             },
             {
               "id": 12,
-              "name": "I(E) Competence \u2013 Guidance"
+              "name": "I(D) Misconduct \u2013 Application of the Standard"
             },
             {
               "id": 13,
-              "name": "I(E) Competence \u2013 Recommended Procedures"
+              "name": "I(E) Competence \u2013 Guidance"
             },
             {
               "id": 14,
-              "name": "I(E) Competence \u2013 Application"
+              "name": "I(E) Competence \u2013 Recommended Procedures"
+            },
+            {
+              "id": 15,
+              "name": "I(E) Competence \u2013 Application of the Standard"
             }
           ]
         },
@@ -192,7 +204,7 @@
             },
             {
               "id": 3,
-              "name": "II(A) Material Nonpublic Information \u2013 Application"
+              "name": "II(A) Material Nonpublic Information \u2013 Application of the Standard"
             },
             {
               "id": 4,
@@ -200,7 +212,7 @@
             },
             {
               "id": 5,
-              "name": "II(B) Market Manipulation \u2013 Application"
+              "name": "II(B) Market Manipulation \u2013 Application of the Standard"
             }
           ]
         },
@@ -218,7 +230,7 @@
             },
             {
               "id": 3,
-              "name": "III(A) Loyalty, Prudence, and Care \u2013 Application"
+              "name": "III(A) Loyalty, Prudence, and Care \u2013 Application of the Standard"
             },
             {
               "id": 4,
@@ -230,7 +242,7 @@
             },
             {
               "id": 6,
-              "name": "III(B) Fair Dealing \u2013 Application"
+              "name": "III(B) Fair Dealing \u2013 Application of the Standard"
             },
             {
               "id": 7,
@@ -242,7 +254,7 @@
             },
             {
               "id": 9,
-              "name": "III(C) Suitability \u2013 Application"
+              "name": "III(C) Suitability \u2013 Application of the Standard"
             },
             {
               "id": 10,
@@ -254,7 +266,7 @@
             },
             {
               "id": 12,
-              "name": "III(D) Performance Presentation \u2013 Application"
+              "name": "III(D) Performance Presentation \u2013 Application of the Standard"
             },
             {
               "id": 13,
@@ -266,7 +278,7 @@
             },
             {
               "id": 15,
-              "name": "III(E) Preservation of Confidentiality \u2013 Application"
+              "name": "III(E) Preservation of Confidentiality \u2013 Application of the Standard"
             }
           ]
         },
@@ -284,7 +296,7 @@
             },
             {
               "id": 3,
-              "name": "IV(A) Loyalty \u2013 Application"
+              "name": "IV(A) Loyalty \u2013 Application of the Standard"
             },
             {
               "id": 4,
@@ -292,25 +304,29 @@
             },
             {
               "id": 5,
-              "name": "IV(B) Additional Compensation Arrangements \u2013 Application"
+              "name": "IV(B) Additional Compensation Arrangements \u2013 Recommended Procedures"
             },
             {
               "id": 6,
-              "name": "IV(C) Responsibilities of Supervisors \u2013 Guidance"
+              "name": "IV(B) Additional Compensation Arrangements \u2013 Application of the Standard"
             },
             {
               "id": 7,
-              "name": "IV(C) Responsibilities of Supervisors \u2013 Recommended Procedures"
+              "name": "IV(C) Responsibilities of Supervisors \u2013 Guidance"
             },
             {
               "id": 8,
-              "name": "IV(C) Responsibilities of Supervisors \u2013 Application"
+              "name": "IV(C) Responsibilities of Supervisors \u2013 Recommended Procedures"
+            },
+            {
+              "id": 9,
+              "name": "IV(C) Responsibilities of Supervisors \u2013 Application of the Standard"
             }
           ]
         },
         {
           "id": 107,
-          "name": "LM 3 \u2013 Standard V: Investment Analysis, Recommendations & Actions",
+          "name": "LM 3 \u2013 Standard V: Investment Analysis, Recommendations, and Actions",
           "subtopics": [
             {
               "id": 1,
@@ -322,19 +338,19 @@
             },
             {
               "id": 3,
-              "name": "V(A) Diligence and Reasonable Basis \u2013 Application"
+              "name": "V(A) Diligence and Reasonable Basis \u2013 Application of the Standard"
             },
             {
               "id": 4,
-              "name": "V(B) Communication with Clients \u2013 Guidance"
+              "name": "V(B) Communication with Clients and Prospective Clients \u2013 Guidance"
             },
             {
               "id": 5,
-              "name": "V(B) Communication with Clients \u2013 Recommended Procedures"
+              "name": "V(B) Communication with Clients and Prospective Clients \u2013 Recommended Procedures"
             },
             {
               "id": 6,
-              "name": "V(B) Communication with Clients \u2013 Application"
+              "name": "V(B) Communication with Clients and Prospective Clients \u2013 Application of the Standard"
             },
             {
               "id": 7,
@@ -346,7 +362,7 @@
             },
             {
               "id": 9,
-              "name": "V(C) Record Retention \u2013 Application"
+              "name": "V(C) Record Retention \u2013 Application of the Standard"
             }
           ]
         },
@@ -360,7 +376,7 @@
             },
             {
               "id": 2,
-              "name": "VI(A) Avoid or Disclose Conflicts \u2013 Application"
+              "name": "VI(A) Avoid or Disclose Conflicts \u2013 Application of the Standard"
             },
             {
               "id": 3,
@@ -372,7 +388,7 @@
             },
             {
               "id": 5,
-              "name": "VI(B) Priority of Transactions \u2013 Application"
+              "name": "VI(B) Priority of Transactions \u2013 Application of the Standard"
             },
             {
               "id": 6,
@@ -384,7 +400,7 @@
             },
             {
               "id": 8,
-              "name": "VI(C) Referral Fees \u2013 Application"
+              "name": "VI(C) Referral Fees \u2013 Application of the Standard"
             }
           ]
         },
@@ -394,23 +410,23 @@
           "subtopics": [
             {
               "id": 1,
-              "name": "VII(A) Conduct as Participants \u2013 Guidance"
+              "name": "VII(A) Conduct as Participants in CFA Institute Programs \u2013 Guidance"
             },
             {
               "id": 2,
-              "name": "VII(A) Conduct as Participants \u2013 Application"
+              "name": "VII(A) Conduct as Participants in CFA Institute Programs \u2013 Application of the Standard"
             },
             {
               "id": 3,
-              "name": "VII(B) Reference to CFA Institute, CFA Designation \u2013 Guidance"
+              "name": "VII(B) Reference to CFA Institute, the CFA Designation, and the CFA Program \u2013 Guidance"
             },
             {
               "id": 4,
-              "name": "VII(B) Reference to CFA Institute, CFA Designation \u2013 Recommended Procedures"
+              "name": "VII(B) Reference to CFA Institute, the CFA Designation \u2013 Recommended Procedures"
             },
             {
               "id": 5,
-              "name": "VII(B) Reference to CFA Institute, CFA Designation \u2013 Application"
+              "name": "VII(B) Reference to CFA Institute, the CFA Designation \u2013 Application of the Standard"
             }
           ]
         },
@@ -454,95 +470,99 @@
           "subtopics": [
             {
               "id": 1,
-              "name": "Professionalism: Knowledge of the Law"
+              "name": "Introduction"
             },
             {
               "id": 2,
-              "name": "Professionalism: Independence and Objectivity"
+              "name": "Professionalism: Knowledge of the Law"
             },
             {
               "id": 3,
-              "name": "Professionalism: Misrepresentation"
+              "name": "Professionalism: Independence and Objectivity"
             },
             {
               "id": 4,
-              "name": "Professionalism: Misconduct"
+              "name": "Professionalism: Misrepresentation"
             },
             {
               "id": 5,
-              "name": "Professionalism: Competence"
+              "name": "Professionalism: Misconduct"
             },
             {
               "id": 6,
-              "name": "Integrity of Capital Markets: Material Nonpublic Information"
+              "name": "Professionalism: Competence"
             },
             {
               "id": 7,
-              "name": "Integrity of Capital Markets: Market Manipulation"
+              "name": "Integrity of Capital Markets: Material Nonpublic Information"
             },
             {
               "id": 8,
-              "name": "Duties to Clients: Loyalty, Prudence, and Care"
+              "name": "Integrity of Capital Markets: Market Manipulation"
             },
             {
               "id": 9,
-              "name": "Duties to Clients: Fair Dealing"
+              "name": "Duties to Clients: Loyalty, Prudence, and Care"
             },
             {
               "id": 10,
-              "name": "Duties to Clients: Suitability"
+              "name": "Duties to Clients: Fair Dealing"
             },
             {
               "id": 11,
-              "name": "Duties to Clients: Performance Presentation"
+              "name": "Duties to Clients: Suitability"
             },
             {
               "id": 12,
-              "name": "Duties to Clients: Preservation of Confidentiality"
+              "name": "Duties to Clients: Performance Presentation"
             },
             {
               "id": 13,
-              "name": "Duties to Employers: Loyalty"
+              "name": "Duties to Clients: Preservation of Confidentiality"
             },
             {
               "id": 14,
-              "name": "Duties to Employers: Additional Compensation Arrangements"
+              "name": "Duties to Employers: Loyalty"
             },
             {
               "id": 15,
-              "name": "Duties to Employers: Responsibilities of Supervisors"
+              "name": "Duties to Employers: Additional Compensation Arrangements"
             },
             {
               "id": 16,
-              "name": "Investment Analysis: Diligence and Reasonable Basis"
+              "name": "Duties to Employers: Responsibilities of Supervisors"
             },
             {
               "id": 17,
-              "name": "Investment Analysis: Communication with Clients"
+              "name": "Investment Analysis: Diligence and Reasonable Basis"
             },
             {
               "id": 18,
-              "name": "Investment Analysis: Record Retention"
+              "name": "Investment Analysis: Communication with Clients and Prospective Clients"
             },
             {
               "id": 19,
-              "name": "Conflicts of Interest: Avoid or Disclose Conflicts"
+              "name": "Investment Analysis: Record Retention"
             },
             {
               "id": 20,
-              "name": "Conflicts of Interest: Priority of Transactions"
+              "name": "Conflicts of Interest: Avoid or Disclose Conflicts"
             },
             {
               "id": 21,
-              "name": "Conflicts of Interest: Referral Fees"
+              "name": "Conflicts of Interest: Priority of Transactions"
             },
             {
               "id": 22,
-              "name": "CFA Member/Candidate: Conduct as Participants"
+              "name": "Conflicts of Interest: Referral Fees"
             },
             {
               "id": 23,
-              "name": "CFA Member/Candidate: Reference to CFA Designation"
+              "name": "Responsibilities as CFA Member/Candidate: Conduct as Participants"
+            },
+            {
+              "id": 24,
+              "name": "Responsibilities as CFA Member/Candidate: Reference to CFA Designation"
             }
           ]
         }
@@ -3416,7 +3436,289 @@
       "shortName": "Derivatives",
       "color": "#FF5722",
       "icon": "\ud83d\udd01",
-      "topics": []
+      "topics": [],
+      "customChapters": [
+        {
+          "id": 901,
+          "name": "LM 1 \u2013 Derivative Instrument and Derivative Market Features",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Definition and Features of a Derivative"
+            },
+            {
+              "id": 3,
+              "name": "Derivative Underlyings: Equities, Fixed-Income, Currencies"
+            },
+            {
+              "id": 4,
+              "name": "Derivative Underlyings: Commodities, Credit, Other"
+            },
+            {
+              "id": 5,
+              "name": "Investor Scenarios"
+            },
+            {
+              "id": 6,
+              "name": "Over-the-Counter (OTC) Derivative Markets"
+            },
+            {
+              "id": 7,
+              "name": "Exchange-Traded Derivative (ETD) Markets"
+            },
+            {
+              "id": 8,
+              "name": "Central Clearing"
+            }
+          ]
+        },
+        {
+          "id": 902,
+          "name": "LM 2 \u2013 Forward Commitment and Contingent Claim Features and Instruments",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Forwards, Futures, and Swaps"
+            },
+            {
+              "id": 3,
+              "name": "Futures"
+            },
+            {
+              "id": 4,
+              "name": "Swaps"
+            },
+            {
+              "id": 5,
+              "name": "Options: Scenario 1 (ST > X) and Scenario 2 (ST < X)"
+            },
+            {
+              "id": 6,
+              "name": "Credit Derivatives"
+            },
+            {
+              "id": 7,
+              "name": "Forward Commitments vs. Contingent Claims"
+            }
+          ]
+        },
+        {
+          "id": 903,
+          "name": "LM 3 \u2013 Derivative Benefits, Risks, and Issuer and Investor Uses",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Derivative Benefits"
+            },
+            {
+              "id": 3,
+              "name": "Derivative Risks"
+            },
+            {
+              "id": 4,
+              "name": "Issuer Use of Derivatives"
+            },
+            {
+              "id": 5,
+              "name": "Investor Use of Derivatives"
+            }
+          ]
+        },
+        {
+          "id": 904,
+          "name": "LM 4 \u2013 Arbitrage, Replication, and the Cost of Carry in Pricing Derivatives",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Arbitrage"
+            },
+            {
+              "id": 3,
+              "name": "Replication"
+            },
+            {
+              "id": 4,
+              "name": "Costs and Benefits Associated with Owning the Underlying"
+            }
+          ]
+        },
+        {
+          "id": 905,
+          "name": "LM 5 \u2013 Pricing and Valuation of Forward Contracts",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Pricing versus Valuation of Forward Contracts"
+            },
+            {
+              "id": 3,
+              "name": "Pricing and Valuation of Interest Rate Forward Contracts"
+            }
+          ]
+        },
+        {
+          "id": 906,
+          "name": "LM 6 \u2013 Pricing and Valuation of Futures Contracts",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Pricing of Futures Contracts at Inception"
+            },
+            {
+              "id": 3,
+              "name": "MTM Valuation: Forwards versus Futures"
+            },
+            {
+              "id": 4,
+              "name": "Interest Rate Futures versus Forward Contracts"
+            },
+            {
+              "id": 5,
+              "name": "Forward and Futures Price Differences"
+            },
+            {
+              "id": 6,
+              "name": "Interest Rate Forward and Futures Price Differences"
+            },
+            {
+              "id": 7,
+              "name": "Effect of Central Clearing of OTC Derivatives"
+            }
+          ]
+        },
+        {
+          "id": 907,
+          "name": "LM 7 \u2013 Pricing and Valuation of Interest Rates and Other Swaps",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Swaps vs. Forwards"
+            },
+            {
+              "id": 3,
+              "name": "Swap Values and Prices"
+            }
+          ]
+        },
+        {
+          "id": 908,
+          "name": "LM 8 \u2013 Pricing and Valuation of Options",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Option Exercise Value"
+            },
+            {
+              "id": 3,
+              "name": "Option Moneyness"
+            },
+            {
+              "id": 4,
+              "name": "Option Time Value"
+            },
+            {
+              "id": 5,
+              "name": "Arbitrage and Replication"
+            },
+            {
+              "id": 6,
+              "name": "Value of the Underlying and Exercise Price"
+            },
+            {
+              "id": 7,
+              "name": "Time to Expiration and Risk-Free Interest Rate"
+            },
+            {
+              "id": 8,
+              "name": "Volatility of the Underlying"
+            },
+            {
+              "id": 9,
+              "name": "Income or Cost Related to Owning Underlying Asset"
+            }
+          ]
+        },
+        {
+          "id": 909,
+          "name": "LM 9 \u2013 Option Replication Using Put\u2013Call Parity",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Put\u2013Call Parity"
+            },
+            {
+              "id": 3,
+              "name": "Option Strategies Based on Put\u2013Call Parity"
+            },
+            {
+              "id": 4,
+              "name": "Put\u2013Call Forward Parity"
+            },
+            {
+              "id": 5,
+              "name": "Option Put\u2013Call Parity Applications: Firm Value"
+            }
+          ]
+        },
+        {
+          "id": 910,
+          "name": "LM 10 \u2013 Valuing a Derivative Using a One-Period Binomial Model",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "The Binomial Model"
+            },
+            {
+              "id": 3,
+              "name": "Pricing a European Call Option"
+            },
+            {
+              "id": 4,
+              "name": "Risk Neutrality"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": 9,
@@ -3424,7 +3726,303 @@
       "shortName": "Alternatives",
       "color": "#009688",
       "icon": "\ud83c\udfdb\ufe0f",
-      "topics": []
+      "topics": [],
+      "customChapters": [
+        {
+          "id": 1001,
+          "name": "LM 1 \u2013 Alternative Investment Features, Methods, and Structures",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Alternative Investments: Features and Categories"
+            },
+            {
+              "id": 3,
+              "name": "Private Capital"
+            },
+            {
+              "id": 4,
+              "name": "Real Assets"
+            },
+            {
+              "id": 5,
+              "name": "Hedge Funds"
+            },
+            {
+              "id": 6,
+              "name": "Fund Investment"
+            },
+            {
+              "id": 7,
+              "name": "Co-Investment"
+            },
+            {
+              "id": 8,
+              "name": "Direct Investment"
+            },
+            {
+              "id": 9,
+              "name": "Ownership Structures"
+            },
+            {
+              "id": 10,
+              "name": "Compensation Structures"
+            }
+          ]
+        },
+        {
+          "id": 1002,
+          "name": "LM 2 \u2013 Alternative Investment Performance and Returns",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Alternative Investment Performance Appraisal"
+            },
+            {
+              "id": 3,
+              "name": "Comparability with Traditional Asset Classes"
+            },
+            {
+              "id": 4,
+              "name": "Performance Appraisal and Alternative Investment Features"
+            },
+            {
+              "id": 5,
+              "name": "Alternative Investment Return Calculations"
+            },
+            {
+              "id": 6,
+              "name": "Relative Alternative Investment Returns and Survivorship Bias"
+            }
+          ]
+        },
+        {
+          "id": 1003,
+          "name": "LM 3 \u2013 Investments in Private Capital: Equity and Debt",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Private Equity Investment Categories"
+            },
+            {
+              "id": 3,
+              "name": "Private Equity Exit Strategies"
+            },
+            {
+              "id": 4,
+              "name": "Risk\u2013Return from Private Equity Investments"
+            },
+            {
+              "id": 5,
+              "name": "Private Debt Categories"
+            },
+            {
+              "id": 6,
+              "name": "Risk\u2013Return of Private Debt"
+            },
+            {
+              "id": 7,
+              "name": "Diversification Benefits of Private Capital"
+            }
+          ]
+        },
+        {
+          "id": 1004,
+          "name": "LM 4 \u2013 Real Estate and Infrastructure",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Real Estate Investments"
+            },
+            {
+              "id": 3,
+              "name": "Real Estate Investment Structures"
+            },
+            {
+              "id": 4,
+              "name": "Real Estate Investment Characteristics"
+            },
+            {
+              "id": 5,
+              "name": "Source of Returns"
+            },
+            {
+              "id": 6,
+              "name": "Real Estate Investment Diversification Benefits"
+            },
+            {
+              "id": 7,
+              "name": "Infrastructure Investments"
+            },
+            {
+              "id": 8,
+              "name": "Infrastructure Investment Characteristics"
+            },
+            {
+              "id": 9,
+              "name": "Infrastructure Diversification Benefits"
+            }
+          ]
+        },
+        {
+          "id": 1005,
+          "name": "LM 5 \u2013 Natural Resources",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Land Investments vs. Real Estate"
+            },
+            {
+              "id": 3,
+              "name": "Features and Forms of Farmland and Timberland Investment"
+            },
+            {
+              "id": 4,
+              "name": "Commodity Investment Forms"
+            },
+            {
+              "id": 5,
+              "name": "Distinguishing Characteristics of Commodity Investments"
+            },
+            {
+              "id": 6,
+              "name": "Basics of Commodity Pricing"
+            },
+            {
+              "id": 7,
+              "name": "Natural Resource Investment Risk, Return, and Diversification"
+            },
+            {
+              "id": 8,
+              "name": "Inflation Hedging and Diversification Benefits"
+            }
+          ]
+        },
+        {
+          "id": 1006,
+          "name": "LM 6 \u2013 Hedge Funds",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Hedge Fund Investment Features"
+            },
+            {
+              "id": 3,
+              "name": "Equity Hedge Fund Strategies"
+            },
+            {
+              "id": 4,
+              "name": "Event-Driven Strategies"
+            },
+            {
+              "id": 5,
+              "name": "Relative Value Strategies"
+            },
+            {
+              "id": 6,
+              "name": "Opportunistic Strategies"
+            },
+            {
+              "id": 7,
+              "name": "Distinguishing Characteristics of Hedge Fund Investments"
+            },
+            {
+              "id": 8,
+              "name": "Direct Hedge Fund Investment Forms"
+            },
+            {
+              "id": 9,
+              "name": "Indirect Hedge Fund Investment Forms"
+            },
+            {
+              "id": 10,
+              "name": "Hedge Fund Investment Risks and Returns"
+            },
+            {
+              "id": 11,
+              "name": "Diversification Benefits of Hedge Fund Investments"
+            }
+          ]
+        },
+        {
+          "id": 1007,
+          "name": "LM 7 \u2013 Introduction to Digital Assets",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Distributed Ledger Technology"
+            },
+            {
+              "id": 3,
+              "name": "Proof of Work vs. Proof of Stake"
+            },
+            {
+              "id": 4,
+              "name": "Permissioned and Permissionless Networks"
+            },
+            {
+              "id": 5,
+              "name": "Types of Digital Assets"
+            },
+            {
+              "id": 6,
+              "name": "Distinguishing Characteristics of Digital Assets"
+            },
+            {
+              "id": 7,
+              "name": "Investible Digital Assets"
+            },
+            {
+              "id": 8,
+              "name": "Direct Digital Asset Investment Forms"
+            },
+            {
+              "id": 9,
+              "name": "Indirect Digital Asset Investment Forms"
+            },
+            {
+              "id": 10,
+              "name": "Digital Forms of Investment for Non-Digital Assets"
+            },
+            {
+              "id": 11,
+              "name": "Digital Asset Investment Risks and Returns"
+            },
+            {
+              "id": 12,
+              "name": "Diversification Benefits of Digital Asset Investments"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": 10,
