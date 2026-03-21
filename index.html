@@ -80,7 +80,7 @@
     <a href="subjects.html">Subjects</a>
     <a href="sync.html">Sync</a>
     <a href="french.html">French</a>
-    <a href="login.html" id="loginLink">Profile</a>
+    <a href="login.html" id="loginLink">Login</a>
   </div>
 </nav>
 
@@ -125,6 +125,10 @@
 
       <div class="log-controls">
         <button class="btn btn-primary" id="logBtn">Log Hours</button>
+        <div style="display:flex;flex-direction:column;gap:0.25rem;margin-left:auto">
+          <p class="label" style="margin:0">Plan start date</p>
+          <input type="date" id="startDateInput" style="font-family:var(--mono);font-size:0.85rem;padding:0.35rem 0.6rem;border:1.5px solid var(--border);border-radius:8px;background:var(--surface2);color:var(--text);cursor:pointer" title="Set the date you began your study plan — rollover is calculated from here"/>
+        </div>
       </div>
     </div>
 
@@ -215,6 +219,9 @@ currentCalendarMonth.setDate(1); // Start at Feb 1, 2025
 
 async function init() {
   DATA = await loadData();
+  // Populate start date input
+  const sd = getStartDate();
+  if (sd) document.getElementById('startDateInput').value = sd;
   renderAll();
 }
 
@@ -263,9 +270,10 @@ function renderAll() {
     banner.style.display = 'none';
   }
 
-  // Totals
-  const totalH = log.reduce((s, l) => s + l.hours, 0);
-  const sessionCount = log.filter(l => !l.auto).length;
+  // Totals — exclude auto-generated rollover entries so hours + sessions are consistent
+  const realEntries = log.filter(l => !l.auto);
+  const totalH = realEntries.reduce((s, l) => s + l.hours, 0);
+  const sessionCount = realEntries.length;
   document.getElementById('totalHours').textContent = totalH.toFixed(1) + 'h';
   document.getElementById('totalDays').textContent = `across ${sessionCount} session${sessionCount !== 1 ? 's' : ''}`;
 
@@ -276,12 +284,12 @@ function renderAll() {
   document.getElementById('topicsDone').textContent = doneTopics;
   document.getElementById('topicsTotal').textContent = `of ${totalTopics} total topics`;
 
-  // Streak
+  // Streak — uses local date to avoid UTC off-by-one in IST and similar timezones
   let streak = 0;
   const g = getDailyGoal();
   const d = new Date();
   while(true) {
-    const ds = d.toISOString().split('T')[0];
+    const ds = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
     const h = getHoursForDate(ds);
     if (h >= g) { streak++; d.setDate(d.getDate()-1); }
     else break;
@@ -448,6 +456,13 @@ document.getElementById('prevMonth').addEventListener('click', () => {
 document.getElementById('nextMonth').addEventListener('click', () => {
   currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() + 1);
   renderCalendar(getStudyLog(), getDailyGoal());
+});
+
+document.getElementById('startDateInput').addEventListener('change', (e) => {
+  if (e.target.value) {
+    setStartDate(e.target.value);
+    renderAll();
+  }
 });
 
 init();
