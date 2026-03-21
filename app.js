@@ -100,10 +100,19 @@ function saveCompleted(obj) {
 }
 
 // ── Subject Topic Counters ───────────────────────────────
-// Handles both built-in subjects (topics[]) and custom subjects (customChapters[])
+// Rules:
+//   - Built-in subject (isCustom=false, has topics[]): only count topics[].
+//     subject.html renders ONLY topics[] for built-in subjects and returns early,
+//     so any customChapters on a built-in subject are invisible and uncountable.
+//   - Custom subject (isCustom=true, no topics[]): count customChapters subtopics.
+//   - If a subject has neither, count = 0.
 function countSubtopics(subject) {
+  // Built-in subject: has real topics[] — only count those
+  if (Array.isArray(subject.topics) && subject.topics.length > 0) {
+    return subject.topics.length;
+  }
+  // Custom subject: count all subtopics inside customChapters
   let n = 0;
-  if (Array.isArray(subject.topics)) n += subject.topics.length;
   if (Array.isArray(subject.customChapters)) {
     subject.customChapters.forEach(ch => {
       n += (ch.subtopics || []).length;
@@ -111,14 +120,17 @@ function countSubtopics(subject) {
   }
   return n;
 }
+
 function countCompletedSubtopics(subject, completed) {
-  let n = 0;
-  if (Array.isArray(subject.topics)) {
-    subject.topics.forEach(t => {
+  // Built-in subject: only check topics[] keys
+  if (Array.isArray(subject.topics) && subject.topics.length > 0) {
+    return subject.topics.filter(t => {
       const v = completed[`s${subject.id}_t${t.id}`];
-      if (v && v !== false) n++;
-    });
+      return v && v !== false;
+    }).length;
   }
+  // Custom subject: check customChapters subtopic keys
+  let n = 0;
   if (Array.isArray(subject.customChapters)) {
     subject.customChapters.forEach(ch => {
       (ch.subtopics || []).forEach(st => {
