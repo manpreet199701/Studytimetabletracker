@@ -42,17 +42,17 @@ function saveDailyGoal(val) {
 }
 
 // ── Start Date ───────────────────────────────────────────
-// The date the user started their study plan. All rollover is counted from here.
-// Stored in localStorage as 'cfa_start_date' (YYYY-MM-DD).
-// If not set, falls back to first log entry (so old data still works).
+// Recorded automatically the very first time the app loads.
+// Never overwritten — so Day 1 is always Day 1.
+// Can be manually corrected via the date picker on the dashboard.
 function getStartDate() {
-  const stored = localStorage.getItem('cfa_start_date');
+  let stored = localStorage.getItem('cfa_start_date');
   if (stored) return stored;
-  // Fallback: earliest log entry
-  const log = getStudyLog();
-  const todayStr = today();
-  const dates = log.map(l => l.date).filter(d => d < todayStr).sort();
-  return dates.length ? dates[0] : null;
+
+  // First time ever: auto-set to today and save it permanently
+  const t = today();
+  localStorage.setItem('cfa_start_date', t);
+  return t;
 }
 function setStartDate(dateStr) {
   localStorage.setItem('cfa_start_date', dateStr);
