@@ -87,6 +87,17 @@
 <div class="page">
   <!-- ROLLOVER ALERT -->
   <div id="rolloverBanner" class="rollover-alert delay-1 fade-up" style="display:none"></div>
+  <div id="examCountdown" style="display:none;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:1rem 1.5rem;margin-bottom:1rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+    <div style="font-size:2.5rem;font-weight:700;font-family:var(--mono);color:var(--accent)" id="countdownDays">—</div>
+    <div>
+      <p style="font-weight:700;font-size:0.95rem;margin:0">Days to your CFA Exam</p>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin:0.2rem 0 0" id="countdownExamDate">Set your exam date in the Rollover card below</p>
+    </div>
+    <div style="margin-left:auto;text-align:right">
+      <p style="font-size:0.75rem;color:var(--text-muted);margin:0">Daily goal</p>
+      <p style="font-family:var(--mono);font-weight:700;font-size:1.1rem;margin:0.1rem 0 0;color:var(--text)" id="countdownGoalNeeded">—</p>
+    </div>
+  </div>
 
   <!-- HERO GRID -->
   <div class="dashboard-hero">
@@ -144,6 +155,8 @@
         <div onclick="event.stopPropagation()" style="margin-top:0.75rem">
           <p class="label" style="margin-bottom:0.25rem">Plan start date</p>
           <input type="date" id="startDateInput" style="font-family:var(--mono);font-size:0.8rem;padding:0.3rem 0.5rem;border:1.5px solid var(--border);border-radius:8px;background:var(--surface2);color:var(--text)"/>
+          <p class="label" style="margin-bottom:0.25rem;margin-top:0.5rem">Exam end date</p>
+          <input type="date" id="endDateInput" style="font-family:var(--mono);font-size:0.8rem;padding:0.3rem 0.5rem;border:1.5px solid var(--border);border-radius:8px;background:var(--surface2);color:var(--text)"/>
         </div>
       </div>
 
@@ -217,14 +230,37 @@ let DATA = { subjects: [] };
 let currentCalendarMonth = new Date();
 currentCalendarMonth.setDate(1); // Start at Feb 1, 2025
 
+function getEndDate() {
+  return localStorage.getItem('cfa_end_date') || null;
+}
+function setEndDate(d) {
+  localStorage.setItem('cfa_end_date', d);
+}
+
+function renderCountdown() {
+  const endDate = getEndDate();
+  const banner = document.getElementById('examCountdown');
+  if (!endDate) { banner.style.display = 'none'; return; }
+  const todayD = new Date(); todayD.setHours(0,0,0,0);
+  const examD  = new Date(endDate + 'T00:00:00');
+  const days   = Math.ceil((examD - todayD) / (1000*60*60*24));
+  banner.style.display = 'flex';
+  document.getElementById('countdownDays').textContent = days > 0 ? days : 0;
+  document.getElementById('countdownExamDate').textContent =
+    'Exam: ' + examD.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  if (days > 0) {
+    const totalStudied = getStudyLog().reduce((s,l) => s + (l.hours||0), 0);
+    const hoursNeeded  = Math.max(0, days * getDailyGoal() - totalStudied);
+    document.getElementById('countdownGoalNeeded').textContent = hoursNeeded.toFixed(0) + 'h still needed';
+  } else {
+    document.getElementById('countdownGoalNeeded').textContent = days === 0 ? '🎯 Exam day!' : '✅ Exam passed';
+  }
+}
+
 async function init() {
   DATA = await loadData();
-
-  // Restore saved start date into the dashboard card input
-  const saved = getStartDate();
-  const sdInput = document.getElementById('startDateInput');
-  if (sdInput && saved) sdInput.value = saved;
-
+  const sd = getStartDate(); if (sd) { const el = document.getElementById('startDateInput'); if(el) el.value = sd; }
+  const ed = getEndDate();   if (ed) { const el = document.getElementById('endDateInput');   if(el) el.value = ed; }
   renderAll();
 }
 
@@ -297,6 +333,12 @@ function renderAll() {
     else break;
   }
   document.getElementById('streakBadge').textContent = streak > 1 ? `🔥 ${streak} day streak` : '';
+
+  // Countdown
+  renderCountdown();
+
+  // Countdown banner
+  renderCountdown();
 
   // Heatmap
   buildHeatmap('heatmap', log, goal);
@@ -460,13 +502,13 @@ document.getElementById('nextMonth').addEventListener('click', () => {
   renderCalendar(getStudyLog(), getDailyGoal());
 });
 
-// Save start date when changed from the dashboard card
-const sdInput = document.getElementById('startDateInput');
-if (sdInput) {
-  sdInput.addEventListener('change', e => {
-    if (e.target.value) setStartDate(e.target.value);
-  });
-}
+// Start date
+const _sdEl = document.getElementById('startDateInput');
+if (_sdEl) _sdEl.addEventListener('change', e => { if(e.target.value){ setStartDate(e.target.value); } });
+
+// End date
+const _edEl = document.getElementById('endDateInput');
+if (_edEl) _edEl.addEventListener('change', e => { if(e.target.value){ setEndDate(e.target.value); renderCountdown(); } });
 
 init();
 </script>
