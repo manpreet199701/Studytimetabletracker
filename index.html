@@ -219,6 +219,12 @@ currentCalendarMonth.setDate(1); // Start at Feb 1, 2025
 
 async function init() {
   DATA = await loadData();
+
+  // Restore saved start date into the dashboard card input
+  const saved = getStartDate();
+  const sdInput = document.getElementById('startDateInput');
+  if (sdInput && saved) sdInput.value = saved;
+
   renderAll();
 }
 
@@ -453,6 +459,14 @@ document.getElementById('nextMonth').addEventListener('click', () => {
   currentCalendarMonth.setMonth(currentCalendarMonth.getMonth() + 1);
   renderCalendar(getStudyLog(), getDailyGoal());
 });
+
+// Save start date when changed from the dashboard card
+const sdInput = document.getElementById('startDateInput');
+if (sdInput) {
+  sdInput.addEventListener('change', e => {
+    if (e.target.value) setStartDate(e.target.value);
+  });
+}
 
 init();
 </script>
