@@ -1,343 +1,371 @@
-const KEYS = {
-  studyLog: 'cfa_study_log',
-  dailyGoal: 'cfa_daily_goal',
-  completed: 'cfa_completed',
-};
+// app.js — shared helpers for Study Time Table Tracker
+// Provides: data helpers, nav, heatmap, subject counters
 
-// Queue a cloud sync if the helper is available (set by firebase-sync.js)
-function queueSync(reason = 'change') {
-  if (window.queueCloudSync) window.queueCloudSync(reason);
-}
-
+// ── Date ─────────────────────────────────────────────────
 function today() {
   return new Date().toISOString().split('T')[0];
 }
+
+// ── Study Log ────────────────────────────────────────────
 function getStudyLog() {
-  return JSON.parse(localStorage.getItem(KEYS.studyLog) || '[]');
-}
-function applyEntryMetrics(entry, goal) {
-  const hours = Number(entry.hours || 0);
-  const missed = Math.max(0, goal - hours);
-  entry.missed = missed;
-  entry.rollover = goal - hours;
+  return JSON.parse(localStorage.getItem('cfa_study_log') || '[]');
 }
 function saveStudyLog(log) {
-  localStorage.setItem(KEYS.studyLog, JSON.stringify(log));
-  queueSync('study-log');
+  localStorage.setItem('cfa_study_log', JSON.stringify(log));
 }
-function getDailyGoal() {
-  return parseFloat(localStorage.getItem(KEYS.dailyGoal) || '3');
+function getHoursForDate(dateStr) {
+  const entry = getStudyLog().find(l => l.date === dateStr);
+  return entry ? entry.hours : 0;
 }
-function saveDailyGoal(g) {
-  localStorage.setItem(KEYS.dailyGoal, g.toString());
-  queueSync('daily-goal');
-}
-function getCompleted() {
-  return JSON.parse(localStorage.getItem(KEYS.completed) || '{}');
-}
-function saveCompleted(c) {
-  localStorage.setItem(KEYS.completed, JSON.stringify(c));
-  queueSync('completed');
-}
-function toggleCompleted(subjectId, topicId) {
-  const c = getCompleted();
-  const key = `s${subjectId}_t${topicId}`;
-  c[key] = c[key] ? false : today();
-  saveCompleted(c);
-  return c[key];
-}
-function isCompleted(subjectId, topicId) {
-  return !!getCompleted()[`s${subjectId}_t${topicId}`];
-}
-function logHoursForDate(date, hours) {
+function logHoursForDate(dateStr, hours) {
   const log = getStudyLog();
-  const existing = log.find(l => l.date === date);
-  const goal = getDailyGoal();
-  if (existing) {
-    existing.hours = hours;
-    existing.auto = false;
-    if (!Array.isArray(existing.topics)) existing.topics = [];
-    applyEntryMetrics(existing, goal);
+  const idx = log.findIndex(l => l.date === dateStr);
+  if (idx !== -1) {
+    log[idx].hours = hours;
   } else {
-    const entry = { date, hours, topics: [], auto: false };
-    applyEntryMetrics(entry, goal);
-    log.push(entry);
+    log.push({ date: dateStr, hours });
   }
-  log.sort((a, b) => a.date.localeCompare(b.date));
   saveStudyLog(log);
 }
 
-// Remove any auto-filled entries so missing days don't affect rollover.
-function purgeAutoEntries() {
-  const log = getStudyLog();
-  const filtered = log.filter(l => !(l && l.auto));
-  if (filtered.length !== log.length) {
-    saveStudyLog(filtered);
-  }
+// ── Daily Goal ───────────────────────────────────────────
+function getDailyGoal() {
+  return parseFloat(localStorage.getItem('cfa_daily_goal') || '3');
+}
+function saveDailyGoal(val) {
+  localStorage.setItem('cfa_daily_goal', String(val));
 }
 
-function enrichStudyLogWithMetrics() {
-  const goal = getDailyGoal();
-  const log = getStudyLog();
-  let changed = false;
-  log.forEach(entry => {
-    if (!entry || !entry.date) return;
-    if (!Array.isArray(entry.topics)) { entry.topics = []; changed = true; }
-    const beforeMissed = entry.missed;
-    const beforeRollover = entry.rollover;
-    applyEntryMetrics(entry, goal);
-    if (beforeMissed !== entry.missed || beforeRollover !== entry.rollover) changed = true;
-  });
-  if (changed) saveStudyLog(log);
-  return log;
-}
-
-// Backfill missing days (as 0h) so rollover + calendar show gaps consistently.
-// Only fills up to the past year, and only if there is at least one entry already.
-function getHoursForDate(date) {
-  const log = getStudyLog();
-  const entry = log.find(l => l.date === date);
-  return entry ? entry.hours : 0;
-}
+// ── Today's Target (with rollover) ───────────────────────
+// Looks at all past days since the last fully-met day and adds any deficit.
 function getTodayTarget() {
   const goal = getDailyGoal();
-  const log = getStudyLog();
+  const log  = getStudyLog();
   const todayStr = today();
   let deficit = 0;
-  log.filter(l => l.date < todayStr && !l.auto).forEach(l => { deficit += (goal - l.hours); });
-  return Math.max(0, goal + deficit);
-}
-function progressRing(pct, color, size = 80, stroke = 7) {
-  const r = (size - stroke * 2) / 2;
-  const circ = 2 * Math.PI * r;
-  const offset = circ - (Math.min(pct, 100) / 100) * circ;
-  return `<svg width="${size}" height="${size}" style="transform:rotate(-90deg)">
-    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--surface2)" stroke-width="${stroke}"/>
-    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}"
-      stroke-dasharray="${circ}" stroke-dashoffset="${offset}" stroke-linecap="round"
-      style="transition:stroke-dashoffset 0.6s ease"/>
-  </svg>`;
-}
-async function loadData(options = {}) {
-  const includeHidden = options && options.includeHidden === true;
-  try {
-    const res = await fetch('data.json');
-    if (!res.ok) throw new Error('Failed to load data.json');
-    const data = await res.json();
-    const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
-    const customIds = new Set(customSubjects.map(s => s.id));
-    data.subjects = [...data.subjects, ...customSubjects];
-    const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
-    data.subjects.forEach(subject => {
-      const overlay = customOverlay[subject.id] || null;
-      subject.isCustom = customIds.has(subject.id);
-      subject.isHidden = !!(overlay && overlay.hidden);
-      if (overlay) {
-        if (overlay.name) subject.name = overlay.name;
-        if (overlay.shortName) subject.shortName = overlay.shortName;
-        if (overlay.icon) subject.icon = overlay.icon;
-        if (overlay.color) subject.color = overlay.color;
-        if (overlay.chapters) subject.customChapters = overlay.chapters;
-      }
-    });
-    if (!includeHidden) {
-      data.subjects = data.subjects.filter(s => !s.isHidden);
+
+  // Walk backwards through all logged dates before today
+  const pastEntries = log
+    .filter(l => l.date < todayStr && !l.auto)
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  for (const entry of pastEntries) {
+    const shortfall = goal - entry.hours;
+    if (shortfall > 0) {
+      deficit += shortfall;
+    } else {
+      // Surplus cancels deficit
+      deficit = Math.max(0, deficit + shortfall);
     }
-    return data;
-  } catch (e) {
-    console.error('Could not load data.json:', e);
-    const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
-    const customOverlay = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
-    const subjects = customSubjects.map(subject => {
-      const overlay = customOverlay[subject.id] || null;
-      subject.isCustom = true;
-      subject.isHidden = !!(overlay && overlay.hidden);
-      if (overlay) {
-        if (overlay.name) subject.name = overlay.name;
-        if (overlay.shortName) subject.shortName = overlay.shortName;
-        if (overlay.icon) subject.icon = overlay.icon;
-        if (overlay.color) subject.color = overlay.color;
-        if (overlay.chapters) subject.customChapters = overlay.chapters;
-      }
-      return subject;
-    });
-    return { subjects: includeHidden ? subjects : subjects.filter(s => !s.isHidden) };
   }
+
+  return goal + deficit;
 }
 
-// Handles both built-in subjects (flat topics array) AND custom subjects (customChapters)
+// ── Completed Topics ─────────────────────────────────────
+function getCompleted() {
+  return JSON.parse(localStorage.getItem('cfa_completed') || '{}');
+}
+function saveCompleted(obj) {
+  localStorage.setItem('cfa_completed', JSON.stringify(obj));
+}
+
+// ── Subject Topic Counters ───────────────────────────────
+// Handles both built-in subjects (topics[]) and custom subjects (customChapters[])
 function countSubtopics(subject) {
-  let count = 0;
-  if (subject.topics) { count += subject.topics.length; }
-  if (subject.customChapters) {
-    subject.customChapters.forEach(chapter => {
-      if (chapter.subtopics) count += chapter.subtopics.length;
+  let n = 0;
+  if (Array.isArray(subject.topics)) n += subject.topics.length;
+  if (Array.isArray(subject.customChapters)) {
+    subject.customChapters.forEach(ch => {
+      n += (ch.subtopics || []).length;
     });
   }
-  return count;
+  return n;
 }
-
 function countCompletedSubtopics(subject, completed) {
-  let count = 0;
-  if (subject.topics) {
-    subject.topics.forEach(topic => {
-      const key = `s${subject.id}_t${topic.id}`;
-      if (completed[key] && completed[key] !== false) count++;
+  let n = 0;
+  if (Array.isArray(subject.topics)) {
+    subject.topics.forEach(t => {
+      const v = completed[`s${subject.id}_t${t.id}`];
+      if (v && v !== false) n++;
     });
   }
-  if (subject.customChapters) {
-    subject.customChapters.forEach(chapter => {
-      if (chapter.subtopics) {
-        chapter.subtopics.forEach(subtopic => {
-          const key = `c${chapter.id}_st${subtopic.id}`;
-          if (completed[key] && completed[key] !== false) count++;
-        });
-      }
+  if (Array.isArray(subject.customChapters)) {
+    subject.customChapters.forEach(ch => {
+      (ch.subtopics || []).forEach(st => {
+        const v = completed[`c${ch.id}_st${st.id}`];
+        if (v && v !== false) n++;
+      });
     });
   }
-  return count;
+  return n;
 }
 
+// ── Load Data ─────────────────────────────────────────────
+// Built-in CFA subjects baseline — merged with custom subjects and overlays.
+const BUILT_IN_SUBJECTS = [
+  {
+    id: 1,
+    name: 'Ethical and Professional Standards',
+    shortName: 'Ethics',
+    icon: '⚖️',
+    color: '#6C47FF',
+    topics: [
+      { id: 1, name: 'Ethics and Trust in the Investment Profession' },
+      { id: 2, name: 'Code of Ethics and Standards of Professional Conduct' },
+      { id: 3, name: 'Guidance for Standards I–VII' },
+      { id: 4, name: 'Introduction to the Global Investment Performance Standards (GIPS)' },
+      { id: 5, name: 'Ethics Application' }
+    ]
+  },
+  {
+    id: 2,
+    name: 'Quantitative Methods',
+    shortName: 'Quant',
+    icon: '📐',
+    color: '#38BFFF',
+    topics: [
+      { id: 1, name: 'Rates and Returns' },
+      { id: 2, name: 'Time Value of Money in Finance' },
+      { id: 3, name: 'Statistical Measures of Asset Returns' },
+      { id: 4, name: 'Probability Trees and Conditional Expectations' },
+      { id: 5, name: 'Portfolio Mathematics' },
+      { id: 6, name: 'Simulation Methods' },
+      { id: 7, name: 'Estimation and Inference' },
+      { id: 8, name: 'Hypothesis Testing' },
+      { id: 9, name: 'Parametric and Non-Parametric Tests of Independence' },
+      { id: 10, name: 'Simple Linear Regression' },
+      { id: 11, name: 'Introduction to Big Data Techniques' }
+    ]
+  },
+  {
+    id: 3,
+    name: 'Economics',
+    shortName: 'Econ',
+    icon: '🌐',
+    color: '#00C896',
+    topics: [
+      { id: 1, name: 'The Firm and Market Structures' },
+      { id: 2, name: 'Understanding Business Cycles' },
+      { id: 3, name: 'Fiscal Policy' },
+      { id: 4, name: 'Monetary Policy' },
+      { id: 5, name: 'Introduction to Geopolitics' },
+      { id: 6, name: 'International Trade and Capital Flows' },
+      { id: 7, name: 'Currency Exchange Rates' }
+    ]
+  },
+  {
+    id: 4,
+    name: 'Financial Statement Analysis',
+    shortName: 'FSA',
+    icon: '📊',
+    color: '#FF6B9D',
+    topics: [
+      { id: 1, name: 'Introduction to Financial Statement Analysis' },
+      { id: 2, name: 'Analyzing Income Statements' },
+      { id: 3, name: 'Analyzing Balance Sheets' },
+      { id: 4, name: 'Analyzing Statements of Cash Flows I' },
+      { id: 5, name: 'Analyzing Statements of Cash Flows II' },
+      { id: 6, name: 'Analysis of Inventories' },
+      { id: 7, name: 'Analysis of Long-Term Assets' },
+      { id: 8, name: 'Topics in Long-Term Liabilities and Equity' },
+      { id: 9, name: 'Analysis of Income Taxes' },
+      { id: 10, name: 'Financial Reporting Quality' },
+      { id: 11, name: 'Financial Analysis Techniques' },
+      { id: 12, name: 'Introduction to Financial Statement Modeling' }
+    ]
+  },
+  {
+    id: 5,
+    name: 'Corporate Issuers',
+    shortName: 'Corp',
+    icon: '🏢',
+    color: '#FFB347',
+    topics: [
+      { id: 1, name: 'Organizational Forms, Corporate Issuer Features, and Ownership' },
+      { id: 2, name: 'Investors and Other Stakeholders' },
+      { id: 3, name: 'Corporate Governance: Conflicts, Mechanisms, Risks, and Benefits' },
+      { id: 4, name: 'Working Capital and Liquidity' },
+      { id: 5, name: 'Capital Investments and Capital Allocation' },
+      { id: 6, name: 'Capital Structure' },
+      { id: 7, name: 'Business Models' }
+    ]
+  },
+  {
+    id: 6,
+    name: 'Equity Investments',
+    shortName: 'Equity',
+    icon: '📈',
+    color: '#A78BFA',
+    topics: [
+      { id: 1, name: 'Market Organization and Structure' },
+      { id: 2, name: 'Security Market Indexes' },
+      { id: 3, name: 'Market Efficiency' },
+      { id: 4, name: 'Overview of Equity Securities' },
+      { id: 5, name: 'Introduction to Industry and Company Analysis' },
+      { id: 6, name: 'Equity Valuation: Concepts and Basic Tools' }
+    ]
+  },
+  {
+    id: 7,
+    name: 'Fixed Income',
+    shortName: 'Fixed Inc.',
+    icon: '🏦',
+    color: '#00D4AA',
+    topics: [
+      { id: 1, name: 'Fixed-Income Instrument Features' },
+      { id: 2, name: 'Fixed-Income Cash Flows and Types' },
+      { id: 3, name: 'Fixed-Income Issuance and Trading' },
+      { id: 4, name: 'Fixed-Income Markets for Corporate Issuers' },
+      { id: 5, name: 'Fixed-Income Markets for Government Issuers' },
+      { id: 6, name: 'Fixed-Income Bond Valuation: Prices and Yields' },
+      { id: 7, name: 'Yield and Yield Spread Measures for Fixed-Rate Bonds' },
+      { id: 8, name: 'Yield and Yield Spread Measures for Floating-Rate Instruments' },
+      { id: 9, name: 'The Term Structure of Interest Rates: Spot, Par, and Forward Curves' },
+      { id: 10, name: 'Interest Rate Risk and Return' },
+      { id: 11, name: 'Credit Risk' },
+      { id: 12, name: 'Asset-Backed Security (ABS) Instrument and Market Features' }
+    ]
+  },
+  {
+    id: 8,
+    name: 'Derivatives',
+    shortName: 'Deriv.',
+    icon: '🔄',
+    color: '#FF9F1C',
+    topics: [
+      { id: 1, name: 'Derivative Instrument and Derivative Market Features' },
+      { id: 2, name: 'Forward Commitment and Contingent Claim Features and Instruments' },
+      { id: 3, name: 'Derivative Benefits, Risks, and Issuer and Investor Uses' },
+      { id: 4, name: 'Arbitrage, Replication, and the Cost of Carry in Pricing Derivatives' },
+      { id: 5, name: 'Pricing and Valuation of Forward Contracts and for an Underlying with Varying Maturities' },
+      { id: 6, name: 'Pricing and Valuation of Futures Contracts' },
+      { id: 7, name: 'Pricing and Valuation of Interest Rates and Other Swaps' },
+      { id: 8, name: 'Pricing and Valuation of Options' },
+      { id: 9, name: 'Option Replication Using Put–Call Parity' },
+      { id: 10, name: 'Valuing a Derivative Using a One-Period Binomial Model' }
+    ]
+  },
+  {
+    id: 9,
+    name: 'Alternative Investments',
+    shortName: 'Alts',
+    icon: '💎',
+    color: '#FF4D6D',
+    topics: [
+      { id: 1, name: 'Alternative Investment Features, Methods, and Structures' },
+      { id: 2, name: 'Alternative Investment Performance and Returns' },
+      { id: 3, name: 'Investments in Private Capital: Equity and Debt' },
+      { id: 4, name: 'Real Estate and Infrastructure' },
+      { id: 5, name: 'Natural Resources' },
+      { id: 6, name: 'Hedge Funds' },
+      { id: 7, name: 'Introduction to Digital Assets' }
+    ]
+  },
+  {
+    id: 10,
+    name: 'Portfolio Management',
+    shortName: 'Portfolio',
+    icon: '🗂️',
+    color: '#F59E0B',
+    topics: [
+      { id: 1, name: 'Portfolio Risk and Return: Part I' },
+      { id: 2, name: 'Portfolio Risk and Return: Part II' },
+      { id: 3, name: 'Portfolio Management: An Overview' },
+      { id: 4, name: 'Basics of Portfolio Planning and Construction' },
+      { id: 5, name: 'The Behavioral Biases of Individuals' },
+      { id: 6, name: 'Introduction to Risk Management' },
+      { id: 7, name: 'Technical Analysis' },
+      { id: 8, name: 'FinTech in Investment Management' }
+    ]
+  }
+];
+
+async function loadData(options = {}) {
+  const includeHidden = options.includeHidden || false;
+
+  // Load overlays (user edits / hidden flags for built-in subjects)
+  const overlays = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
+
+  // Apply overlays to built-in subjects
+  let subjects = BUILT_IN_SUBJECTS.map(s => {
+    const ov = overlays[s.id] || {};
+    const merged = {
+      ...s,
+      name:           ov.name      || s.name,
+      shortName:      ov.shortName || s.shortName,
+      icon:           ov.icon      || s.icon,
+      color:          ov.color     || s.color,
+      isHidden:       ov.hidden    || false,
+      isCustom:       false,
+      customChapters: ov.chapters  || []
+    };
+    return merged;
+  });
+
+  // Load custom subjects
+  const customSubjects = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+  const customMerged = customSubjects.map(s => ({
+    ...s,
+    isCustom: true,
+    isHidden: false
+  }));
+
+  subjects = [...subjects, ...customMerged];
+
+  if (!includeHidden) {
+    subjects = subjects.filter(s => !s.isHidden);
+  }
+
+  return { subjects };
+}
+
+// ── User Profile ─────────────────────────────────────────
+function getUserProfile() {
+  const name  = localStorage.getItem('user_name');
+  const email = localStorage.getItem('user_email');
+  const id    = localStorage.getItem('user_id');
+  if (!id) return null;
+  return { name: name || email || 'Student', email: email || '', id };
+}
+
+// ── Active Nav ───────────────────────────────────────────
 function setActiveNav() {
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a').forEach(a => {
-    const href = a.getAttribute('href').split('/').pop();
+    const href = a.getAttribute('href') || '';
     if (href === path || (path === '' && href === 'index.html')) {
       a.classList.add('active');
-    }
-  });
-}
-
-function getUserProfile() {
-  const userId = localStorage.getItem('user_id');
-  if (!userId) return null;
-  const email = (localStorage.getItem('user_email') || '').trim();
-  const storedName = (localStorage.getItem('user_name') || '').trim();
-  const fallbackName = email ? email.split('@')[0] : 'Student';
-  const name = storedName || fallbackName;
-  return { userId, name, email };
-}
-
-function initUserNav() {
-  const navLinks = document.querySelector('.nav-links');
-  if (!navLinks) return;
-  const existingMenu = navLinks.querySelector('.user-menu');
-  if (existingMenu) existingMenu.remove();
-  const loginAnchor = navLinks.querySelector('a[href="login.html"]');
-  const profile = getUserProfile();
-  if (!profile) {
-    if (!loginAnchor) {
-      const login = document.createElement('a');
-      login.href = 'login.html';
-      login.textContent = 'Login';
-      navLinks.appendChild(login);
     } else {
-      loginAnchor.textContent = 'Login';
+      a.classList.remove('active');
     }
-    return;
-  }
-  if (loginAnchor) loginAnchor.remove();
-  const initials = profile.name.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0].toUpperCase()).join('') || 'U';
-  const menu = document.createElement('div');
-  menu.className = 'user-menu';
-  menu.innerHTML = `
-    <button type="button" class="user-menu-toggle" aria-expanded="false">
-      <span class="user-avatar">${initials}</span>
-      <span class="user-name">${profile.name}</span>
-    </button>
-    <div class="user-menu-dropdown" hidden>
-      <p class="user-menu-name">${profile.name}</p>
-      <p class="user-menu-email">${profile.email || 'No email available'}</p>
-      <button type="button" class="user-save-btn">Sync Now</button>
-      <button type="button" class="user-save-logout-btn">Sync & Logout</button>
-      <button type="button" class="user-logout-btn">Logout</button>
-    </div>
-  `;
-  navLinks.appendChild(menu);
-  const toggle = menu.querySelector('.user-menu-toggle');
-  const dropdown = menu.querySelector('.user-menu-dropdown');
-  const logoutBtn = menu.querySelector('.user-logout-btn');
-  const saveBtn = menu.querySelector('.user-save-btn');
-  const saveLogoutBtn = menu.querySelector('.user-save-logout-btn');
-  const closeMenu = () => { dropdown.hidden = true; toggle.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); };
-  const openMenu = () => { dropdown.hidden = false; toggle.setAttribute('aria-expanded', 'true'); menu.classList.add('open'); };
-  toggle.addEventListener('click', (e) => { e.stopPropagation(); if (menu.classList.contains('open')) closeMenu(); else openMenu(); });
-  menu.addEventListener('click', (e) => { e.stopPropagation(); });
-  document.addEventListener('click', (e) => { if (!menu.contains(e.target)) closeMenu(); });
-  logoutBtn.addEventListener('click', async () => {
-    if (window.firebaseSignOut) {
-      try {
-        await window.firebaseSignOut();
-      } catch (err) {
-        console.warn('Firebase sign-out failed', err);
-      }
-    }
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('user_email');
-    localStorage.removeItem('user_name');
-    window.location.href = 'login.html';
   });
 
-  async function saveAllData(reason = 'manual-save') {
-    enrichStudyLogWithMetrics();
-    if (window.forceCloudSync) {
-      await window.forceCloudSync(reason);
-      return;
+  // Update login/profile link based on auth state
+  window.initUserNav = function() {
+    const profile = getUserProfile();
+    const link = document.getElementById('loginLink');
+    if (!link) return;
+    if (profile) {
+      link.textContent = profile.name;
+      link.href = 'login.html';
+    } else {
+      link.textContent = 'Login';
+      link.href = 'login.html';
     }
-    if (window.queueCloudSync) window.queueCloudSync(reason);
-  }
-
-  async function runSave(button, labelWhenDone = 'Saved') {
-    if (!button) return;
-    const original = button.textContent;
-    button.disabled = true;
-    button.textContent = 'Saving...';
-    try {
-      if (window.cloudSyncReady) await window.cloudSyncReady;
-      await saveAllData();
-      button.textContent = labelWhenDone;
-      setTimeout(() => { button.textContent = original; button.disabled = false; }, 1200);
-    } catch (err) {
-      console.warn('Save failed', err);
-      button.textContent = original;
-      button.disabled = false;
-      alert('Save failed. Please try again.');
-    }
-  }
-
-  if (saveBtn) {
-    saveBtn.addEventListener('click', () => runSave(saveBtn, 'Saved'));
-  }
-
-  if (saveLogoutBtn) {
-    saveLogoutBtn.addEventListener('click', async () => {
-      await runSave(saveLogoutBtn, 'Saved');
-      logoutBtn.click();
-    });
-  }
+  };
+  window.initUserNav();
 }
 
-function initQA() {
-  document.querySelectorAll('.qa-question').forEach(q => {
-    q.addEventListener('click', () => {
-      const ans = q.nextElementSibling;
-      const chev = q.querySelector('.qa-chevron');
-      ans.classList.toggle('open');
-      if (chev) chev.classList.toggle('open');
-    });
-  });
-}
-
-initUserNav();
-purgeAutoEntries();
-
+// ── Heatmap ──────────────────────────────────────────────
 function buildHeatmap(containerId, log, goal) {
   const el = document.getElementById(containerId);
   if (!el) return;
-  const todayDate = new Date();
+
+  const todayStr = today();
   const cells = [];
   for (let i = 89; i >= 0; i--) {
-    const d = new Date(todayDate);
+    const d = new Date();
     d.setDate(d.getDate() - i);
     const dateStr = d.toISOString().split('T')[0];
     const entry = log.find(l => l.date === dateStr);
@@ -345,12 +373,22 @@ function buildHeatmap(containerId, log, goal) {
     let level = 0;
     if (hours > 0) {
       const ratio = hours / goal;
-      if (ratio >= 1) level = 4;
+      if (ratio >= 1)        level = 4;
       else if (ratio >= 0.75) level = 3;
-      else if (ratio >= 0.5) level = 2;
-      else level = 1;
+      else if (ratio >= 0.5)  level = 2;
+      else                    level = 1;
     }
-    cells.push(`<div class="heat-cell heat-${level}" data-tip="${dateStr}: ${hours}h"></div>`);
+    const isToday = dateStr === todayStr;
+    cells.push(`<div class="heat-cell heat-${level}${isToday ? ' heat-today' : ''}" data-tip="${dateStr}: ${hours}h" title="${dateStr}: ${hours}h"></div>`);
   }
   el.innerHTML = cells.join('');
 }
+
+// ── queueCloudSync alias ─────────────────────────────────
+// firebase-sync.js sets window.queueCloudSync; this alias
+// ensures pages that call queueSync() still work.
+window.queueSync = function(...args) {
+  if (typeof window.queueCloudSync === 'function') {
+    window.queueCloudSync(...args);
+  }
+};
