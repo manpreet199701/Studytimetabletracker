@@ -104,7 +104,7 @@ function getTodayTarget() {
   const log = getStudyLog();
   const todayStr = today();
   let deficit = 0;
-  log.filter(l => l.date < todayStr && !l.auto).forEach(l => { deficit += (goal - l.hours); });
+  log.filter(l => l.date < todayStr && !l.auto && (l.hours === 0 || l.hours === "0")).forEach(() => { deficit += goal; });
   return Math.max(0, goal + deficit);
 }
 function progressRing(pct, color, size = 80, stroke = 7) {
