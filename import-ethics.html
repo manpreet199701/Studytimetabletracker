@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Import: Ethical and Professional Standards</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand">Study Time Table <span>Tracker</span></a>
+  <div class="nav-links">
+    <a href="index.html">← Back to Dashboard</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="card" style="max-width:600px;margin:2rem auto;text-align:center">
+    <p class="label">One-Time Import</p>
+    <h2 style="margin:0.5rem 0">Ethical and Professional Standards</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem;margin:0.5rem 0 1.5rem">
+      5 Learning Modules · 96 subtopics<br/>
+      This will add the subject to your account and sync to Firestore.
+    </p>
+    <div id="status" style="margin-bottom:1rem;font-size:0.9rem;color:var(--text-muted)">Ready to import.</div>
+    <button id="importBtn" class="btn btn-primary" style="font-size:1rem;padding:0.75rem 2rem">
+      Import Subject
+    </button>
+    <p style="margin-top:1.5rem;font-size:0.78rem;color:var(--text-dim)">
+      ⚠️ Make sure you are logged in before clicking. After import, delete this file from your project.
+    </p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script type="module" src="firebase-sync.js"></script>
+<script>
+
+const SUBJECT = {
+  id: "custom_ethics_professional",
+  name: "Ethical and Professional Standards",
+  shortName: "Ethics",
+  icon: "⚖️",
+  color: "#6c47ff",
+  isCustom: true,
+  customChapters: [
+    {
+      id: 101,
+      name: "LM 1 – Ethics and Trust in the Investment Profession",
+      subtopics: [
+        { id: 1,  name: "Introduction" },
+        { id: 2,  name: "Ethics" },
+        { id: 3,  name: "Ethics and Professionalism" },
+        { id: 4,  name: "How Professions Establish Trust" },
+        { id: 5,  name: "Professions Are Evolving" },
+        { id: 6,  name: "Professionalism in Investment Management" },
+        { id: 7,  name: "Trust in Investment Management" },
+        { id: 8,  name: "CFA Institute as an Investment Management Professional Body" },
+        { id: 9,  name: "Challenges to Ethical Conduct" },
+        { id: 10, name: "Ethical vs. Legal Standards" },
+        { id: 11, name: "Ethical Decision-Making Frameworks" },
+        { id: 12, name: "The Framework for Ethical Decision-Making" },
+        { id: 13, name: "Applying the Framework" },
+        { id: 14, name: "Conclusion" }
+      ]
+    },
+    {
+      id: 102,
+      name: "LM 2 – Code of Ethics and Standards of Professional Conduct",
+      subtopics: [
+        { id: 1,  name: "Preface" },
+        { id: 2,  name: "Evolution of the CFA Institute Code of Ethics and Standards" },
+        { id: 3,  name: "Standards of Practice Handbook" },
+        { id: 4,  name: "Summary of the 2023 Revisions to the Code and Standards" },
+        { id: 5,  name: "New and Revised Standards of Professional Conduct" },
+        { id: 6,  name: "CFA Institute Professional Conduct Program" },
+        { id: 7,  name: "Adoption of the Code and Standards" },
+        { id: 8,  name: "Why Ethics Matters" },
+        { id: 9,  name: "The Code of Ethics" },
+        { id: 10, name: "Standards of Professional Conduct" }
+      ]
+    },
+    {
+      id: 103,
+      name: "LM 3 – Standard I: Professionalism",
+      subtopics: [
+        { id: 1, name: "I(A) Knowledge of the Law – Guidance" },
+        { id: 2, name: "I(A) Knowledge of the Law – Recommended Procedures" },
+        { id: 3, name: "I(A) Knowledge of the Law – Application" },
+        { id: 4, name: "I(B) Independence and Objectivity – Guidance" },
+        { id: 5, name: "I(B) Independence and Objectivity – Recommended Procedures" },
+        { id: 6, name: "I(B) Independence and Objectivity – Application" },
+        { id: 7, name: "I(C) Misrepresentation – Guidance" },
+        { id: 8, name: "I(C) Misrepresentation – Recommended Procedures" },
+        { id: 9, name: "I(C) Misrepresentation – Application" },
+        { id: 10, name: "I(D) Misconduct – Guidance" },
+        { id: 11, name: "I(D) Misconduct – Application" },
+        { id: 12, name: "I(E) Competence – Guidance" },
+        { id: 13, name: "I(E) Competence – Recommended Procedures" },
+        { id: 14, name: "I(E) Competence – Application" }
+      ]
+    },
+    {
+      id: 104,
+      name: "LM 3 – Standard II: Integrity of Capital Markets",
+      subtopics: [
+        { id: 1, name: "II(A) Material Nonpublic Information – Guidance" },
+        { id: 2, name: "II(A) Material Nonpublic Information – Recommended Procedures" },
+        { id: 3, name: "II(A) Material Nonpublic Information – Application" },
+        { id: 4, name: "II(B) Market Manipulation – Guidance" },
+        { id: 5, name: "II(B) Market Manipulation – Application" }
+      ]
+    },
+    {
+      id: 105,
+      name: "LM 3 – Standard III: Duties to Clients",
+      subtopics: [
+        { id: 1, name: "III(A) Loyalty, Prudence, and Care – Guidance" },
+        { id: 2, name: "III(A) Loyalty, Prudence, and Care – Recommended Procedures" },
+        { id: 3, name: "III(A) Loyalty, Prudence, and Care – Application" },
+        { id: 4, name: "III(B) Fair Dealing – Guidance" },
+        { id: 5, name: "III(B) Fair Dealing – Recommended Procedures" },
+        { id: 6, name: "III(B) Fair Dealing – Application" },
+        { id: 7, name: "III(C) Suitability – Guidance" },
+        { id: 8, name: "III(C) Suitability – Recommended Procedures" },
+        { id: 9, name: "III(C) Suitability – Application" },
+        { id: 10, name: "III(D) Performance Presentation – Guidance" },
+        { id: 11, name: "III(D) Performance Presentation – Recommended Procedures" },
+        { id: 12, name: "III(D) Performance Presentation – Application" },
+        { id: 13, name: "III(E) Preservation of Confidentiality – Guidance" },
+        { id: 14, name: "III(E) Preservation of Confidentiality – Recommended Procedures" },
+        { id: 15, name: "III(E) Preservation of Confidentiality – Application" }
+      ]
+    },
+    {
+      id: 106,
+      name: "LM 3 – Standard IV: Duties to Employers",
+      subtopics: [
+        { id: 1, name: "IV(A) Loyalty – Guidance" },
+        { id: 2, name: "IV(A) Loyalty – Recommended Procedures" },
+        { id: 3, name: "IV(A) Loyalty – Application" },
+        { id: 4, name: "IV(B) Additional Compensation Arrangements – Guidance" },
+        { id: 5, name: "IV(B) Additional Compensation Arrangements – Application" },
+        { id: 6, name: "IV(C) Responsibilities of Supervisors – Guidance" },
+        { id: 7, name: "IV(C) Responsibilities of Supervisors – Recommended Procedures" },
+        { id: 8, name: "IV(C) Responsibilities of Supervisors – Application" }
+      ]
+    },
+    {
+      id: 107,
+      name: "LM 3 – Standard V: Investment Analysis, Recommendations & Actions",
+      subtopics: [
+        { id: 1, name: "V(A) Diligence and Reasonable Basis – Guidance" },
+        { id: 2, name: "V(A) Diligence and Reasonable Basis – Recommended Procedures" },
+        { id: 3, name: "V(A) Diligence and Reasonable Basis – Application" },
+        { id: 4, name: "V(B) Communication with Clients and Prospective Clients – Guidance" },
+        { id: 5, name: "V(B) Communication with Clients and Prospective Clients – Procedures" },
+        { id: 6, name: "V(B) Communication with Clients and Prospective Clients – Application" },
+        { id: 7, name: "V(C) Record Retention – Guidance" },
+        { id: 8, name: "V(C) Record Retention – Recommended Procedures" },
+        { id: 9, name: "V(C) Record Retention – Application" }
+      ]
+    },
+    {
+      id: 108,
+      name: "LM 3 – Standard VI: Conflicts of Interest",
+      subtopics: [
+        { id: 1, name: "VI(A) Avoid or Disclose Conflicts – Guidance" },
+        { id: 2, name: "VI(A) Avoid or Disclose Conflicts – Application" },
+        { id: 3, name: "VI(B) Priority of Transactions – Guidance" },
+        { id: 4, name: "VI(B) Priority of Transactions – Recommended Procedures" },
+        { id: 5, name: "VI(B) Priority of Transactions – Application" },
+        { id: 6, name: "VI(C) Referral Fees – Guidance" },
+        { id: 7, name: "VI(C) Referral Fees – Recommended Procedures" },
+        { id: 8, name: "VI(C) Referral Fees – Application" }
+      ]
+    },
+    {
+      id: 109,
+      name: "LM 3 – Standard VII: Responsibilities as CFA Member/Candidate",
+      subtopics: [
+        { id: 1, name: "VII(A) Conduct as Participants in CFA Institute Programs – Guidance" },
+        { id: 2, name: "VII(A) Conduct as Participants in CFA Institute Programs – Application" },
+        { id: 3, name: "VII(B) Reference to CFA Institute, CFA Designation – Guidance" },
+        { id: 4, name: "VII(B) Reference to CFA Institute, CFA Designation – Recommended Procedures" },
+        { id: 5, name: "VII(B) Reference to CFA Institute, CFA Designation – Application" }
+      ]
+    },
+    {
+      id: 110,
+      name: "LM 4 – Introduction to GIPS",
+      subtopics: [
+        { id: 1, name: "Introduction" },
+        { id: 2, name: "Why Were the GIPS Standards Created?" },
+        { id: 3, name: "Who Can Claim Compliance?" },
+        { id: 4, name: "Who Benefits from Compliance?" },
+        { id: 5, name: "Composites" },
+        { id: 6, name: "Fundamentals of Compliance" },
+        { id: 7, name: "Verification" }
+      ]
+    },
+    {
+      id: 111,
+      name: "LM 5 – Ethics Application",
+      subtopics: [
+        { id: 1,  name: "Professionalism: Knowledge of the Law" },
+        { id: 2,  name: "Professionalism: Independence and Objectivity" },
+        { id: 3,  name: "Professionalism: Misrepresentation" },
+        { id: 4,  name: "Professionalism: Misconduct" },
+        { id: 5,  name: "Professionalism: Competence" },
+        { id: 6,  name: "Integrity of Capital Markets: Material Nonpublic Information" },
+        { id: 7,  name: "Integrity of Capital Markets: Market Manipulation" },
+        { id: 8,  name: "Duties to Clients: Loyalty, Prudence, and Care" },
+        { id: 9,  name: "Duties to Clients: Fair Dealing" },
+        { id: 10, name: "Duties to Clients: Suitability" },
+        { id: 11, name: "Duties to Clients: Performance Presentation" },
+        { id: 12, name: "Duties to Clients: Preservation of Confidentiality" },
+        { id: 13, name: "Duties to Employers: Loyalty" },
+        { id: 14, name: "Duties to Employers: Additional Compensation Arrangements" },
+        { id: 15, name: "Duties to Employers: Responsibilities of Supervisors" },
+        { id: 16, name: "Investment Analysis: Diligence and Reasonable Basis" },
+        { id: 17, name: "Investment Analysis: Communication with Clients" },
+        { id: 18, name: "Investment Analysis: Record Retention" },
+        { id: 19, name: "Conflicts of Interest: Avoid or Disclose Conflicts" },
+        { id: 20, name: "Conflicts of Interest: Priority of Transactions" },
+        { id: 21, name: "Conflicts of Interest: Referral Fees" },
+        { id: 22, name: "CFA Member/Candidate: Conduct as Participants" },
+        { id: 23, name: "CFA Member/Candidate: Reference to CFA Designation" }
+      ]
+    }
+  ]
+};
+
+document.getElementById('importBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('importBtn');
+  const status = document.getElementById('status');
+
+  btn.disabled = true;
+  btn.textContent = 'Importing...';
+  status.style.color = 'var(--text-muted)';
+  status.textContent = 'Writing to localStorage...';
+
+  try {
+    // Read existing custom subjects
+    const existing = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+
+    // Remove this subject if already present (avoid duplicates)
+    const filtered = existing.filter(s => s.id !== SUBJECT.id);
+
+    // Add the new subject
+    filtered.push(SUBJECT);
+    localStorage.setItem('cfa_custom_subjects', JSON.stringify(filtered));
+
+    status.textContent = 'Saved to localStorage. Syncing to Firestore...';
+
+    // Wait for firebase-sync to be ready then push
+    if (window.cloudSyncReady) await window.cloudSyncReady;
+    if (window.forceCloudSync) {
+      await window.forceCloudSync('import-ethics');
+      status.style.color = 'var(--success)';
+      status.textContent = '✅ Done! Ethical and Professional Standards imported and synced to your account.';
+    } else {
+      if (window.queueCloudSync) window.queueCloudSync('import-ethics');
+      status.style.color = 'var(--success)';
+      status.textContent = '✅ Done! Saved locally. Sync will push to Firestore shortly.';
+    }
+
+    btn.textContent = 'Imported ✓';
+
+    // Count topics
+    let total = 0;
+    SUBJECT.customChapters.forEach(ch => total += ch.subtopics.length);
+    status.textContent += ` (${SUBJECT.customChapters.length} chapters, ${total} subtopics)`;
+
+  } catch (err) {
+    console.error(err);
+    status.style.color = 'var(--danger)';
+    status.textContent = '❌ Error: ' + err.message;
+    btn.disabled = false;
+    btn.textContent = 'Retry Import';
+  }
+});
+</script>
+</body>
+</html>
