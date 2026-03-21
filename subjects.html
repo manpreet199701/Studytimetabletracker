@@ -295,7 +295,7 @@ function getOverlays() {
 
 function saveOverlays(overlays) {
   localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
-  queueSync('subject-overlays');
+  window.queueSync('subject-overlays');
 }
 
 function deleteCompletedForSubject(subject) {
@@ -481,7 +481,7 @@ document.getElementById('editSaveBtn').addEventListener('click', () => {
       customChapters: []
     });
     localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
-    queueSync('custom-subjects');
+    window.queueSync('custom-subjects');
     closeEdit();
     init();
     return;
@@ -500,7 +500,7 @@ document.getElementById('editSaveBtn').addEventListener('click', () => {
       if (icon) custom[idx].icon = icon;
       custom[idx].color = color;
       localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
-      queueSync('custom-subjects');
+      window.queueSync('custom-subjects');
     }
     closeEdit();
     init();
@@ -550,7 +550,7 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
     let custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
     custom = custom.filter(sub => sub.id !== deletingSubjectId);
     localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
-    queueSync('custom-subjects');
+    window.queueSync('custom-subjects');
 
     // Clean up any overlay leftovers
     const overlays = getOverlays();
