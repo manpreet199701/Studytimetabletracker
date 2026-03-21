@@ -59,35 +59,25 @@ function setStartDate(dateStr) {
 }
 
 // ── Today's Target (with rollover) ───────────────────────
-// Formula: rollover = max(0, days_since_start × goal − total_hours_studied)
-// today's target = goal + rollover
-//
-// "days since start" = number of full calendar days from cfa_start_date up to
-// (but not including) today. Each of those days you owed `goal` hours.
-// Total hours studied = sum of all real (non-auto) log entries in that range.
-// Surplus days correctly offset deficit days — no artificial floor per day.
+// Rule: every day you explicitly log 0 hours = +goal to rollover.
+// Days you studied (any hours > 0) = no effect on rollover.
+// Days with no log entry at all = ignored.
 function getTodayTarget() {
-  const goal      = getDailyGoal();
-  const log       = getStudyLog();
-  const todayStr  = today();
-  const startDate = getStartDate();
+  const goal     = getDailyGoal();
+  const log      = getStudyLog();
+  const todayStr = today();
 
-  if (!startDate || startDate >= todayStr) return goal; // nothing to roll over yet
+  // Simple rule:
+  // Every past entry where hours === 0 means "I didn't study" → +goal to rollover.
+  // Days with no entry at all are ignored (user hasn't said anything about them).
+  // Days with hours > 0 are ignored (they studied, no rollover for that day).
+  const missedEntries = log.filter(l =>
+    l.date < todayStr &&
+    !l.auto &&
+    (l.hours === 0 || l.hours === '0')
+  );
 
-  // Count past days (noon-to-noon avoids DST / midnight edge cases)
-  const cursor = new Date(startDate + 'T12:00:00');
-  const stopAt  = new Date(todayStr  + 'T12:00:00');
-  let dayCount  = 0;
-  while (cursor < stopAt) { dayCount++; cursor.setDate(cursor.getDate() + 1); }
-
-  // Sum all real study hours in the past (before today, excluding auto entries)
-  const hoursStudied = log
-    .filter(l => l.date >= startDate && l.date < todayStr && !l.auto)
-    .reduce((sum, l) => sum + (l.hours || 0), 0);
-
-  const totalOwed  = dayCount * goal;
-  const rollover   = Math.max(0, totalOwed - hoursStudied);
-
+  const rollover = missedEntries.length * goal;
   return goal + rollover;
 }
 
@@ -370,7 +360,7 @@ function getUserProfile() {
   return { name: name || email || 'Student', email: email || '', id };
 }
 
-// ── Active Nav ───────────────────────────────────────────
+// ── Active Nav + User Menu ────────────────────────────────
 function setActiveNav() {
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a').forEach(a => {
@@ -382,19 +372,108 @@ function setActiveNav() {
     }
   });
 
-  // Update login/profile link based on auth state
+  // Build/update the user menu in the nav
   window.initUserNav = function() {
     const profile = getUserProfile();
-    const link = document.getElementById('loginLink');
-    if (!link) return;
-    if (profile) {
-      link.textContent = profile.name;
-      link.href = 'login.html';
-    } else {
-      link.textContent = 'Login';
-      link.href = 'login.html';
+    const nav     = document.querySelector('nav');
+    if (!nav) return;
+
+    // Remove any existing user menu
+    const existing = nav.querySelector('.user-menu');
+    if (existing) existing.remove();
+
+    if (!profile) {
+      // Not signed in — show plain Login link
+      const link = document.getElementById('loginLink');
+      if (link) { link.textContent = 'Login'; link.href = 'login.html'; }
+      return;
     }
+
+    // Hide the plain loginLink — replaced by the menu
+    const link = document.getElementById('loginLink');
+    if (link) link.style.display = 'none';
+
+    // Build initials avatar
+    const initials = profile.name
+      ? profile.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
+      : '?';
+
+    const menu = document.createElement('div');
+    menu.className = 'user-menu';
+    menu.innerHTML = `
+      <button class="user-menu-toggle" id="userMenuToggle">
+        <span class="user-avatar">${initials}</span>
+        <span class="user-name">${profile.name}</span>
+        <span style="font-size:0.65rem;color:var(--text-dim);margin-left:2px">▾</span>
+      </button>
+      <div class="user-menu-dropdown" id="userMenuDropdown" style="display:none">
+        <div class="user-menu-name">${profile.name}</div>
+        <div class="user-menu-email">${profile.email}</div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:0.75rem 0"/>
+        <button class="user-save-btn" id="userSaveBtn">☁️ Save to Cloud</button>
+        <button class="user-save-logout-btn" id="userSaveLogoutBtn">💾 Save &amp; Logout</button>
+        <button class="user-logout-btn" id="userLogoutBtn">🚪 Logout</button>
+      </div>
+    `;
+    nav.appendChild(menu);
+
+    // Toggle dropdown
+    document.getElementById('userMenuToggle').addEventListener('click', (e) => {
+      e.stopPropagation();
+      const dd = document.getElementById('userMenuDropdown');
+      dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Close on outside click
+    document.addEventListener('click', () => {
+      const dd = document.getElementById('userMenuDropdown');
+      if (dd) dd.style.display = 'none';
+    });
+
+    // Save to cloud
+    document.getElementById('userSaveBtn').addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const btn = e.target;
+      btn.textContent = '⏳ Saving…';
+      btn.disabled = true;
+      try {
+        if (typeof window.forceCloudSync === 'function') await window.forceCloudSync('manual-save');
+        btn.textContent = '✅ Saved!';
+        setTimeout(() => { btn.textContent = '☁️ Save to Cloud'; btn.disabled = false; }, 1800);
+      } catch {
+        btn.textContent = '❌ Failed';
+        setTimeout(() => { btn.textContent = '☁️ Save to Cloud'; btn.disabled = false; }, 1800);
+      }
+    });
+
+    // Save & Logout
+    document.getElementById('userSaveLogoutBtn').addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const btn = e.target;
+      btn.textContent = '⏳ Saving…';
+      btn.disabled = true;
+      try {
+        if (typeof window.forceCloudSync === 'function') await window.forceCloudSync('save-logout');
+        if (typeof window.firebaseSignOut === 'function') await window.firebaseSignOut();
+        window.location.href = 'login.html';
+      } catch {
+        btn.textContent = '❌ Failed';
+        setTimeout(() => { btn.textContent = '💾 Save & Logout'; btn.disabled = false; }, 1800);
+      }
+    });
+
+    // Logout
+    document.getElementById('userLogoutBtn').addEventListener('click', async (e) => {
+      e.stopPropagation();
+      try {
+        if (typeof window.firebaseSignOut === 'function') await window.firebaseSignOut();
+        window.location.href = 'login.html';
+      } catch (err) {
+        console.error('Logout failed', err);
+      }
+    });
   };
+
   window.initUserNav();
 }
 
