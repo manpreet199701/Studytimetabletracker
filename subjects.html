@@ -182,7 +182,6 @@
   <div class="nav-links">
     <a href="index.html">Dashboard</a>
     <a href="subjects.html">Subjects</a>
-    <a href="rollover.html">Rollover</a>
     <a href="sync.html">Sync</a>
     <a href="login.html" id="loginLink">Profile</a>
   </div>
@@ -296,7 +295,7 @@ function getOverlays() {
 
 function saveOverlays(overlays) {
   localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
-  window.queueSync('subject-overlays');
+  queueSync('subject-overlays');
 }
 
 function deleteCompletedForSubject(subject) {
@@ -482,7 +481,7 @@ document.getElementById('editSaveBtn').addEventListener('click', () => {
       customChapters: []
     });
     localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
-    window.queueSync('custom-subjects');
+    queueSync('custom-subjects');
     closeEdit();
     init();
     return;
@@ -501,7 +500,7 @@ document.getElementById('editSaveBtn').addEventListener('click', () => {
       if (icon) custom[idx].icon = icon;
       custom[idx].color = color;
       localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
-      window.queueSync('custom-subjects');
+      queueSync('custom-subjects');
     }
     closeEdit();
     init();
@@ -551,7 +550,7 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
     let custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
     custom = custom.filter(sub => sub.id !== deletingSubjectId);
     localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
-    window.queueSync('custom-subjects');
+    queueSync('custom-subjects');
 
     // Clean up any overlay leftovers
     const overlays = getOverlays();

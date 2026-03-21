@@ -36,8 +36,7 @@ const TRACKED_KEYS = new Set([
   'cfa_daily_goal',
   'cfa_completed',
   'cfa_custom_subjects',
-  'cfa_subject_overlays',
-  'cfa_start_date'
+  'cfa_subject_overlays'
 ]);
 
 let resolveAuthReady;
@@ -56,7 +55,6 @@ const getLocalPayload = () => ({
   completed: JSON.parse(localStorage.getItem('cfa_completed') || '{}'),
   customSubjects: JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]'),
   subjectOverlays: JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}'),
-  startDate: localStorage.getItem('cfa_start_date') || null,
   updatedAt: getLocalUpdatedAt() || stampLocalUpdated()
 });
 
@@ -69,8 +67,6 @@ function clearLocalStudyData() {
   rawRemoveItem('cfa_subject_overlays');
   rawRemoveItem(LOCAL_UPDATED_KEY);
   rawRemoveItem(LOCAL_OWNER_KEY);
-  // NOTE: cfa_start_date is intentionally kept — it is user-specific plan metadata
-  // and gets overwritten correctly when the new account's cloud data is pulled.
   suppressSync = false;
 }
 
@@ -120,9 +116,6 @@ const applyLocalData = (data) => {
   if ('subjectOverlays' in data) {
     const subjectOverlays = data.subjectOverlays && typeof data.subjectOverlays === 'object' ? data.subjectOverlays : {};
     setIfDifferent('cfa_subject_overlays', JSON.stringify(subjectOverlays));
-  }
-  if ('startDate' in data && data.startDate) {
-    setIfDifferent('cfa_start_date', data.startDate);
   }
 
   const updatedAt = data.updatedAt || (changed ? new Date().toISOString() : getLocalUpdatedAt());
@@ -250,9 +243,10 @@ onAuthStateChanged(auth, (user) => {
     rawSetItem('user_id', user.uid);
     rawSetItem('user_email', user.email || '');
     rawSetItem(LOCAL_OWNER_KEY, user.uid);
-    // Always pull name from Google — never rely on a stale localStorage value
-    const googleName = user.displayName || (user.email ? user.email.split('@')[0] : 'Student');
-    rawSetItem('user_name', googleName);
+    if (!localStorage.getItem('user_name')) {
+      const fallbackName = user.displayName || (user.email ? user.email.split('@')[0] : 'Student');
+      rawSetItem('user_name', fallbackName);
+    }
   } else if (previousOwnerId || previousUserId) {
     // Signed out: clear user-scoped study data so the next account on this browser
     // doesn't inherit it.
