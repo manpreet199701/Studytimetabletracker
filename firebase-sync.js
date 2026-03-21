@@ -24,6 +24,7 @@ let syncTimer   = null;
 let syncing     = false;
 let pendingReason = '';
 let suppressSync = false;
+let pullInProgress = false; // prevents local writes racing against a cloud pull
 
 const rawSetItem = localStorage.setItem.bind(localStorage);
 const rawRemoveItem = localStorage.removeItem.bind(localStorage);
@@ -41,6 +42,10 @@ const TRACKED_KEYS = new Set([
 
 let resolveAuthReady;
 const authReady = new Promise((res) => { resolveAuthReady = res; });
+
+// Resolves after the first Firestore pull completes — Firestore is the source of truth
+let resolveCloudDataReady;
+const cloudDataReady = new Promise((res) => { resolveCloudDataReady = res; });
 
 const stampLocalUpdated = (at = new Date().toISOString()) => {
   rawSetItem(LOCAL_UPDATED_KEY, at);
@@ -135,6 +140,30 @@ async function pushToCloud(reason = 'change') {
   syncing = true;
   try {
     const payload = getLocalPayload();
+
+    // SAFETY GUARD: never overwrite real cloud subjects/overlays with an empty local array.
+    // This prevents page-load races from wiping data the user added.
+    if (payload.customSubjects.length === 0 || Object.keys(payload.subjectOverlays || {}).length === 0) {
+      const snap = await getDoc(doc(db, 'users', currentUser.uid));
+      if (snap.exists()) {
+        const cloud = snap.data();
+        if (payload.customSubjects.length === 0 && Array.isArray(cloud.customSubjects) && cloud.customSubjects.length > 0) {
+          payload.customSubjects = cloud.customSubjects;
+          suppressSync = true;
+          localStorage.setItem('cfa_custom_subjects', JSON.stringify(cloud.customSubjects));
+          suppressSync = false;
+          console.info('[cloud-sync] safety: kept cloud customSubjects, local was empty');
+        }
+        if (Object.keys(payload.subjectOverlays || {}).length === 0 && cloud.subjectOverlays && Object.keys(cloud.subjectOverlays).length > 0) {
+          payload.subjectOverlays = cloud.subjectOverlays;
+          suppressSync = true;
+          localStorage.setItem('cfa_subject_overlays', JSON.stringify(cloud.subjectOverlays));
+          suppressSync = false;
+          console.info('[cloud-sync] safety: kept cloud subjectOverlays, local was empty');
+        }
+      }
+    }
+
     payload.updatedAt = stampLocalUpdated(payload.updatedAt);
     await setDoc(doc(db, 'users', currentUser.uid), payload, { merge: true });
     console.info('[cloud-sync] pushed', reason);
@@ -162,6 +191,8 @@ function waitForSyncIdle() {
 
 function queueCloudSync(reason = 'change') {
   if (!currentUser) return;
+  // Don't queue a push while we're pulling from cloud — prevents race condition
+  if (pullInProgress) return;
   if (syncTimer) clearTimeout(syncTimer);
   syncTimer = setTimeout(() => pushToCloud(reason), SYNC_DEBOUNCE_MS);
 }
@@ -181,6 +212,7 @@ function maybeReloadAfterPull(reason) {
 async function pullFromCloud(reason = 'manual') {
   await authReady;
   if (!currentUser) return;
+  pullInProgress = true; // block outgoing syncs while we load from cloud
   try {
     const snap = await getDoc(doc(db, 'users', currentUser.uid));
     if (!snap.exists()) {
@@ -206,6 +238,10 @@ async function pullFromCloud(reason = 'manual') {
     }
   } catch (err) {
     console.error('[cloud-sync] pull failed', err);
+  } finally {
+    pullInProgress = false; // always unblock outgoing syncs
+    // Mark initial cloud data as ready (resolves once, harmless on subsequent pulls)
+    if (resolveCloudDataReady) { resolveCloudDataReady(); resolveCloudDataReady = null; }
   }
 }
 
@@ -266,6 +302,7 @@ onAuthStateChanged(auth, (user) => {
 window.queueCloudSync = queueCloudSync;
 window.pullCloudData  = () => pullFromCloud('manual');
 window.cloudSyncReady = authReady;
+window.cloudDataReady  = cloudDataReady; // resolves after first Firestore pull
 window.forceCloudSync = async (reason = 'manual-save') => {
   await pushToCloud(reason);
   await waitForSyncIdle();
@@ -285,5 +322,12 @@ window.addEventListener('storage', (e) => {
   if (e.key && e.key.startsWith('cfa_')) queueCloudSync('storage-event');
 });
 
-// Initial pull if already signed in
-authReady.then((user) => { if (user) pullFromCloud('page-load'); });
+// Initial pull — Firestore is authoritative, so wait for it before the app renders
+authReady.then((user) => {
+  if (user) {
+    pullFromCloud('page-load');
+  } else {
+    // Not logged in — resolve immediately so pages don't hang
+    if (resolveCloudDataReady) { resolveCloudDataReady(); resolveCloudDataReady = null; }
+  }
+});
