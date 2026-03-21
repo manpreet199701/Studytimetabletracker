@@ -204,10 +204,9 @@
       <p class="label">Daily Breakdown</p>
       <div class="filter-bar" style="margin:0">
         <button class="filter-btn active" data-filter="all">All Days</button>
-        <button class="filter-btn" data-filter="missed">Missed</button>
+        <button class="filter-btn" data-filter="missed">Missed (0h)</button>
         <button class="filter-btn" data-filter="partial">Partial</button>
         <button class="filter-btn" data-filter="met">Met / Surplus</button>
-        <button class="filter-btn" data-filter="unlogged">Unlogged</button>
       </div>
     </div>
 
@@ -217,12 +216,12 @@
           <tr>
             <th>Date</th>
             <th>Day</th>
-            <th>Goal</th>
+            <th>Target</th>
             <th>Studied</th>
             <th style="min-width:120px">Progress</th>
             <th>Status</th>
-            <th>+/− Hours</th>
-            <th>Running Balance</th>
+            <th>Rollover Added</th>
+            <th>Running Total</th>
           </tr>
         </thead>
         <tbody id="dayTableBody"></tbody>
@@ -257,55 +256,51 @@ function init() {
 function buildRows() {
   const goal      = getDailyGoal();
   const log       = getStudyLog();
-  const startDate = getStartDate();
   const todayStr  = today();
 
-  if (!startDate) return [];
+  // Only show days that have been explicitly logged (past entries only, no auto)
+  const pastEntries = log
+    .filter(l => l.date < todayStr && !l.auto)
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  if (!pastEntries.length) return [];
 
   const rows = [];
-  let runningBalance = 0; // negative = deficit (you owe), positive = surplus (you're ahead)
+  let runningRollover = 0;
 
-  const cursor = new Date(startDate + 'T12:00:00');
-  const stopAt  = new Date(todayStr  + 'T12:00:00');
+  for (const entry of pastEntries) {
+    const hours  = entry.hours || 0;
+    const missed = hours === 0 || hours === '0';
 
-  // Past days
-  while (cursor < stopAt) {
-    const ds =
-      cursor.getFullYear() + '-' +
-      String(cursor.getMonth() + 1).padStart(2, '0') + '-' +
-      String(cursor.getDate()).padStart(2, '0');
-
-    const entry   = log.find(l => l.date === ds && !l.auto);
-    const hours   = entry ? (entry.hours || 0) : 0;
-    const logged  = !!entry;
-    const diff    = hours - goal; // positive = surplus, negative = shortfall
-    runningBalance += diff;
+    if (missed) runningRollover += goal; // +3 for every 0h entry
 
     let status;
-    if (!logged)         status = 'unlogged';
-    else if (hours === 0) status = 'missed';
-    else if (diff >= 0)  status = hours > goal ? 'surplus' : 'met';
-    else                 status = 'partial';
+    if (missed)             status = 'missed';
+    else if (hours >= goal) status = hours > goal ? 'surplus' : 'met';
+    else                    status = 'partial';
 
-    rows.push({ date: ds, goal, hours, logged, diff, runningBalance: runningBalance, status, isToday: false });
-    cursor.setDate(cursor.getDate() + 1);
+    rows.push({
+      date: entry.date,
+      goal,
+      hours,
+      status,
+      isToday: false,
+      rolloverAdded: missed ? goal : 0,
+      runningRollover
+    });
   }
 
   // Today row
   const todayEntry  = log.find(l => l.date === todayStr && !l.auto);
   const todayHours  = todayEntry ? (todayEntry.hours || 0) : 0;
-  const todayLogged = !!todayEntry;
-  // For today, target includes rollover
-  const todayTarget = goal + Math.max(0, -runningBalance); // runningBalance is past deficit
   rows.push({
     date: todayStr,
-    goal: todayTarget,
+    goal: goal + runningRollover,
     hours: todayHours,
-    logged: todayLogged,
-    diff: todayHours - todayTarget,
-    runningBalance: runningBalance + (todayHours - goal),
     status: 'today',
-    isToday: true
+    isToday: true,
+    rolloverAdded: 0,
+    runningRollover
   });
 
   return rows;
@@ -317,30 +312,28 @@ function render() {
   const goal  = getDailyGoal();
 
   // Summary stats
-  const pastRows    = rows.filter(r => !r.isToday);
-  const totalOwed   = pastRows.length * goal;
-  const totalStudied = pastRows.reduce((s, r) => s + r.hours, 0);
-  const totalDeficit = Math.max(0, totalOwed - totalStudied);
-  const totalSurplus = Math.max(0, totalStudied - totalOwed);
-  const daysMet     = pastRows.filter(r => r.status === 'met' || r.status === 'surplus').length;
-  const daysMissed  = pastRows.filter(r => r.status === 'missed' || r.status === 'unlogged').length;
-  const daysPartial = pastRows.filter(r => r.status === 'partial').length;
+  const pastRows     = rows.filter(r => !r.isToday);
+  const totalRollover = pastRows.reduce((s, r) => s + r.rolloverAdded, 0);
+  const totalStudied  = pastRows.reduce((s, r) => s + r.hours, 0);
+  const daysMissed    = pastRows.filter(r => r.status === 'missed').length;
+  const daysMet       = pastRows.filter(r => r.status === 'met' || r.status === 'surplus').length;
+  const daysPartial   = pastRows.filter(r => r.status === 'partial').length;
 
   document.getElementById('summaryStrip').innerHTML = `
     <div class="summary-card card-violet">
       <div class="lbl">Total Rollover</div>
-      <div class="val" style="color:${totalDeficit > 0 ? 'var(--danger)' : 'var(--success)'}">${totalDeficit > 0 ? '+' : ''}${totalDeficit.toFixed(1)}h</div>
-      <div class="sub">${totalDeficit > 0 ? 'carried forward to today' : 'you\'re on track'}</div>
+      <div class="val" style="color:${totalRollover > 0 ? 'var(--danger)' : 'var(--success)'}">${totalRollover.toFixed(1)}h</div>
+      <div class="sub">${daysMissed} day${daysMissed !== 1 ? 's' : ''} logged as 0h × ${goal}h</div>
     </div>
     <div class="summary-card card-green">
       <div class="lbl">Total Studied</div>
       <div class="val" style="color:var(--success)">${totalStudied.toFixed(1)}h</div>
-      <div class="sub">of ${totalOwed.toFixed(1)}h owed (${pastRows.length} days)</div>
+      <div class="sub">across ${pastRows.length} logged day${pastRows.length !== 1 ? 's' : ''}</div>
     </div>
     <div class="summary-card card-amber">
       <div class="lbl">Days Met / Missed</div>
-      <div class="val" style="color:var(--text)">${daysMet}<span style="font-size:1rem;color:var(--text-muted);font-weight:400"> / </span>${daysMissed + daysPartial}</div>
-      <div class="sub">${daysPartial} partial · ${daysMissed} fully missed</div>
+      <div class="val" style="color:var(--text)">${daysMet}<span style="font-size:1rem;color:var(--text-muted);font-weight:400"> / </span>${daysMissed}</div>
+      <div class="sub">${daysPartial} partial · ${daysMissed} zero-hour days</div>
     </div>
     <div class="summary-card card-sky">
       <div class="lbl">Daily Average</div>
@@ -365,7 +358,7 @@ function render() {
   if (!rows.length) {
     tbody.innerHTML = '';
     empty.style.display = 'block';
-    empty.innerHTML = '<div class="icon">📅</div><p>Set a plan start date above to see your rollover breakdown.</p>';
+    empty.innerHTML = '<div class="icon">📅</div><p>No study sessions logged yet. Log hours on the Dashboard to see your breakdown here.</p>';
     return;
   }
 
@@ -378,7 +371,6 @@ function render() {
 
   empty.style.display = 'none';
 
-  // Show newest first
   const display = [...filtered].reverse();
 
   tbody.innerHTML = display.map(r => {
@@ -389,36 +381,32 @@ function render() {
 
     // Status pill
     let pillHtml;
-    if (isToday)              pillHtml = `<span class="status-pill pill-today">Today</span>`;
+    if (isToday)                     pillHtml = `<span class="status-pill pill-today">Today</span>`;
     else if (r.status === 'met')     pillHtml = `<span class="status-pill pill-met">✓ Met</span>`;
     else if (r.status === 'surplus') pillHtml = `<span class="status-pill pill-surplus">↑ Surplus</span>`;
     else if (r.status === 'partial') pillHtml = `<span class="status-pill pill-partial">~ Partial</span>`;
     else if (r.status === 'missed')  pillHtml = `<span class="status-pill pill-missed">✕ Missed</span>`;
     else                             pillHtml = `<span class="status-pill pill-none">— Unlogged</span>`;
 
-    // +/- hours
-    const diffSign = r.diff >= 0 ? '+' : '';
-    const diffColor = r.diff >= 0 ? 'var(--success)' : 'var(--danger)';
-    const diffDisplay = isToday
+    // Rollover added this day
+    const addedDisplay = isToday
       ? `<span style="color:var(--text-muted);font-family:var(--mono);font-size:0.82rem">—</span>`
-      : `<span style="color:${diffColor};font-family:var(--mono);font-weight:700;font-size:0.82rem">${diffSign}${r.diff.toFixed(1)}h</span>`;
+      : r.rolloverAdded > 0
+        ? `<span style="color:var(--danger);font-family:var(--mono);font-weight:700;font-size:0.82rem">+${r.rolloverAdded.toFixed(1)}h</span>`
+        : `<span style="color:var(--text-dim);font-family:var(--mono);font-size:0.82rem">0h</span>`;
 
-    // Running balance
-    const bal = r.runningBalance;
-    const balClass = isToday ? 'balance-zero' : (bal < -0.05 ? 'balance-neg' : bal > 0.05 ? 'balance-pos' : 'balance-zero');
-    const balSign  = bal > 0.05 ? '+' : '';
+    // Running rollover
     const balDisplay = isToday
-      ? `<span class="balance-zero" style="font-family:var(--mono);font-size:0.82rem">—</span>`
-      : `<span class="balance-val ${balClass}">${balSign}${bal.toFixed(1)}h</span>`;
+      ? `<span style="color:var(--accent);font-family:var(--mono);font-weight:700;font-size:0.82rem">${r.runningRollover.toFixed(1)}h carried over</span>`
+      : `<span class="balance-val ${r.runningRollover > 0 ? 'balance-neg' : 'balance-zero'}">${r.runningRollover.toFixed(1)}h</span>`;
 
-    // Bar color
     const barColor = pct >= 100 ? 'var(--success)' : pct >= 60 ? 'var(--accent)' : pct > 0 ? 'var(--warning)' : 'var(--danger)';
 
     return `<tr class="day-row">
       <td class="day-date">${r.date}</td>
       <td class="day-label ${isToday ? 'today-label' : ''}">${isToday ? '⟶ Today' : dayName}</td>
       <td><span class="hours-val" style="color:var(--text-muted)">${r.goal.toFixed(1)}h</span></td>
-      <td><span class="hours-val" style="color:${r.hours > 0 ? 'var(--text)' : 'var(--text-dim)'}">${r.hours.toFixed(1)}h</span></td>
+      <td><span class="hours-val" style="color:${r.hours > 0 ? 'var(--text)' : 'var(--text-dim)'}">${Number(r.hours).toFixed(1)}h</span></td>
       <td>
         <div class="mini-bar-track">
           <div class="mini-bar-fill" style="width:${pct}%;background:${barColor}"></div>
@@ -426,7 +414,7 @@ function render() {
         <div style="font-family:var(--mono);font-size:0.65rem;color:var(--text-muted);margin-top:2px">${Math.round(pct)}%</div>
       </td>
       <td>${pillHtml}</td>
-      <td>${diffDisplay}</td>
+      <td>${addedDisplay}</td>
       <td>${balDisplay}</td>
     </tr>`;
   }).join('');
