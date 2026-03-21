@@ -337,7 +337,7 @@ function getCustomSubjects() {
 }
 function saveCustomSubjects(arr) {
   localStorage.setItem('cfa_custom_subjects', JSON.stringify(arr));
-  queueSync('custom-subjects');
+  window.queueSync('custom-subjects');
 }
 function persistSubject() {
   if (isCustom(subject.id)) {
@@ -350,7 +350,7 @@ function persistSubject() {
     if (!overlays[subject.id]) overlays[subject.id] = {};
     overlays[subject.id].chapters = subject.customChapters;
     localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
-    queueSync('subject-overlays');
+    window.queueSync('subject-overlays');
   }
 }
 function nextChapterId() {
@@ -640,7 +640,7 @@ function openDeleteSubject() {
   const overlays = JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}');
   delete overlays[subject.id];
   localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
-  queueSync('subject-overlays');
+  window.queueSync('subject-overlays');
   closeConfirm();
   window.location.href = 'subjects.html';
 };
