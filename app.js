@@ -2,8 +2,13 @@
 // Provides: data helpers, nav, heatmap, subject counters
 
 // ── Date ─────────────────────────────────────────────────
+// Uses LOCAL date, not UTC — avoids off-by-one in timezones like IST (UTC+5:30)
+// where toISOString() can return yesterday before 5:30am local time.
 function today() {
-  return new Date().toISOString().split('T')[0];
+  const d = new Date();
+  return d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
 }
 
 // ── Study Log ────────────────────────────────────────────
@@ -36,27 +41,54 @@ function saveDailyGoal(val) {
   localStorage.setItem('cfa_daily_goal', String(val));
 }
 
-// ── Today's Target (with rollover) ───────────────────────
-// Looks at all past days since the last fully-met day and adds any deficit.
-function getTodayTarget() {
-  const goal = getDailyGoal();
-  const log  = getStudyLog();
+// ── Start Date ───────────────────────────────────────────
+// The date the user started their study plan. All rollover is counted from here.
+// Stored in localStorage as 'cfa_start_date' (YYYY-MM-DD).
+// If not set, falls back to first log entry (so old data still works).
+function getStartDate() {
+  const stored = localStorage.getItem('cfa_start_date');
+  if (stored) return stored;
+  // Fallback: earliest log entry
+  const log = getStudyLog();
   const todayStr = today();
+  const dates = log.map(l => l.date).filter(d => d < todayStr).sort();
+  return dates.length ? dates[0] : null;
+}
+function setStartDate(dateStr) {
+  localStorage.setItem('cfa_start_date', dateStr);
+}
+
+// ── Today's Target (with rollover) ───────────────────────
+// Walks EVERY calendar day from cfa_start_date to yesterday.
+// Unlogged days count as 0h — a full day's deficit.
+// Surplus days reduce the running deficit (but never below 0).
+function getTodayTarget() {
+  const goal      = getDailyGoal();
+  const log       = getStudyLog();
+  const todayStr  = today();
+  const startDate = getStartDate();
+
+  if (!startDate) return goal; // no history yet
+
   let deficit = 0;
 
-  // Walk backwards through all logged dates before today
-  const pastEntries = log
-    .filter(l => l.date < todayStr && !l.auto)
-    .sort((a, b) => a.date.localeCompare(b.date));
+  // Walk noon-to-noon to avoid DST / midnight edge cases
+  const cursor = new Date(startDate + 'T12:00:00');
+  const stopAt = new Date(todayStr  + 'T12:00:00');
 
-  for (const entry of pastEntries) {
-    const shortfall = goal - entry.hours;
-    if (shortfall > 0) {
-      deficit += shortfall;
-    } else {
-      // Surplus cancels deficit
-      deficit = Math.max(0, deficit + shortfall);
-    }
+  while (cursor < stopAt) {
+    const ds =
+      cursor.getFullYear() + '-' +
+      String(cursor.getMonth() + 1).padStart(2, '0') + '-' +
+      String(cursor.getDate()).padStart(2, '0');
+
+    const entry = log.find(l => l.date === ds && !l.auto);
+    const hours = entry ? entry.hours : 0; // unlogged = 0h = full deficit
+
+    deficit += (goal - hours);
+    if (deficit < 0) deficit = 0; // surplus floors at 0, can't reduce today's base goal
+
+    cursor.setDate(cursor.getDate() + 1);
   }
 
   return goal + deficit;
