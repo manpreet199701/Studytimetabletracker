@@ -5,63 +5,3417 @@
       "name": "Ethical and Professional Standards",
       "shortName": "Ethics",
       "color": "#E63946",
-      "icon": "⚖️",
-      "topics": []
+      "icon": "\u2696\ufe0f",
+      "topics": [],
+      "customChapters": [
+        {
+          "id": 101,
+          "name": "LM 1 \u2013 Ethics and Trust in the Investment Profession",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Ethics"
+            },
+            {
+              "id": 3,
+              "name": "Ethics and Professionalism"
+            },
+            {
+              "id": 4,
+              "name": "How Professions Establish Trust"
+            },
+            {
+              "id": 5,
+              "name": "Professions Are Evolving"
+            },
+            {
+              "id": 6,
+              "name": "Professionalism in Investment Management"
+            },
+            {
+              "id": 7,
+              "name": "Trust in Investment Management"
+            },
+            {
+              "id": 8,
+              "name": "CFA Institute as an Investment Management Professional Body"
+            },
+            {
+              "id": 9,
+              "name": "Challenges to Ethical Conduct"
+            },
+            {
+              "id": 10,
+              "name": "Ethical vs. Legal Standards"
+            },
+            {
+              "id": 11,
+              "name": "Ethical Decision-Making Frameworks"
+            },
+            {
+              "id": 12,
+              "name": "The Framework for Ethical Decision-Making"
+            },
+            {
+              "id": 13,
+              "name": "Applying the Framework"
+            },
+            {
+              "id": 14,
+              "name": "Conclusion"
+            }
+          ]
+        },
+        {
+          "id": 102,
+          "name": "LM 2 \u2013 Code of Ethics and Standards of Professional Conduct",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Preface"
+            },
+            {
+              "id": 2,
+              "name": "Evolution of the CFA Institute Code of Ethics and Standards"
+            },
+            {
+              "id": 3,
+              "name": "Standards of Practice Handbook"
+            },
+            {
+              "id": 4,
+              "name": "Summary of the 2023 Revisions"
+            },
+            {
+              "id": 5,
+              "name": "New and Revised Standards of Professional Conduct"
+            },
+            {
+              "id": 6,
+              "name": "CFA Institute Professional Conduct Program"
+            },
+            {
+              "id": 7,
+              "name": "Adoption of the Code and Standards"
+            },
+            {
+              "id": 8,
+              "name": "Why Ethics Matters"
+            },
+            {
+              "id": 9,
+              "name": "The Code of Ethics"
+            },
+            {
+              "id": 10,
+              "name": "Standards of Professional Conduct"
+            }
+          ]
+        },
+        {
+          "id": 103,
+          "name": "LM 3 \u2013 Standard I: Professionalism",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "I(A) Knowledge of the Law \u2013 Guidance"
+            },
+            {
+              "id": 2,
+              "name": "I(A) Knowledge of the Law \u2013 Recommended Procedures"
+            },
+            {
+              "id": 3,
+              "name": "I(A) Knowledge of the Law \u2013 Application"
+            },
+            {
+              "id": 4,
+              "name": "I(B) Independence and Objectivity \u2013 Guidance"
+            },
+            {
+              "id": 5,
+              "name": "I(B) Independence and Objectivity \u2013 Recommended Procedures"
+            },
+            {
+              "id": 6,
+              "name": "I(B) Independence and Objectivity \u2013 Application"
+            },
+            {
+              "id": 7,
+              "name": "I(C) Misrepresentation \u2013 Guidance"
+            },
+            {
+              "id": 8,
+              "name": "I(C) Misrepresentation \u2013 Recommended Procedures"
+            },
+            {
+              "id": 9,
+              "name": "I(C) Misrepresentation \u2013 Application"
+            },
+            {
+              "id": 10,
+              "name": "I(D) Misconduct \u2013 Guidance"
+            },
+            {
+              "id": 11,
+              "name": "I(D) Misconduct \u2013 Application"
+            },
+            {
+              "id": 12,
+              "name": "I(E) Competence \u2013 Guidance"
+            },
+            {
+              "id": 13,
+              "name": "I(E) Competence \u2013 Recommended Procedures"
+            },
+            {
+              "id": 14,
+              "name": "I(E) Competence \u2013 Application"
+            }
+          ]
+        },
+        {
+          "id": 104,
+          "name": "LM 3 \u2013 Standard II: Integrity of Capital Markets",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "II(A) Material Nonpublic Information \u2013 Guidance"
+            },
+            {
+              "id": 2,
+              "name": "II(A) Material Nonpublic Information \u2013 Recommended Procedures"
+            },
+            {
+              "id": 3,
+              "name": "II(A) Material Nonpublic Information \u2013 Application"
+            },
+            {
+              "id": 4,
+              "name": "II(B) Market Manipulation \u2013 Guidance"
+            },
+            {
+              "id": 5,
+              "name": "II(B) Market Manipulation \u2013 Application"
+            }
+          ]
+        },
+        {
+          "id": 105,
+          "name": "LM 3 \u2013 Standard III: Duties to Clients",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "III(A) Loyalty, Prudence, and Care \u2013 Guidance"
+            },
+            {
+              "id": 2,
+              "name": "III(A) Loyalty, Prudence, and Care \u2013 Recommended Procedures"
+            },
+            {
+              "id": 3,
+              "name": "III(A) Loyalty, Prudence, and Care \u2013 Application"
+            },
+            {
+              "id": 4,
+              "name": "III(B) Fair Dealing \u2013 Guidance"
+            },
+            {
+              "id": 5,
+              "name": "III(B) Fair Dealing \u2013 Recommended Procedures"
+            },
+            {
+              "id": 6,
+              "name": "III(B) Fair Dealing \u2013 Application"
+            },
+            {
+              "id": 7,
+              "name": "III(C) Suitability \u2013 Guidance"
+            },
+            {
+              "id": 8,
+              "name": "III(C) Suitability \u2013 Recommended Procedures"
+            },
+            {
+              "id": 9,
+              "name": "III(C) Suitability \u2013 Application"
+            },
+            {
+              "id": 10,
+              "name": "III(D) Performance Presentation \u2013 Guidance"
+            },
+            {
+              "id": 11,
+              "name": "III(D) Performance Presentation \u2013 Recommended Procedures"
+            },
+            {
+              "id": 12,
+              "name": "III(D) Performance Presentation \u2013 Application"
+            },
+            {
+              "id": 13,
+              "name": "III(E) Preservation of Confidentiality \u2013 Guidance"
+            },
+            {
+              "id": 14,
+              "name": "III(E) Preservation of Confidentiality \u2013 Recommended Procedures"
+            },
+            {
+              "id": 15,
+              "name": "III(E) Preservation of Confidentiality \u2013 Application"
+            }
+          ]
+        },
+        {
+          "id": 106,
+          "name": "LM 3 \u2013 Standard IV: Duties to Employers",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "IV(A) Loyalty \u2013 Guidance"
+            },
+            {
+              "id": 2,
+              "name": "IV(A) Loyalty \u2013 Recommended Procedures"
+            },
+            {
+              "id": 3,
+              "name": "IV(A) Loyalty \u2013 Application"
+            },
+            {
+              "id": 4,
+              "name": "IV(B) Additional Compensation Arrangements \u2013 Guidance"
+            },
+            {
+              "id": 5,
+              "name": "IV(B) Additional Compensation Arrangements \u2013 Application"
+            },
+            {
+              "id": 6,
+              "name": "IV(C) Responsibilities of Supervisors \u2013 Guidance"
+            },
+            {
+              "id": 7,
+              "name": "IV(C) Responsibilities of Supervisors \u2013 Recommended Procedures"
+            },
+            {
+              "id": 8,
+              "name": "IV(C) Responsibilities of Supervisors \u2013 Application"
+            }
+          ]
+        },
+        {
+          "id": 107,
+          "name": "LM 3 \u2013 Standard V: Investment Analysis, Recommendations & Actions",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "V(A) Diligence and Reasonable Basis \u2013 Guidance"
+            },
+            {
+              "id": 2,
+              "name": "V(A) Diligence and Reasonable Basis \u2013 Recommended Procedures"
+            },
+            {
+              "id": 3,
+              "name": "V(A) Diligence and Reasonable Basis \u2013 Application"
+            },
+            {
+              "id": 4,
+              "name": "V(B) Communication with Clients \u2013 Guidance"
+            },
+            {
+              "id": 5,
+              "name": "V(B) Communication with Clients \u2013 Recommended Procedures"
+            },
+            {
+              "id": 6,
+              "name": "V(B) Communication with Clients \u2013 Application"
+            },
+            {
+              "id": 7,
+              "name": "V(C) Record Retention \u2013 Guidance"
+            },
+            {
+              "id": 8,
+              "name": "V(C) Record Retention \u2013 Recommended Procedures"
+            },
+            {
+              "id": 9,
+              "name": "V(C) Record Retention \u2013 Application"
+            }
+          ]
+        },
+        {
+          "id": 108,
+          "name": "LM 3 \u2013 Standard VI: Conflicts of Interest",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "VI(A) Avoid or Disclose Conflicts \u2013 Guidance"
+            },
+            {
+              "id": 2,
+              "name": "VI(A) Avoid or Disclose Conflicts \u2013 Application"
+            },
+            {
+              "id": 3,
+              "name": "VI(B) Priority of Transactions \u2013 Guidance"
+            },
+            {
+              "id": 4,
+              "name": "VI(B) Priority of Transactions \u2013 Recommended Procedures"
+            },
+            {
+              "id": 5,
+              "name": "VI(B) Priority of Transactions \u2013 Application"
+            },
+            {
+              "id": 6,
+              "name": "VI(C) Referral Fees \u2013 Guidance"
+            },
+            {
+              "id": 7,
+              "name": "VI(C) Referral Fees \u2013 Recommended Procedures"
+            },
+            {
+              "id": 8,
+              "name": "VI(C) Referral Fees \u2013 Application"
+            }
+          ]
+        },
+        {
+          "id": 109,
+          "name": "LM 3 \u2013 Standard VII: Responsibilities as CFA Member/Candidate",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "VII(A) Conduct as Participants \u2013 Guidance"
+            },
+            {
+              "id": 2,
+              "name": "VII(A) Conduct as Participants \u2013 Application"
+            },
+            {
+              "id": 3,
+              "name": "VII(B) Reference to CFA Institute, CFA Designation \u2013 Guidance"
+            },
+            {
+              "id": 4,
+              "name": "VII(B) Reference to CFA Institute, CFA Designation \u2013 Recommended Procedures"
+            },
+            {
+              "id": 5,
+              "name": "VII(B) Reference to CFA Institute, CFA Designation \u2013 Application"
+            }
+          ]
+        },
+        {
+          "id": 110,
+          "name": "LM 4 \u2013 Introduction to GIPS",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Why Were the GIPS Standards Created?"
+            },
+            {
+              "id": 3,
+              "name": "Who Can Claim Compliance?"
+            },
+            {
+              "id": 4,
+              "name": "Who Benefits from Compliance?"
+            },
+            {
+              "id": 5,
+              "name": "Composites"
+            },
+            {
+              "id": 6,
+              "name": "Fundamentals of Compliance"
+            },
+            {
+              "id": 7,
+              "name": "Verification"
+            }
+          ]
+        },
+        {
+          "id": 111,
+          "name": "LM 5 \u2013 Ethics Application",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Professionalism: Knowledge of the Law"
+            },
+            {
+              "id": 2,
+              "name": "Professionalism: Independence and Objectivity"
+            },
+            {
+              "id": 3,
+              "name": "Professionalism: Misrepresentation"
+            },
+            {
+              "id": 4,
+              "name": "Professionalism: Misconduct"
+            },
+            {
+              "id": 5,
+              "name": "Professionalism: Competence"
+            },
+            {
+              "id": 6,
+              "name": "Integrity of Capital Markets: Material Nonpublic Information"
+            },
+            {
+              "id": 7,
+              "name": "Integrity of Capital Markets: Market Manipulation"
+            },
+            {
+              "id": 8,
+              "name": "Duties to Clients: Loyalty, Prudence, and Care"
+            },
+            {
+              "id": 9,
+              "name": "Duties to Clients: Fair Dealing"
+            },
+            {
+              "id": 10,
+              "name": "Duties to Clients: Suitability"
+            },
+            {
+              "id": 11,
+              "name": "Duties to Clients: Performance Presentation"
+            },
+            {
+              "id": 12,
+              "name": "Duties to Clients: Preservation of Confidentiality"
+            },
+            {
+              "id": 13,
+              "name": "Duties to Employers: Loyalty"
+            },
+            {
+              "id": 14,
+              "name": "Duties to Employers: Additional Compensation Arrangements"
+            },
+            {
+              "id": 15,
+              "name": "Duties to Employers: Responsibilities of Supervisors"
+            },
+            {
+              "id": 16,
+              "name": "Investment Analysis: Diligence and Reasonable Basis"
+            },
+            {
+              "id": 17,
+              "name": "Investment Analysis: Communication with Clients"
+            },
+            {
+              "id": 18,
+              "name": "Investment Analysis: Record Retention"
+            },
+            {
+              "id": 19,
+              "name": "Conflicts of Interest: Avoid or Disclose Conflicts"
+            },
+            {
+              "id": 20,
+              "name": "Conflicts of Interest: Priority of Transactions"
+            },
+            {
+              "id": 21,
+              "name": "Conflicts of Interest: Referral Fees"
+            },
+            {
+              "id": 22,
+              "name": "CFA Member/Candidate: Conduct as Participants"
+            },
+            {
+              "id": 23,
+              "name": "CFA Member/Candidate: Reference to CFA Designation"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": 2,
       "name": "Quantitative Methods",
       "shortName": "Quant",
       "color": "#2196F3",
-      "icon": "📐",
-      "topics": []
+      "icon": "\ud83d\udcd0",
+      "topics": [],
+      "customChapters": [
+        {
+          "id": 701,
+          "name": "LM 1 \u2013 Rates and Returns",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Interest Rates and Time Value of Money"
+            },
+            {
+              "id": 3,
+              "name": "Determinants of Interest Rates"
+            },
+            {
+              "id": 4,
+              "name": "Holding Period Return"
+            },
+            {
+              "id": 5,
+              "name": "Arithmetic or Mean Return"
+            },
+            {
+              "id": 6,
+              "name": "Geometric Mean Return"
+            },
+            {
+              "id": 7,
+              "name": "The Harmonic Mean"
+            },
+            {
+              "id": 8,
+              "name": "Money-Weighted and Time-Weighted Return"
+            },
+            {
+              "id": 9,
+              "name": "Non-Annual Compounding and Annualizing Returns"
+            },
+            {
+              "id": 10,
+              "name": "Continuously Compounded Returns"
+            },
+            {
+              "id": 11,
+              "name": "Gross, Net, Pre-Tax, After-Tax, and Real Returns"
+            },
+            {
+              "id": 12,
+              "name": "Leveraged Return"
+            }
+          ]
+        },
+        {
+          "id": 702,
+          "name": "LM 2 \u2013 Time Value of Money in Finance",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Fixed-Income Instruments and Time Value of Money"
+            },
+            {
+              "id": 3,
+              "name": "Equity Instruments and Time Value of Money"
+            },
+            {
+              "id": 4,
+              "name": "Implied Return for Fixed-Income Instruments"
+            },
+            {
+              "id": 5,
+              "name": "Equity Instruments: Implied Return and Implied Growth"
+            },
+            {
+              "id": 6,
+              "name": "Cash Flow Additivity"
+            },
+            {
+              "id": 7,
+              "name": "Implied Forward Rates"
+            },
+            {
+              "id": 8,
+              "name": "Forward Exchange Rates Using No Arbitrage"
+            },
+            {
+              "id": 9,
+              "name": "Option Pricing Using Cash Flow Additivity"
+            }
+          ]
+        },
+        {
+          "id": 703,
+          "name": "LM 3 \u2013 Statistical Measures of Asset Returns",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Measures of Central Tendency"
+            },
+            {
+              "id": 3,
+              "name": "Dealing with Outliers"
+            },
+            {
+              "id": 4,
+              "name": "Measures of Location"
+            },
+            {
+              "id": 5,
+              "name": "The Range and Mean Absolute Deviations"
+            },
+            {
+              "id": 6,
+              "name": "Sample Variance and Sample Standard Deviation"
+            },
+            {
+              "id": 7,
+              "name": "Downside Deviation and Coefficient of Variation"
+            },
+            {
+              "id": 8,
+              "name": "Measures of Shape of a Distribution"
+            },
+            {
+              "id": 9,
+              "name": "Scatter Plot"
+            },
+            {
+              "id": 10,
+              "name": "Covariance and Correlation"
+            },
+            {
+              "id": 11,
+              "name": "Properties and Limitations of Correlation Analysis"
+            }
+          ]
+        },
+        {
+          "id": 704,
+          "name": "LM 4 \u2013 Probability Trees and Conditional Expectations",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Expected Value and Variance"
+            },
+            {
+              "id": 3,
+              "name": "Probability Trees and Conditional Expectations"
+            },
+            {
+              "id": 4,
+              "name": "Total Probability Rule for Expected Value"
+            },
+            {
+              "id": 5,
+              "name": "Bayes' Formula and Updating Probability Estimates"
+            }
+          ]
+        },
+        {
+          "id": 705,
+          "name": "LM 5 \u2013 Portfolio Mathematics",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Portfolio Expected Return and Variance of Return"
+            },
+            {
+              "id": 3,
+              "name": "Covariance"
+            },
+            {
+              "id": 4,
+              "name": "Correlation"
+            },
+            {
+              "id": 5,
+              "name": "Forecasting Correlation: Covariance Given a Joint Probability Function"
+            },
+            {
+              "id": 6,
+              "name": "Portfolio Risk Measures: Applications of the Normal Distribution"
+            }
+          ]
+        },
+        {
+          "id": 706,
+          "name": "LM 6 \u2013 Simulation Methods",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "The Lognormal Distribution"
+            },
+            {
+              "id": 3,
+              "name": "Continuously Compounded Rates of Return"
+            },
+            {
+              "id": 4,
+              "name": "Monte Carlo Simulation"
+            },
+            {
+              "id": 5,
+              "name": "Bootstrapping"
+            }
+          ]
+        },
+        {
+          "id": 707,
+          "name": "LM 7 \u2013 Estimation and Inference",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Simple Random Sampling"
+            },
+            {
+              "id": 3,
+              "name": "Stratified Random Sampling"
+            },
+            {
+              "id": 4,
+              "name": "Cluster Sampling"
+            },
+            {
+              "id": 5,
+              "name": "Non-Probability Sampling"
+            },
+            {
+              "id": 6,
+              "name": "Sampling from Different Distributions"
+            },
+            {
+              "id": 7,
+              "name": "The Central Limit Theorem"
+            },
+            {
+              "id": 8,
+              "name": "Standard Error of the Sample Mean"
+            },
+            {
+              "id": 9,
+              "name": "Bootstrapping and Empirical Sampling Distributions"
+            }
+          ]
+        },
+        {
+          "id": 708,
+          "name": "LM 8 \u2013 Hypothesis Testing",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "The Process of Hypothesis Testing"
+            },
+            {
+              "id": 3,
+              "name": "Tests of Return and Risk in Finance"
+            },
+            {
+              "id": 4,
+              "name": "Test Concerning Differences between Means with Dependent Samples"
+            },
+            {
+              "id": 5,
+              "name": "Test Concerning the Equality of Two Variances"
+            },
+            {
+              "id": 6,
+              "name": "Parametric versus Nonparametric Tests"
+            }
+          ]
+        },
+        {
+          "id": 709,
+          "name": "LM 9 \u2013 Parametric and Non-Parametric Tests of Independence",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Parametric Test of a Correlation"
+            },
+            {
+              "id": 3,
+              "name": "Non-Parametric Test: Spearman Rank Correlation Coefficient"
+            },
+            {
+              "id": 4,
+              "name": "Tests of Independence Using Contingency Table Data"
+            }
+          ]
+        },
+        {
+          "id": 710,
+          "name": "LM 10 \u2013 Simple Linear Regression",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Introduction to Linear Regression"
+            },
+            {
+              "id": 3,
+              "name": "Estimating the Parameters of a Simple Linear Regression"
+            },
+            {
+              "id": 4,
+              "name": "Assumption 1: Linearity"
+            },
+            {
+              "id": 5,
+              "name": "Assumption 2: Homoskedasticity"
+            },
+            {
+              "id": 6,
+              "name": "Assumption 3: Independence"
+            },
+            {
+              "id": 7,
+              "name": "Assumption 4: Normality"
+            },
+            {
+              "id": 8,
+              "name": "Analysis of Variance and Measures of Goodness of Fit"
+            },
+            {
+              "id": 9,
+              "name": "Hypothesis Testing of Individual Regression Coefficients"
+            },
+            {
+              "id": 10,
+              "name": "Prediction Using Simple Linear Regression and Prediction Intervals"
+            },
+            {
+              "id": 11,
+              "name": "The Log-Lin, Lin-Log, and Log-Log Models"
+            },
+            {
+              "id": 12,
+              "name": "Selecting the Correct Functional Form"
+            }
+          ]
+        },
+        {
+          "id": 711,
+          "name": "LM 11 \u2013 Introduction to Big Data Techniques",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "How Is Fintech Used in Quantitative Investment Analysis?"
+            },
+            {
+              "id": 3,
+              "name": "Big Data"
+            },
+            {
+              "id": 4,
+              "name": "Artificial Intelligence and Machine Learning"
+            },
+            {
+              "id": 5,
+              "name": "Data Processing Methods"
+            },
+            {
+              "id": 6,
+              "name": "Data Visualization"
+            },
+            {
+              "id": 7,
+              "name": "Text Analytics and Natural Language Processing"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": 3,
       "name": "Economics",
       "shortName": "Economics",
       "color": "#4CAF50",
-      "icon": "📈",
-      "topics": []
+      "icon": "\ud83d\udcc8",
+      "topics": [],
+      "customChapters": [
+        {
+          "id": 601,
+          "name": "LM 1 \u2013 The Firm and Market Structures",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Profit-Maximization, Breakeven, and Shutdown Points"
+            },
+            {
+              "id": 3,
+              "name": "Economies and Diseconomies of Scale"
+            },
+            {
+              "id": 4,
+              "name": "Introduction to Market Structures"
+            },
+            {
+              "id": 5,
+              "name": "Monopolistic Competition: Demand and Supply Analysis"
+            },
+            {
+              "id": 6,
+              "name": "Optimal Price and Output in Monopolistic Competition"
+            },
+            {
+              "id": 7,
+              "name": "Oligopoly and Pricing Strategies"
+            },
+            {
+              "id": 8,
+              "name": "The Cournot Assumption and Nash Equilibrium"
+            },
+            {
+              "id": 9,
+              "name": "Oligopoly: Optimal Price, Output, and Long-Run Equilibrium"
+            },
+            {
+              "id": 10,
+              "name": "Determining Market Structure"
+            }
+          ]
+        },
+        {
+          "id": 602,
+          "name": "LM 2 \u2013 Understanding Business Cycles",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Overview and Phases of the Business Cycle"
+            },
+            {
+              "id": 3,
+              "name": "Leads and Lags in Business and Consumer Decision Making"
+            },
+            {
+              "id": 4,
+              "name": "Market Conditions and Investor Behavior"
+            },
+            {
+              "id": 5,
+              "name": "Credit Cycles"
+            },
+            {
+              "id": 6,
+              "name": "The Workforce and Company Costs"
+            },
+            {
+              "id": 7,
+              "name": "Fluctuations in Capital Spending"
+            },
+            {
+              "id": 8,
+              "name": "Fluctuations in Inventory Levels"
+            },
+            {
+              "id": 9,
+              "name": "Types of Economic Indicators"
+            },
+            {
+              "id": 10,
+              "name": "Composite and Leading Indicators"
+            },
+            {
+              "id": 11,
+              "name": "Nowcasting and GDPNow"
+            }
+          ]
+        },
+        {
+          "id": 603,
+          "name": "LM 3 \u2013 Fiscal Policy",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Roles and Objectives of Fiscal Policy"
+            },
+            {
+              "id": 3,
+              "name": "Deficits and the National Debt"
+            },
+            {
+              "id": 4,
+              "name": "Fiscal Policy Tools"
+            },
+            {
+              "id": 5,
+              "name": "Advantages and Disadvantages of Fiscal Policy Tools"
+            },
+            {
+              "id": 6,
+              "name": "The Fiscal Multiplier and Balanced Budget Multiplier"
+            },
+            {
+              "id": 7,
+              "name": "Deficits and the Fiscal Stance"
+            },
+            {
+              "id": 8,
+              "name": "Difficulties in Executing Fiscal Policy"
+            }
+          ]
+        },
+        {
+          "id": 604,
+          "name": "LM 4 \u2013 Monetary Policy",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Roles of Central Banks"
+            },
+            {
+              "id": 3,
+              "name": "Objectives of Monetary Policy"
+            },
+            {
+              "id": 4,
+              "name": "Open Market Operations and Policy Rate"
+            },
+            {
+              "id": 5,
+              "name": "Reserve Requirements and the Transmission Mechanism"
+            },
+            {
+              "id": 6,
+              "name": "Inflation Targeting"
+            },
+            {
+              "id": 7,
+              "name": "Central Bank Independence and Credibility"
+            },
+            {
+              "id": 8,
+              "name": "The Bank of Japan and US Federal Reserve"
+            },
+            {
+              "id": 9,
+              "name": "Exchange Rate Targeting"
+            },
+            {
+              "id": 10,
+              "name": "Contractionary and Expansionary Monetary Policies"
+            },
+            {
+              "id": 11,
+              "name": "Limitations of Monetary Policy"
+            },
+            {
+              "id": 12,
+              "name": "Interaction of Monetary and Fiscal Policy"
+            }
+          ]
+        },
+        {
+          "id": 605,
+          "name": "LM 5 \u2013 Introduction to Geopolitics",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "State and Non-State Actors"
+            },
+            {
+              "id": 3,
+              "name": "Features of Political Cooperation"
+            },
+            {
+              "id": 4,
+              "name": "Resource Endowment, Standardization, and Soft Power"
+            },
+            {
+              "id": 5,
+              "name": "Hierarchy of Interests and Costs of Cooperation"
+            },
+            {
+              "id": 6,
+              "name": "Forces and Features of Globalization"
+            },
+            {
+              "id": 7,
+              "name": "Motivations and Costs of Globalization"
+            },
+            {
+              "id": 8,
+              "name": "Role of the IMF"
+            },
+            {
+              "id": 9,
+              "name": "World Bank Group"
+            },
+            {
+              "id": 10,
+              "name": "World Trade Organization"
+            },
+            {
+              "id": 11,
+              "name": "Archetypes of Country Behavior"
+            },
+            {
+              "id": 12,
+              "name": "The Tools of Geopolitics"
+            },
+            {
+              "id": 13,
+              "name": "Types of Geopolitical Risk"
+            },
+            {
+              "id": 14,
+              "name": "Assessing and Tracking Geopolitical Threats"
+            },
+            {
+              "id": 15,
+              "name": "Impact of Geopolitical Risk on Investment"
+            }
+          ]
+        },
+        {
+          "id": 606,
+          "name": "LM 6 \u2013 International Trade",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Benefits and Costs of International Trade"
+            },
+            {
+              "id": 3,
+              "name": "Tariffs"
+            },
+            {
+              "id": 4,
+              "name": "Quotas"
+            },
+            {
+              "id": 5,
+              "name": "Export Subsidies"
+            },
+            {
+              "id": 6,
+              "name": "Trading Blocs and Types"
+            },
+            {
+              "id": 7,
+              "name": "Regional Integration"
+            }
+          ]
+        },
+        {
+          "id": 607,
+          "name": "LM 7 \u2013 Capital Flows and the FX Market",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "The Foreign Exchange Market"
+            },
+            {
+              "id": 3,
+              "name": "Market Participants and Market Composition"
+            },
+            {
+              "id": 4,
+              "name": "Exchange Rate Quotations"
+            },
+            {
+              "id": 5,
+              "name": "The Ideal Currency Regime"
+            },
+            {
+              "id": 6,
+              "name": "Historical Perspective on Currency Regimes"
+            },
+            {
+              "id": 7,
+              "name": "A Taxonomy of Currency Regimes"
+            },
+            {
+              "id": 8,
+              "name": "Exchange Rates and the Trade Balance"
+            },
+            {
+              "id": 9,
+              "name": "Capital Restrictions"
+            }
+          ]
+        },
+        {
+          "id": 608,
+          "name": "LM 8 \u2013 Exchange Rate Calculations",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Cross-Rate Calculations"
+            },
+            {
+              "id": 3,
+              "name": "Forward Rate Calculations"
+            },
+            {
+              "id": 4,
+              "name": "Arbitrage Relationships"
+            },
+            {
+              "id": 5,
+              "name": "Forward Discounts and Premiums"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": 4,
       "name": "Financial Statement Analysis",
       "shortName": "FSA",
       "color": "#FF9800",
-      "icon": "📊",
-      "topics": []
+      "icon": "\ud83d\udcca",
+      "topics": [],
+      "customChapters": [
+        {
+          "id": 401,
+          "name": "LM 1 \u2013 Introduction to Financial Statement Analysis",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Financial Statement Analysis Framework"
+            },
+            {
+              "id": 3,
+              "name": "Articulate Purpose and Context"
+            },
+            {
+              "id": 4,
+              "name": "Collect and Process Data"
+            },
+            {
+              "id": 5,
+              "name": "Analyze and Interpret Data"
+            },
+            {
+              "id": 6,
+              "name": "Develop and Communicate Conclusions"
+            },
+            {
+              "id": 7,
+              "name": "Scope of Financial Statement Analysis"
+            },
+            {
+              "id": 8,
+              "name": "Regulated Sources of Information"
+            },
+            {
+              "id": 9,
+              "name": "IOSCO, SEC, and Capital Markets Regulation in Europe"
+            },
+            {
+              "id": 10,
+              "name": "Financial Notes and Supplementary Schedules"
+            },
+            {
+              "id": 11,
+              "name": "Business and Geographic Segment Reporting"
+            },
+            {
+              "id": 12,
+              "name": "Management Commentary and MD&A"
+            },
+            {
+              "id": 13,
+              "name": "Auditor's Reports"
+            },
+            {
+              "id": 14,
+              "name": "Comparison of IFRS with Alternative Financial Reporting Systems"
+            },
+            {
+              "id": 15,
+              "name": "Monitoring Developments in Financial Reporting Standards"
+            },
+            {
+              "id": 16,
+              "name": "Other Sources of Information"
+            }
+          ]
+        },
+        {
+          "id": 402,
+          "name": "LM 2 \u2013 Analyzing Income Statements",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Revenue Recognition: General Principles"
+            },
+            {
+              "id": 3,
+              "name": "Accounting Standards for Revenue Recognition"
+            },
+            {
+              "id": 4,
+              "name": "Expense Recognition: General Principles"
+            },
+            {
+              "id": 5,
+              "name": "Capitalization versus Expensing"
+            },
+            {
+              "id": 6,
+              "name": "Capitalization of Interest Costs"
+            },
+            {
+              "id": 7,
+              "name": "Capitalization of Internal Development Costs"
+            },
+            {
+              "id": 8,
+              "name": "Non-Recurring Items: Unusual or Infrequent Items"
+            },
+            {
+              "id": 9,
+              "name": "Discontinued Operations"
+            },
+            {
+              "id": 10,
+              "name": "Changes in Accounting Policy"
+            },
+            {
+              "id": 11,
+              "name": "Basic EPS"
+            },
+            {
+              "id": 12,
+              "name": "Diluted EPS: If-Converted Method"
+            },
+            {
+              "id": 13,
+              "name": "Diluted EPS: Treasury Stock Method"
+            },
+            {
+              "id": 14,
+              "name": "Common-Size Analysis of the Income Statement"
+            },
+            {
+              "id": 15,
+              "name": "Income Statement Ratios"
+            }
+          ]
+        },
+        {
+          "id": 403,
+          "name": "LM 3 \u2013 Analyzing Balance Sheets",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Identifiable Intangible Assets"
+            },
+            {
+              "id": 3,
+              "name": "Goodwill"
+            },
+            {
+              "id": 4,
+              "name": "Financial Instruments"
+            },
+            {
+              "id": 5,
+              "name": "Long-Term Financial Liabilities"
+            },
+            {
+              "id": 6,
+              "name": "Deferred Tax Liabilities"
+            },
+            {
+              "id": 7,
+              "name": "Common-Size Analysis of the Balance Sheet"
+            },
+            {
+              "id": 8,
+              "name": "Balance Sheet Ratios"
+            }
+          ]
+        },
+        {
+          "id": 404,
+          "name": "LM 4 \u2013 Analyzing Statements of Cash Flows I",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Linkages between the Financial Statements"
+            },
+            {
+              "id": 3,
+              "name": "Relationship between Financial Statements"
+            },
+            {
+              "id": 4,
+              "name": "Linkages Between Current Assets and Current Liabilities"
+            },
+            {
+              "id": 5,
+              "name": "The Direct Method for Cash Flows from Operating Activities"
+            },
+            {
+              "id": 6,
+              "name": "The Indirect Method for Cash Flows from Operating Activities"
+            },
+            {
+              "id": 7,
+              "name": "Conversion from Indirect to Direct Method"
+            },
+            {
+              "id": 8,
+              "name": "Cash Flows from Investing Activities"
+            },
+            {
+              "id": 9,
+              "name": "Cash Flows from Financing Activities"
+            },
+            {
+              "id": 10,
+              "name": "Differences under US GAAP versus IFRS"
+            }
+          ]
+        },
+        {
+          "id": 405,
+          "name": "LM 5 \u2013 Analyzing Statements of Cash Flows II",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Evaluating Sources and Uses of Cash"
+            },
+            {
+              "id": 3,
+              "name": "Ratios and Common-Size Analysis"
+            },
+            {
+              "id": 4,
+              "name": "Free Cash Flow Measures"
+            },
+            {
+              "id": 5,
+              "name": "Cash Flow Statement Analysis: Cash Flow Ratios"
+            }
+          ]
+        },
+        {
+          "id": 406,
+          "name": "LM 6 \u2013 Analysis of Inventories",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Inventory Valuation"
+            },
+            {
+              "id": 3,
+              "name": "Effects of Inflation and Deflation on Inventories and Gross Margin"
+            },
+            {
+              "id": 4,
+              "name": "Presentation and Disclosure"
+            },
+            {
+              "id": 5,
+              "name": "Inventory Ratios"
+            }
+          ]
+        },
+        {
+          "id": 407,
+          "name": "LM 7 \u2013 Analysis of Long-Term Assets",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Intangible Assets Purchased or Developed Internally"
+            },
+            {
+              "id": 3,
+              "name": "Intangible Assets Acquired in a Business Combination"
+            },
+            {
+              "id": 4,
+              "name": "Impairment of Property, Plant, and Equipment"
+            },
+            {
+              "id": 5,
+              "name": "Impairment of Intangible Assets"
+            },
+            {
+              "id": 6,
+              "name": "Impairment of Long-Lived Assets Held for Sale"
+            },
+            {
+              "id": 7,
+              "name": "Reversals of Impairments"
+            },
+            {
+              "id": 8,
+              "name": "Derecognition"
+            },
+            {
+              "id": 9,
+              "name": "Presentation, Disclosure, and Analysis"
+            }
+          ]
+        },
+        {
+          "id": 408,
+          "name": "LM 8 \u2013 Topics in Long-Term Liabilities and Equity",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Lease Classification as Finance or Operating"
+            },
+            {
+              "id": 3,
+              "name": "Lessee Accounting under IFRS"
+            },
+            {
+              "id": 4,
+              "name": "Lessee Accounting under US GAAP"
+            },
+            {
+              "id": 5,
+              "name": "Lessor Accounting"
+            },
+            {
+              "id": 6,
+              "name": "Defined-Benefit Pension Plans"
+            },
+            {
+              "id": 7,
+              "name": "Accounting for Defined-Benefit Plans under IFRS and US GAAP"
+            },
+            {
+              "id": 8,
+              "name": "Pension-Related Disclosures"
+            },
+            {
+              "id": 9,
+              "name": "Stock Grants and Stock Options"
+            },
+            {
+              "id": 10,
+              "name": "Accounting for Stock Options"
+            },
+            {
+              "id": 11,
+              "name": "Presentation and Disclosure of Leases"
+            },
+            {
+              "id": 12,
+              "name": "Presentation and Disclosure of Postemployment Plans"
+            },
+            {
+              "id": 13,
+              "name": "Presentation and Disclosure of Share-Based Compensation"
+            }
+          ]
+        },
+        {
+          "id": 409,
+          "name": "LM 9 \u2013 Analysis of Income Taxes",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Differences between Accounting Profit and Taxable Income"
+            },
+            {
+              "id": 3,
+              "name": "Taxable and Deductible Temporary Differences"
+            },
+            {
+              "id": 4,
+              "name": "Permanent Differences"
+            },
+            {
+              "id": 5,
+              "name": "Tax Expense"
+            },
+            {
+              "id": 6,
+              "name": "Deferred Tax Assets and Liabilities"
+            },
+            {
+              "id": 7,
+              "name": "Realizability of Deferred Tax Assets"
+            },
+            {
+              "id": 8,
+              "name": "Corporate Income Tax Rates"
+            },
+            {
+              "id": 9,
+              "name": "Presentation and Disclosure"
+            }
+          ]
+        },
+        {
+          "id": 410,
+          "name": "LM 10 \u2013 Financial Reporting Quality",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Conceptual Overview"
+            },
+            {
+              "id": 3,
+              "name": "GAAP Decision-Useful Financial Reporting"
+            },
+            {
+              "id": 4,
+              "name": "Biased Accounting Choices and Earnings Management"
+            },
+            {
+              "id": 5,
+              "name": "Departures from GAAP"
+            },
+            {
+              "id": 6,
+              "name": "Conservative versus Aggressive Accounting"
+            },
+            {
+              "id": 7,
+              "name": "Motivations for Low-Quality Financial Reports"
+            },
+            {
+              "id": 8,
+              "name": "Mechanisms That Discipline Financial Reporting Quality"
+            },
+            {
+              "id": 9,
+              "name": "Detection: Presentation Choices"
+            },
+            {
+              "id": 10,
+              "name": "Accounting Choices and Estimates"
+            },
+            {
+              "id": 11,
+              "name": "Warning Signs: Revenue, Inventories, Capitalization, Cash Flow"
+            }
+          ]
+        },
+        {
+          "id": 411,
+          "name": "LM 11 \u2013 Financial Analysis Techniques",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "The Financial Analysis Process"
+            },
+            {
+              "id": 3,
+              "name": "Analytical Tools and Techniques"
+            },
+            {
+              "id": 4,
+              "name": "Financial Ratio Analysis"
+            },
+            {
+              "id": 5,
+              "name": "Common-Size Balance Sheets and Income Statements"
+            },
+            {
+              "id": 6,
+              "name": "Cross-Sectional and Trend Analysis"
+            },
+            {
+              "id": 7,
+              "name": "Activity Ratios: Calculation and Interpretation"
+            },
+            {
+              "id": 8,
+              "name": "Liquidity Ratios: Calculation and Interpretation"
+            },
+            {
+              "id": 9,
+              "name": "Solvency Ratios: Calculation and Interpretation"
+            },
+            {
+              "id": 10,
+              "name": "Profitability Ratios: Calculation and Interpretation"
+            },
+            {
+              "id": 11,
+              "name": "Integrated Financial Ratio Analysis"
+            },
+            {
+              "id": 12,
+              "name": "DuPont Analysis \u2013 Decomposition of ROE"
+            },
+            {
+              "id": 13,
+              "name": "Industry-Specific Financial Ratios"
+            },
+            {
+              "id": 14,
+              "name": "Model Building and Forecasting"
+            }
+          ]
+        },
+        {
+          "id": 412,
+          "name": "LM 12 \u2013 Introduction to Financial Statement Modeling",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Building a Financial Statement Model"
+            },
+            {
+              "id": 3,
+              "name": "Revenue Forecast"
+            },
+            {
+              "id": 4,
+              "name": "COGS and SG&A Expenses"
+            },
+            {
+              "id": 5,
+              "name": "Pro Forma Income Statement"
+            },
+            {
+              "id": 6,
+              "name": "Pro Forma Statement of Cash Flows"
+            },
+            {
+              "id": 7,
+              "name": "Capital Investments and Depreciation Forecasts"
+            },
+            {
+              "id": 8,
+              "name": "Working Capital and Balance Sheet Forecasts"
+            },
+            {
+              "id": 9,
+              "name": "Valuation Model Inputs"
+            },
+            {
+              "id": 10,
+              "name": "Behavioral Finance and Analyst Forecasts"
+            },
+            {
+              "id": 11,
+              "name": "Overconfidence, Illusion of Control, Conservatism Bias"
+            },
+            {
+              "id": 12,
+              "name": "Representativeness and Confirmation Bias"
+            },
+            {
+              "id": 13,
+              "name": "Modeling Inflation and Deflation"
+            },
+            {
+              "id": 14,
+              "name": "The Forecast Horizon and Long-Term Forecasting"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": 5,
       "name": "Corporate Issuers",
       "shortName": "Corporate",
       "color": "#9C27B0",
-      "icon": "🏢",
-      "topics": []
+      "icon": "\ud83c\udfe2",
+      "topics": [],
+      "customChapters": [
+        {
+          "id": 501,
+          "name": "LM 1 \u2013 Organizational Forms, Corporate Issuer Features, and Ownership",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Sole Trader or Proprietorship"
+            },
+            {
+              "id": 3,
+              "name": "Partnerships"
+            },
+            {
+              "id": 4,
+              "name": "Limited Companies"
+            },
+            {
+              "id": 5,
+              "name": "Legal Identity and Owner-Manager Separation"
+            },
+            {
+              "id": 6,
+              "name": "Owner/Shareholder Liability"
+            },
+            {
+              "id": 7,
+              "name": "External Financing and Taxation"
+            },
+            {
+              "id": 8,
+              "name": "Exchange Listing, Liquidity, and Price Transparency"
+            },
+            {
+              "id": 9,
+              "name": "Share Issuance and Registration Requirements"
+            },
+            {
+              "id": 10,
+              "name": "Going from Private to Public"
+            },
+            {
+              "id": 11,
+              "name": "Going from Public to Private"
+            },
+            {
+              "id": 12,
+              "name": "The Varieties of Corporate Owners"
+            }
+          ]
+        },
+        {
+          "id": 502,
+          "name": "LM 2 \u2013 Investors and Other Stakeholders",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Debt Versus Equity: Financial Claims"
+            },
+            {
+              "id": 3,
+              "name": "Debt Versus Equity: Risk and Return"
+            },
+            {
+              "id": 4,
+              "name": "Conflicts of Interest among Lenders and Shareholders"
+            },
+            {
+              "id": 5,
+              "name": "Corporate Stakeholders and Governance"
+            },
+            {
+              "id": 6,
+              "name": "Shareholders, Board of Directors, Managers, Employees"
+            },
+            {
+              "id": 7,
+              "name": "Customers, Suppliers, Governments"
+            },
+            {
+              "id": 8,
+              "name": "Environmental Factors (ESG)"
+            },
+            {
+              "id": 9,
+              "name": "Social Factors (ESG)"
+            },
+            {
+              "id": 10,
+              "name": "Governance Factors (ESG)"
+            },
+            {
+              "id": 11,
+              "name": "Evaluating ESG-Related Risks and Opportunities"
+            }
+          ]
+        },
+        {
+          "id": 503,
+          "name": "LM 3 \u2013 Corporate Governance: Conflicts, Mechanisms, Risks, and Benefits",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Shareholder, Board Director, and Manager Relationships"
+            },
+            {
+              "id": 3,
+              "name": "Controlling and Minority Shareholder Relationships"
+            },
+            {
+              "id": 4,
+              "name": "Shareholder versus Creditor Interests"
+            },
+            {
+              "id": 5,
+              "name": "Corporate Reporting and Transparency"
+            },
+            {
+              "id": 6,
+              "name": "Shareholder and Creditor Mechanisms"
+            },
+            {
+              "id": 7,
+              "name": "Board and Management Mechanisms"
+            },
+            {
+              "id": 8,
+              "name": "Employee, Customer, Supplier, and Government Mechanisms"
+            },
+            {
+              "id": 9,
+              "name": "Operational Risks and Benefits of Corporate Governance"
+            },
+            {
+              "id": 10,
+              "name": "Legal, Regulatory, and Reputational Risks and Benefits"
+            },
+            {
+              "id": 11,
+              "name": "Financial Risks and Benefits"
+            }
+          ]
+        },
+        {
+          "id": 504,
+          "name": "LM 4 \u2013 Working Capital and Liquidity",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Cash Conversion Cycle"
+            },
+            {
+              "id": 3,
+              "name": "Primary and Secondary Liquidity Sources"
+            },
+            {
+              "id": 4,
+              "name": "Factors Affecting Liquidity: Drags and Pulls"
+            },
+            {
+              "id": 5,
+              "name": "Measuring and Evaluating Liquidity"
+            },
+            {
+              "id": 6,
+              "name": "Working Capital Management"
+            },
+            {
+              "id": 7,
+              "name": "Liquidity and Short-Term Funding"
+            }
+          ]
+        },
+        {
+          "id": 505,
+          "name": "LM 5 \u2013 Capital Investments and Capital Allocation",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Going Concern Projects"
+            },
+            {
+              "id": 3,
+              "name": "Regulatory Compliance Projects"
+            },
+            {
+              "id": 4,
+              "name": "Expansion of Existing Business"
+            },
+            {
+              "id": 5,
+              "name": "New Lines of Business"
+            },
+            {
+              "id": 6,
+              "name": "Net Present Value (NPV)"
+            },
+            {
+              "id": 7,
+              "name": "Internal Rate of Return"
+            },
+            {
+              "id": 8,
+              "name": "Return on Invested Capital"
+            },
+            {
+              "id": 9,
+              "name": "Capital Allocation Principles and Pitfalls"
+            },
+            {
+              "id": 10,
+              "name": "Real Options"
+            }
+          ]
+        },
+        {
+          "id": 506,
+          "name": "LM 6 \u2013 Capital Structure",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "The Cost of Capital"
+            },
+            {
+              "id": 3,
+              "name": "Determinants of the Amount and Type of Financing Needed"
+            },
+            {
+              "id": 4,
+              "name": "Determinants of the Costs of Debt and Equity"
+            },
+            {
+              "id": 5,
+              "name": "MM Proposition I: Capital Structure Irrelevance"
+            },
+            {
+              "id": 6,
+              "name": "MM Proposition II: Financial Leverage and Cost of Equity"
+            },
+            {
+              "id": 7,
+              "name": "Firm Value and Cost of Capital with Taxes"
+            },
+            {
+              "id": 8,
+              "name": "Cost of Financial Distress"
+            },
+            {
+              "id": 9,
+              "name": "Optimal Capital Structure"
+            },
+            {
+              "id": 10,
+              "name": "Target Weights and WACC"
+            },
+            {
+              "id": 11,
+              "name": "Pecking Order Theory and Agency Costs"
+            }
+          ]
+        },
+        {
+          "id": 507,
+          "name": "LM 7 \u2013 Business Models",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Defining the Business Model"
+            },
+            {
+              "id": 3,
+              "name": "Business Model Features"
+            },
+            {
+              "id": 4,
+              "name": "Pricing and Revenue Models"
+            },
+            {
+              "id": 5,
+              "name": "The Value Proposition"
+            },
+            {
+              "id": 6,
+              "name": "Business Organization and Capabilities"
+            },
+            {
+              "id": 7,
+              "name": "Conventional Business Models"
+            },
+            {
+              "id": 8,
+              "name": "Business Model Variations"
+            },
+            {
+              "id": 9,
+              "name": "Business Model Innovation"
+            },
+            {
+              "id": 10,
+              "name": "Network Effects and Platform Business Models"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": 6,
       "name": "Equity Investments",
       "shortName": "Equity",
       "color": "#00BCD4",
-      "icon": "📉",
-      "topics": []
+      "icon": "\ud83d\udcc9",
+      "topics": [],
+      "customChapters": [
+        {
+          "id": 301,
+          "name": "LM 1 \u2013 Market Organization and Structure",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "The Functions of the Financial System"
+            },
+            {
+              "id": 3,
+              "name": "Helping People Achieve Their Purposes"
+            },
+            {
+              "id": 4,
+              "name": "Determining Rates of Return"
+            },
+            {
+              "id": 5,
+              "name": "Capital Allocation Efficiency"
+            },
+            {
+              "id": 6,
+              "name": "Assets and Contracts"
+            },
+            {
+              "id": 7,
+              "name": "Classifications of Assets and Markets"
+            },
+            {
+              "id": 8,
+              "name": "Securities: Fixed Income, Equities, Pooled Investments"
+            },
+            {
+              "id": 9,
+              "name": "Currencies, Commodities, and Real Assets"
+            },
+            {
+              "id": 10,
+              "name": "Contracts: Forward, Futures, Swap, Option"
+            },
+            {
+              "id": 11,
+              "name": "Financial Intermediaries"
+            },
+            {
+              "id": 12,
+              "name": "Brokers, Exchanges, and Alternative Trading Systems"
+            },
+            {
+              "id": 13,
+              "name": "Dealers and Arbitrageurs"
+            },
+            {
+              "id": 14,
+              "name": "Securitizers and Depository Institutions"
+            },
+            {
+              "id": 15,
+              "name": "Insurance Companies"
+            },
+            {
+              "id": 16,
+              "name": "Settlement and Custodial Services"
+            },
+            {
+              "id": 17,
+              "name": "Short Positions and Leveraged Positions"
+            },
+            {
+              "id": 18,
+              "name": "Orders and Execution Instructions"
+            },
+            {
+              "id": 19,
+              "name": "Validity and Clearing Instructions"
+            },
+            {
+              "id": 20,
+              "name": "Primary Security Markets"
+            },
+            {
+              "id": 21,
+              "name": "Secondary Security Market Structures"
+            },
+            {
+              "id": 22,
+              "name": "Well-Functioning Financial Systems"
+            },
+            {
+              "id": 23,
+              "name": "Market Regulation"
+            }
+          ]
+        },
+        {
+          "id": 302,
+          "name": "LM 2 \u2013 Security Market Indexes",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Index Definition and Calculations of Value and Returns"
+            },
+            {
+              "id": 3,
+              "name": "Calculation of Single-Period Returns"
+            },
+            {
+              "id": 4,
+              "name": "Calculation of Index Values over Multiple Time Periods"
+            },
+            {
+              "id": 5,
+              "name": "Target Market and Security Selection"
+            },
+            {
+              "id": 6,
+              "name": "Index Weighting"
+            },
+            {
+              "id": 7,
+              "name": "Index Management: Rebalancing and Reconstitution"
+            },
+            {
+              "id": 8,
+              "name": "Uses of Market Indexes"
+            },
+            {
+              "id": 9,
+              "name": "Equity Indexes: Broad Market, Multi-Market, Sector, Style"
+            },
+            {
+              "id": 10,
+              "name": "Fixed-Income Indexes: Construction and Types"
+            },
+            {
+              "id": 11,
+              "name": "Indexes for Alternative Investments: Commodity, REIT, Hedge Fund"
+            }
+          ]
+        },
+        {
+          "id": 303,
+          "name": "LM 3 \u2013 Market Efficiency",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "The Concept of Market Efficiency"
+            },
+            {
+              "id": 3,
+              "name": "Market Value versus Intrinsic Value"
+            },
+            {
+              "id": 4,
+              "name": "Factors Affecting Market Efficiency"
+            },
+            {
+              "id": 5,
+              "name": "Market Participants"
+            },
+            {
+              "id": 6,
+              "name": "Information Availability and Financial Disclosure"
+            },
+            {
+              "id": 7,
+              "name": "Limits to Trading"
+            },
+            {
+              "id": 8,
+              "name": "Weak Form Efficiency"
+            },
+            {
+              "id": 9,
+              "name": "Semi-Strong Form Efficiency"
+            },
+            {
+              "id": 10,
+              "name": "Strong Form Efficiency"
+            },
+            {
+              "id": 11,
+              "name": "Implications for Fundamental and Technical Analysis"
+            },
+            {
+              "id": 12,
+              "name": "Time-Series Anomalies"
+            },
+            {
+              "id": 13,
+              "name": "Cross-Sectional Anomalies"
+            },
+            {
+              "id": 14,
+              "name": "Other Anomalies: Closed-End Funds, Earnings Surprise, IPOs"
+            },
+            {
+              "id": 15,
+              "name": "Behavioral Finance: Loss Aversion, Herding, Overconfidence"
+            },
+            {
+              "id": 16,
+              "name": "Information Cascades and Other Behavioral Biases"
+            }
+          ]
+        },
+        {
+          "id": 304,
+          "name": "LM 4 \u2013 Overview of Equity Securities",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Importance of Equity Securities"
+            },
+            {
+              "id": 2,
+              "name": "Equity Securities in Global Financial Markets"
+            },
+            {
+              "id": 3,
+              "name": "Common Shares"
+            },
+            {
+              "id": 4,
+              "name": "Preference Shares"
+            },
+            {
+              "id": 5,
+              "name": "Private Versus Public Equity Securities"
+            },
+            {
+              "id": 6,
+              "name": "Non-Domestic Equity Securities"
+            },
+            {
+              "id": 7,
+              "name": "Direct Investing and Depository Receipts"
+            },
+            {
+              "id": 8,
+              "name": "Risk and Return Characteristics of Equity Securities"
+            },
+            {
+              "id": 9,
+              "name": "Accounting Return on Equity"
+            },
+            {
+              "id": 10,
+              "name": "The Cost of Equity and Required Rates of Return"
+            }
+          ]
+        },
+        {
+          "id": 305,
+          "name": "LM 5 \u2013 Company Analysis: Past and Present",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Company Research Reports"
+            },
+            {
+              "id": 3,
+              "name": "Determining the Business Model"
+            },
+            {
+              "id": 4,
+              "name": "Revenue Drivers"
+            },
+            {
+              "id": 5,
+              "name": "Pricing Power"
+            },
+            {
+              "id": 6,
+              "name": "Top-Down Revenue Analysis"
+            },
+            {
+              "id": 7,
+              "name": "Operating Costs and Their Classification"
+            },
+            {
+              "id": 8,
+              "name": "Fixed and Variable Costs"
+            },
+            {
+              "id": 9,
+              "name": "Operating Profitability Measures"
+            },
+            {
+              "id": 10,
+              "name": "Working Capital"
+            },
+            {
+              "id": 11,
+              "name": "Sources and Uses of Capital"
+            },
+            {
+              "id": 12,
+              "name": "Evaluating Capital Investments and Capital Structure"
+            }
+          ]
+        },
+        {
+          "id": 306,
+          "name": "LM 6 \u2013 Industry and Competitive Analysis",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Uses of Industry Analysis"
+            },
+            {
+              "id": 3,
+              "name": "Why Analyze an Industry?"
+            },
+            {
+              "id": 4,
+              "name": "Industry Classification"
+            },
+            {
+              "id": 5,
+              "name": "Third-Party Industry Classification Schemes"
+            },
+            {
+              "id": 6,
+              "name": "Alternative Methods of Grouping Companies"
+            },
+            {
+              "id": 7,
+              "name": "Industry Size and Historical Growth Rate"
+            },
+            {
+              "id": 8,
+              "name": "Characterizing Industry Growth"
+            },
+            {
+              "id": 9,
+              "name": "Industry Profitability Measures"
+            },
+            {
+              "id": 10,
+              "name": "Market Share Trends and Major Players"
+            },
+            {
+              "id": 11,
+              "name": "Assessing the Five Forces"
+            },
+            {
+              "id": 12,
+              "name": "External Influences on Industry Growth"
+            },
+            {
+              "id": 13,
+              "name": "Competitive Positioning"
+            }
+          ]
+        },
+        {
+          "id": 307,
+          "name": "LM 7 \u2013 Company Analysis: Forecasting",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Forecast Objects, Principles, and Approaches"
+            },
+            {
+              "id": 3,
+              "name": "What to Forecast?"
+            },
+            {
+              "id": 4,
+              "name": "Forecast Approaches"
+            },
+            {
+              "id": 5,
+              "name": "Selecting a Forecast Horizon"
+            },
+            {
+              "id": 6,
+              "name": "Forecast Objects and Approaches for Revenues"
+            },
+            {
+              "id": 7,
+              "name": "Cost of Sales and Gross Margins"
+            },
+            {
+              "id": 8,
+              "name": "SG&A Expenses"
+            },
+            {
+              "id": 9,
+              "name": "Working Capital Forecasts"
+            },
+            {
+              "id": 10,
+              "name": "Capital Investments and Capital Structure Forecasts"
+            },
+            {
+              "id": 11,
+              "name": "Scenario Analysis"
+            }
+          ]
+        },
+        {
+          "id": 308,
+          "name": "LM 8 \u2013 Equity Valuation: Concepts and Basic Tools",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Estimated Value and Market Price"
+            },
+            {
+              "id": 3,
+              "name": "Categories of Equity Valuation Models"
+            },
+            {
+              "id": 4,
+              "name": "Dividends: Background for the Dividend Discount Model"
+            },
+            {
+              "id": 5,
+              "name": "Dividend Discount Model (DDM) and Free-Cash-Flow-to-Equity Model (FCFE)"
+            },
+            {
+              "id": 6,
+              "name": "Preferred Stock Valuation"
+            },
+            {
+              "id": 7,
+              "name": "The Gordon Growth Model"
+            },
+            {
+              "id": 8,
+              "name": "Multistage Dividend Discount Models"
+            },
+            {
+              "id": 9,
+              "name": "Price Multiples, Present Value Models, and Fundamentals"
+            },
+            {
+              "id": 10,
+              "name": "Method of Comparables"
+            },
+            {
+              "id": 11,
+              "name": "Enterprise Value"
+            },
+            {
+              "id": 12,
+              "name": "Asset-Based Valuation"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": 7,
       "name": "Fixed Income",
       "shortName": "Fixed Income",
       "color": "#3F51B5",
-      "icon": "💵",
-      "topics": []
+      "icon": "\ud83d\udcb5",
+      "topics": [],
+      "customChapters": [
+        {
+          "id": 201,
+          "name": "LM 1 \u2013 Fixed-Income Instrument Features",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Features of Fixed-Income Securities"
+            },
+            {
+              "id": 3,
+              "name": "Issuer, Maturity, Principal"
+            },
+            {
+              "id": 4,
+              "name": "Coupon Rate and Frequency"
+            },
+            {
+              "id": 5,
+              "name": "Seniority and Contingency Provisions"
+            },
+            {
+              "id": 6,
+              "name": "Yield Measures and Yield Curves"
+            },
+            {
+              "id": 7,
+              "name": "Bond Indentures and Covenants"
+            },
+            {
+              "id": 8,
+              "name": "Sources of Repayment"
+            },
+            {
+              "id": 9,
+              "name": "Bond Covenants"
+            }
+          ]
+        },
+        {
+          "id": 202,
+          "name": "LM 2 \u2013 Fixed-Income Cash Flows and Types",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Fixed-Income Cash Flow Structures"
+            },
+            {
+              "id": 3,
+              "name": "Amortizing Debt"
+            },
+            {
+              "id": 4,
+              "name": "Variable Interest Debt"
+            },
+            {
+              "id": 5,
+              "name": "Zero-Coupon Structures"
+            },
+            {
+              "id": 6,
+              "name": "Deferred Coupon Structures"
+            },
+            {
+              "id": 7,
+              "name": "Callable Bonds"
+            },
+            {
+              "id": 8,
+              "name": "Putable Bonds"
+            },
+            {
+              "id": 9,
+              "name": "Convertible Bonds"
+            },
+            {
+              "id": 10,
+              "name": "Legal, Regulatory, and Tax Considerations"
+            }
+          ]
+        },
+        {
+          "id": 203,
+          "name": "LM 3 \u2013 Fixed-Income Issuance and Trading",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Fixed-Income Segments, Issuers, and Investors"
+            },
+            {
+              "id": 3,
+              "name": "Fixed-Income Indexes"
+            },
+            {
+              "id": 4,
+              "name": "Primary Fixed-Income Markets"
+            },
+            {
+              "id": 5,
+              "name": "Secondary Fixed-Income Markets"
+            }
+          ]
+        },
+        {
+          "id": 204,
+          "name": "LM 4 \u2013 Fixed-Income Markets for Corporate Issuers",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "External Loan Financing"
+            },
+            {
+              "id": 3,
+              "name": "External, Security-Based Financing"
+            },
+            {
+              "id": 4,
+              "name": "Short-Term Funding for Financial Institutions"
+            },
+            {
+              "id": 5,
+              "name": "Repurchase Agreements"
+            },
+            {
+              "id": 6,
+              "name": "Repurchase Agreement Applications and Benefits"
+            },
+            {
+              "id": 7,
+              "name": "Risks Associated with Repurchase Agreements"
+            },
+            {
+              "id": 8,
+              "name": "Long-Term Corporate Debt"
+            },
+            {
+              "id": 9,
+              "name": "Differences between IG and HY Issuance"
+            }
+          ]
+        },
+        {
+          "id": 205,
+          "name": "LM 5 \u2013 Fixed-Income Markets for Government Issuers",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Sovereign Debt"
+            },
+            {
+              "id": 3,
+              "name": "Sovereign Debt Issuance and Trading"
+            },
+            {
+              "id": 4,
+              "name": "Non-Sovereign and Quasi-Government Debt"
+            },
+            {
+              "id": 5,
+              "name": "Government Agencies"
+            },
+            {
+              "id": 6,
+              "name": "Local and Regional Government Authorities"
+            },
+            {
+              "id": 7,
+              "name": "Supranational Organizations"
+            }
+          ]
+        },
+        {
+          "id": 206,
+          "name": "LM 6 \u2013 Fixed-Income Bond Valuation: Prices and Yields",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Bond Pricing with a Market Discount Rate"
+            },
+            {
+              "id": 3,
+              "name": "Yield-to-Maturity"
+            },
+            {
+              "id": 4,
+              "name": "Flat Price, Accrued Interest, and Full Price"
+            },
+            {
+              "id": 5,
+              "name": "Inverse Relationship"
+            },
+            {
+              "id": 6,
+              "name": "Coupon Effect and Maturity Effect"
+            },
+            {
+              "id": 7,
+              "name": "Constant-Yield Price Trajectory"
+            },
+            {
+              "id": 8,
+              "name": "Convexity Effect"
+            },
+            {
+              "id": 9,
+              "name": "Matrix Pricing"
+            }
+          ]
+        },
+        {
+          "id": 207,
+          "name": "LM 7 \u2013 Yield and Yield Spread Measures for Fixed-Rate Bonds",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Periodicity and Annualized Yields"
+            },
+            {
+              "id": 3,
+              "name": "Other Yield Measures and Conventions"
+            },
+            {
+              "id": 4,
+              "name": "Bonds with Embedded Options"
+            },
+            {
+              "id": 5,
+              "name": "Yield Spreads over Benchmark Rates"
+            },
+            {
+              "id": 6,
+              "name": "Yield Spreads over the Benchmark Yield Curve"
+            }
+          ]
+        },
+        {
+          "id": 208,
+          "name": "LM 8 \u2013 Yield and Yield Spread Measures for Floating-Rate Instruments",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Yield and Yield Spread Measures for Floating-Rate Notes"
+            },
+            {
+              "id": 3,
+              "name": "Yield Measures for Money Market Instruments"
+            }
+          ]
+        },
+        {
+          "id": 209,
+          "name": "LM 9 \u2013 The Term Structure of Interest Rates",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Maturity Structure of Interest Rates"
+            },
+            {
+              "id": 3,
+              "name": "Bond Pricing Using Spot Rates"
+            },
+            {
+              "id": 4,
+              "name": "Par Rates from Spot Rates"
+            },
+            {
+              "id": 5,
+              "name": "Forward Rates from Spot Rates"
+            },
+            {
+              "id": 6,
+              "name": "Spot Rates from Forward Rates"
+            },
+            {
+              "id": 7,
+              "name": "Spot, Par, and Forward Yield Curves"
+            }
+          ]
+        },
+        {
+          "id": 210,
+          "name": "LM 10 \u2013 Interest Rate Risk and Return",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Sources of Return from Investing in a Fixed-Rate Bond"
+            },
+            {
+              "id": 3,
+              "name": "Investment Horizon and Interest Rate Risk"
+            },
+            {
+              "id": 4,
+              "name": "Macaulay Duration"
+            }
+          ]
+        },
+        {
+          "id": 211,
+          "name": "LM 11 \u2013 Yield-Based Bond Duration Measures and Properties",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Modified Duration"
+            },
+            {
+              "id": 3,
+              "name": "Approximate Modified Duration"
+            },
+            {
+              "id": 4,
+              "name": "Money Duration and Price Value of a Basis Point"
+            },
+            {
+              "id": 5,
+              "name": "Yield Duration of Zero-Coupon and Perpetual Bonds"
+            },
+            {
+              "id": 6,
+              "name": "Duration of Floating-Rate Notes and Loans"
+            },
+            {
+              "id": 7,
+              "name": "Properties of Duration"
+            }
+          ]
+        },
+        {
+          "id": 212,
+          "name": "LM 12 \u2013 Yield-Based Bond Convexity and Portfolio Properties",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Bond Convexity and Convexity Adjustment"
+            },
+            {
+              "id": 3,
+              "name": "Bond Risk and Return Using Duration and Convexity"
+            },
+            {
+              "id": 4,
+              "name": "Portfolio Duration and Convexity"
+            }
+          ]
+        },
+        {
+          "id": 213,
+          "name": "LM 13 \u2013 Curve-Based and Empirical Fixed-Income Risk Measures",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Curve-Based Interest Rate Risk Measures"
+            },
+            {
+              "id": 3,
+              "name": "Bond Risk and Return Using Curve-Based Duration and Convexity"
+            },
+            {
+              "id": 4,
+              "name": "Key Rate Duration as a Measure of Yield Curve Risk"
+            },
+            {
+              "id": 5,
+              "name": "Empirical Duration"
+            }
+          ]
+        },
+        {
+          "id": 214,
+          "name": "LM 14 \u2013 Credit Risk",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Sources of Credit Risk"
+            },
+            {
+              "id": 3,
+              "name": "Measuring Credit Risk"
+            },
+            {
+              "id": 4,
+              "name": "Credit Rating Agencies and Credit Ratings"
+            },
+            {
+              "id": 5,
+              "name": "Credit Rating Considerations"
+            },
+            {
+              "id": 6,
+              "name": "Macroeconomic Factors"
+            },
+            {
+              "id": 7,
+              "name": "Market Factors"
+            },
+            {
+              "id": 8,
+              "name": "Issuer-Specific Factors"
+            },
+            {
+              "id": 9,
+              "name": "The Price Impact of Spread Changes"
+            }
+          ]
+        },
+        {
+          "id": 215,
+          "name": "LM 15 \u2013 Credit Analysis for Government Issuers",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Sovereign Credit Analysis \u2013 Qualitative Factors"
+            },
+            {
+              "id": 3,
+              "name": "Sovereign Credit Analysis \u2013 Quantitative Factors"
+            },
+            {
+              "id": 4,
+              "name": "Non-Sovereign Government Debt"
+            },
+            {
+              "id": 5,
+              "name": "Agencies and Government Sector Banks"
+            },
+            {
+              "id": 6,
+              "name": "Supranational and Regional Government Issuers"
+            }
+          ]
+        },
+        {
+          "id": 216,
+          "name": "LM 16 \u2013 Credit Analysis for Corporate Issuers",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Qualitative Factors in Corporate Creditworthiness"
+            },
+            {
+              "id": 3,
+              "name": "Financial Ratios in Corporate Credit Analysis"
+            },
+            {
+              "id": 4,
+              "name": "Seniority Rankings"
+            },
+            {
+              "id": 5,
+              "name": "Secured versus Unsecured Debt"
+            },
+            {
+              "id": 6,
+              "name": "Recovery Rates"
+            },
+            {
+              "id": 7,
+              "name": "Issuer and Issue Ratings"
+            }
+          ]
+        },
+        {
+          "id": 217,
+          "name": "LM 17 \u2013 Fixed-Income Securitization",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Benefits to Issuers"
+            },
+            {
+              "id": 3,
+              "name": "Benefits to Investors"
+            },
+            {
+              "id": 4,
+              "name": "Benefits to Economies and Financial Markets"
+            },
+            {
+              "id": 5,
+              "name": "An Example of a Securitization"
+            },
+            {
+              "id": 6,
+              "name": "Parties to a Securitization"
+            },
+            {
+              "id": 7,
+              "name": "The Role of the SPE"
+            }
+          ]
+        },
+        {
+          "id": 218,
+          "name": "LM 18 \u2013 Asset-Backed Security (ABS) Instrument and Market Features",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Covered Bonds"
+            },
+            {
+              "id": 3,
+              "name": "ABS Structures to Address Credit Risk"
+            },
+            {
+              "id": 4,
+              "name": "Credit Enhancement and Credit Tranching"
+            },
+            {
+              "id": 5,
+              "name": "Credit Card Receivable ABS"
+            },
+            {
+              "id": 6,
+              "name": "Solar ABS"
+            },
+            {
+              "id": 7,
+              "name": "Collateralized Debt Obligations"
+            },
+            {
+              "id": 8,
+              "name": "Generic CLO Structure"
+            }
+          ]
+        },
+        {
+          "id": 219,
+          "name": "LM 19 \u2013 Mortgage-Backed Security (MBS) Instrument and Market Features",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Time Tranching and Prepayment Risk"
+            },
+            {
+              "id": 3,
+              "name": "Mortgage Loans and Their Characteristic Features"
+            },
+            {
+              "id": 4,
+              "name": "Agency and Non-Agency RMBS"
+            },
+            {
+              "id": 5,
+              "name": "Mortgage Pass-Through Securities"
+            },
+            {
+              "id": 6,
+              "name": "Collateralized Mortgage Obligations (CMOs)"
+            },
+            {
+              "id": 7,
+              "name": "Other CMO Structures"
+            },
+            {
+              "id": 8,
+              "name": "Commercial Mortgage-Backed Securities (CMBS)"
+            },
+            {
+              "id": 9,
+              "name": "CMBS Structure and Risks"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": 8,
       "name": "Derivatives",
       "shortName": "Derivatives",
       "color": "#FF5722",
-      "icon": "🔁",
+      "icon": "\ud83d\udd01",
       "topics": []
     },
     {
@@ -69,7 +3423,7 @@
       "name": "Alternative Investments",
       "shortName": "Alternatives",
       "color": "#009688",
-      "icon": "🏛️",
+      "icon": "\ud83c\udfdb\ufe0f",
       "topics": []
     },
     {
@@ -77,8 +3431,358 @@
       "name": "Portfolio Management",
       "shortName": "Portfolio",
       "color": "#FFC107",
-      "icon": "💼",
-      "topics": []
+      "icon": "\ud83d\udcbc",
+      "topics": [],
+      "customChapters": [
+        {
+          "id": 801,
+          "name": "LM 1 \u2013 Portfolio Risk and Return: Part I",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Historical Return and Risk of Major Asset Classes"
+            },
+            {
+              "id": 3,
+              "name": "Risk\u2013Return Trade-off and Other Investment Characteristics"
+            },
+            {
+              "id": 4,
+              "name": "The Concept of Risk Aversion"
+            },
+            {
+              "id": 5,
+              "name": "Utility Theory and Indifference Curves"
+            },
+            {
+              "id": 6,
+              "name": "Application of Utility Theory to Portfolio Selection"
+            },
+            {
+              "id": 7,
+              "name": "Portfolio of Two Risky Assets"
+            },
+            {
+              "id": 8,
+              "name": "Portfolio of Many Risky Assets"
+            },
+            {
+              "id": 9,
+              "name": "Correlation and Risk Diversification"
+            },
+            {
+              "id": 10,
+              "name": "Minimum-Variance Portfolios and Efficient Frontier"
+            },
+            {
+              "id": 11,
+              "name": "Capital Allocation Line and Optimal Risky Portfolio"
+            },
+            {
+              "id": 12,
+              "name": "The Two-Fund Separation Theorem"
+            },
+            {
+              "id": 13,
+              "name": "Optimal Investor Portfolio"
+            }
+          ]
+        },
+        {
+          "id": 802,
+          "name": "LM 2 \u2013 Portfolio Risk and Return: Part II",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Portfolio of Risk-Free and Risky Assets"
+            },
+            {
+              "id": 3,
+              "name": "The Capital Market Line (CML)"
+            },
+            {
+              "id": 4,
+              "name": "Leveraged Portfolios"
+            },
+            {
+              "id": 5,
+              "name": "Systematic and Nonsystematic Risk"
+            },
+            {
+              "id": 6,
+              "name": "Return-Generating Models and the Market Model"
+            },
+            {
+              "id": 7,
+              "name": "Calculation and Interpretation of Beta"
+            },
+            {
+              "id": 8,
+              "name": "Assumptions of the CAPM"
+            },
+            {
+              "id": 9,
+              "name": "The Security Market Line"
+            },
+            {
+              "id": 10,
+              "name": "Estimate of Expected Return Using CAPM"
+            },
+            {
+              "id": 11,
+              "name": "Limitations of the CAPM"
+            },
+            {
+              "id": 12,
+              "name": "Extensions to the CAPM"
+            },
+            {
+              "id": 13,
+              "name": "Sharpe Ratio, Treynor Ratio, M2, Jensen's Alpha"
+            },
+            {
+              "id": 14,
+              "name": "Security Characteristic Line and Security Selection"
+            }
+          ]
+        },
+        {
+          "id": 803,
+          "name": "LM 3 \u2013 Portfolio Management: An Overview",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Portfolio Diversification and Risk Reduction"
+            },
+            {
+              "id": 3,
+              "name": "Risk-Return Trade-off and Modern Portfolio Theory"
+            },
+            {
+              "id": 4,
+              "name": "Steps in the Portfolio Management Process"
+            },
+            {
+              "id": 5,
+              "name": "Individual Investors"
+            },
+            {
+              "id": 6,
+              "name": "Institutional Investors"
+            },
+            {
+              "id": 7,
+              "name": "The Asset Management Industry"
+            },
+            {
+              "id": 8,
+              "name": "Active versus Passive Management"
+            },
+            {
+              "id": 9,
+              "name": "Mutual Funds: Money Market, Bond, Stock, Hybrid"
+            },
+            {
+              "id": 10,
+              "name": "Exchange-Traded Funds"
+            },
+            {
+              "id": 11,
+              "name": "Hedge Funds"
+            },
+            {
+              "id": 12,
+              "name": "Private Equity and Venture Capital Funds"
+            }
+          ]
+        },
+        {
+          "id": 804,
+          "name": "LM 4 \u2013 Basics of Portfolio Planning and Construction",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "The Investment Policy Statement (IPS)"
+            },
+            {
+              "id": 3,
+              "name": "Major Components of an IPS"
+            },
+            {
+              "id": 4,
+              "name": "IPS Risk and Return Objectives"
+            },
+            {
+              "id": 5,
+              "name": "Liquidity Requirements"
+            },
+            {
+              "id": 6,
+              "name": "Time Horizon"
+            },
+            {
+              "id": 7,
+              "name": "Tax Concerns"
+            },
+            {
+              "id": 8,
+              "name": "Legal and Regulatory Factors"
+            },
+            {
+              "id": 9,
+              "name": "Unique Circumstances and ESG Considerations"
+            },
+            {
+              "id": 10,
+              "name": "Capital Market Expectations"
+            },
+            {
+              "id": 11,
+              "name": "Strategic Asset Allocation"
+            },
+            {
+              "id": 12,
+              "name": "Portfolio Construction Principles"
+            },
+            {
+              "id": 13,
+              "name": "New Developments and ESG in Portfolio Management"
+            }
+          ]
+        },
+        {
+          "id": 805,
+          "name": "LM 5 \u2013 The Behavioral Biases of Individuals",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Cognitive Errors: Belief Perseverance Biases"
+            },
+            {
+              "id": 3,
+              "name": "Cognitive Errors: Processing Errors"
+            },
+            {
+              "id": 4,
+              "name": "Loss-Aversion Bias"
+            },
+            {
+              "id": 5,
+              "name": "Overconfidence Bias"
+            },
+            {
+              "id": 6,
+              "name": "Self-Control Bias"
+            },
+            {
+              "id": 7,
+              "name": "Status Quo Bias"
+            },
+            {
+              "id": 8,
+              "name": "Endowment Bias"
+            },
+            {
+              "id": 9,
+              "name": "Regret-Aversion Bias"
+            },
+            {
+              "id": 10,
+              "name": "Defining Market Anomalies"
+            },
+            {
+              "id": 11,
+              "name": "Momentum"
+            },
+            {
+              "id": 12,
+              "name": "Bubbles and Crashes"
+            },
+            {
+              "id": 13,
+              "name": "Value"
+            }
+          ]
+        },
+        {
+          "id": 806,
+          "name": "LM 6 \u2013 Introduction to Risk Management",
+          "subtopics": [
+            {
+              "id": 1,
+              "name": "Introduction"
+            },
+            {
+              "id": 2,
+              "name": "Risk Management Process"
+            },
+            {
+              "id": 3,
+              "name": "Risk Management Framework"
+            },
+            {
+              "id": 4,
+              "name": "Risk Governance: An Enterprise View"
+            },
+            {
+              "id": 5,
+              "name": "Risk Tolerance"
+            },
+            {
+              "id": 6,
+              "name": "Risk Budgeting"
+            },
+            {
+              "id": 7,
+              "name": "Financial Risks"
+            },
+            {
+              "id": 8,
+              "name": "Non-Financial Risks"
+            },
+            {
+              "id": 9,
+              "name": "Interactions Between Risks"
+            },
+            {
+              "id": 10,
+              "name": "Risk Drivers and Metrics"
+            },
+            {
+              "id": 11,
+              "name": "Risk Prevention and Avoidance"
+            },
+            {
+              "id": 12,
+              "name": "Risk Acceptance: Self-Insurance and Diversification"
+            },
+            {
+              "id": 13,
+              "name": "Risk Shifting and Choosing a Risk Modification Method"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

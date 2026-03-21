@@ -60,6 +60,8 @@ function exportData() {
     completed: getCompleted(),
     customSubjects: JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]'),
     subjectOverlays: JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}'),
+    startDate: localStorage.getItem('cfa_start_date') || null,
+    endDate: localStorage.getItem('cfa_end_date') || null,
     exportDate: new Date().toISOString()
   };
 
@@ -99,6 +101,8 @@ function importData(event) {
       localStorage.setItem('cfa_completed', JSON.stringify(data.completed));
       localStorage.setItem('cfa_custom_subjects', JSON.stringify(data.customSubjects || []));
       localStorage.setItem('cfa_subject_overlays', JSON.stringify(data.subjectOverlays || {}));
+      if (data.startDate) localStorage.setItem('cfa_start_date', data.startDate);
+      if (data.endDate) localStorage.setItem('cfa_end_date', data.endDate);
 
       // Wait for firebase to be ready, force a full sync BEFORE redirecting
       try {

@@ -37,7 +37,9 @@ const TRACKED_KEYS = new Set([
   'cfa_daily_goal',
   'cfa_completed',
   'cfa_custom_subjects',
-  'cfa_subject_overlays'
+  'cfa_subject_overlays',
+  'cfa_start_date',
+  'cfa_end_date'
 ]);
 
 let resolveAuthReady;
@@ -60,6 +62,8 @@ const getLocalPayload = () => ({
   completed: JSON.parse(localStorage.getItem('cfa_completed') || '{}'),
   customSubjects: JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]'),
   subjectOverlays: JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}'),
+  startDate: localStorage.getItem('cfa_start_date') || null,
+  endDate: localStorage.getItem('cfa_end_date') || null,
   updatedAt: getLocalUpdatedAt() || stampLocalUpdated()
 });
 
@@ -121,6 +125,12 @@ const applyLocalData = (data) => {
   if ('subjectOverlays' in data) {
     const subjectOverlays = data.subjectOverlays && typeof data.subjectOverlays === 'object' ? data.subjectOverlays : {};
     setIfDifferent('cfa_subject_overlays', JSON.stringify(subjectOverlays));
+  }
+  if ('startDate' in data && data.startDate) {
+    setIfDifferent('cfa_start_date', data.startDate);
+  }
+  if ('endDate' in data && data.endDate) {
+    setIfDifferent('cfa_end_date', data.endDate);
   }
 
   const updatedAt = data.updatedAt || (changed ? new Date().toISOString() : getLocalUpdatedAt());
