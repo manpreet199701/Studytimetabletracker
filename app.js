@@ -131,7 +131,9 @@ async function loadData(options = {}) {
     data.subjects.forEach(subject => {
       const overlay = customOverlay[subject.id] || null;
       subject.isCustom = customIds.has(subject.id);
-      subject.isHidden = !!(overlay && overlay.hidden);
+      // Built-in subjects (numeric id 1-10) can never be hidden — they live in data.json
+      const isBuiltIn = typeof subject.id === 'number' && subject.id >= 1 && subject.id <= 10;
+      subject.isHidden = !isBuiltIn && !!(overlay && overlay.hidden);
       if (overlay) {
         if (overlay.name) subject.name = overlay.name;
         if (overlay.shortName) subject.shortName = overlay.shortName;
