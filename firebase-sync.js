@@ -236,7 +236,15 @@ async function pullFromCloud(reason = 'manual') {
     const localUpdated = getLocalUpdatedAt();
     let applied = false;
 
-    if (!localUpdated || (cloudUpdated && cloudUpdated > localUpdated)) {
+    // If local was updated very recently (within 15s), trust local over cloud
+    // This prevents page-load pulls from overwriting just-made changes like deletes
+    const localAge = localUpdated ? (Date.now() - new Date(localUpdated).getTime()) : Infinity;
+    const localIsVeryFresh = localAge < 15000;
+
+    if (localIsVeryFresh) {
+      console.info('[cloud-sync] local is very fresh, skipping pull — pushing instead');
+      queueCloudSync('local-fresh');
+    } else if (!localUpdated || (cloudUpdated && cloudUpdated > localUpdated)) {
       applied = applyLocalData(cloud);
       console.info('[cloud-sync] pulled newer cloud data', reason);
     } else if (localUpdated && cloudUpdated && localUpdated > cloudUpdated) {

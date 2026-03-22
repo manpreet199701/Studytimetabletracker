@@ -538,34 +538,46 @@ document.getElementById('confirmCancelBtn').addEventListener('click', () => {
   document.getElementById('confirmModal').classList.remove('open');
 });
 
-document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
   if (deletingSubjectId == null) return;
   const s = getSubjectById(deletingSubjectId);
   if (!s) return;
+
+  const btn = document.getElementById('confirmDeleteBtn');
+  btn.disabled = true;
+  btn.textContent = 'Deleting...';
 
   // Clear topic/subtopic completion data tied to this subject
   deleteCompletedForSubject(s);
 
   if (s.isCustom) {
-    // Remove custom subject permanently
     let custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
     custom = custom.filter(sub => sub.id !== deletingSubjectId);
     localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
-    queueSync('custom-subjects');
 
-    // Clean up any overlay leftovers
     const overlays = getOverlays();
     if (overlays[deletingSubjectId]) {
       delete overlays[deletingSubjectId];
       saveOverlays(overlays);
     }
   } else {
-    // Built-in subject: mark hidden via overlays
     const overlays = getOverlays();
     overlays[deletingSubjectId] = { hidden: true };
     saveOverlays(overlays);
   }
 
+  // Force push to Firestore BEFORE closing — so navigating away doesn't restore old data
+  try {
+    if (window.cloudSyncReady) await window.cloudSyncReady;
+    if (window.forceCloudSync) await window.forceCloudSync('delete-subject');
+    else if (window.queueCloudSync) {
+      window.queueCloudSync('delete-subject');
+      await new Promise(r => setTimeout(r, 2000));
+    }
+  } catch(e) { console.warn('Sync after delete failed', e); }
+
+  btn.disabled = false;
+  btn.textContent = 'Delete';
   deletingSubjectId = null;
   document.getElementById('confirmModal').classList.remove('open');
   init();
