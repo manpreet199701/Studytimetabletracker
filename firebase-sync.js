@@ -124,6 +124,18 @@ const applyLocalData = (data) => {
   }
   if ('subjectOverlays' in data) {
     const subjectOverlays = data.subjectOverlays && typeof data.subjectOverlays === 'object' ? data.subjectOverlays : {};
+    // Never hide built-in subjects (id 1-10) — their chapters live in data.json
+    // This prevents old "hidden" flags from Firestore from wiping subjects
+    for (let id = 1; id <= 10; id++) {
+      if (subjectOverlays[id] && subjectOverlays[id].hidden) {
+        delete subjectOverlays[id].hidden;
+        if (Object.keys(subjectOverlays[id]).length === 0) delete subjectOverlays[id];
+      }
+      if (subjectOverlays[String(id)] && subjectOverlays[String(id)].hidden) {
+        delete subjectOverlays[String(id)].hidden;
+        if (Object.keys(subjectOverlays[String(id)]).length === 0) delete subjectOverlays[String(id)];
+      }
+    }
     setIfDifferent('cfa_subject_overlays', JSON.stringify(subjectOverlays));
   }
   if ('startDate' in data && data.startDate) {
@@ -174,6 +186,19 @@ async function pushToCloud(reason = 'change') {
       }
     }
 
+    // Strip hidden flags for built-in subjects (1-10) before pushing
+    if (payload.subjectOverlays) {
+      for (let id = 1; id <= 10; id++) {
+        if (payload.subjectOverlays[id] && payload.subjectOverlays[id].hidden) {
+          delete payload.subjectOverlays[id].hidden;
+          if (Object.keys(payload.subjectOverlays[id]).length === 0) delete payload.subjectOverlays[id];
+        }
+        if (payload.subjectOverlays[String(id)] && payload.subjectOverlays[String(id)].hidden) {
+          delete payload.subjectOverlays[String(id)].hidden;
+          if (Object.keys(payload.subjectOverlays[String(id)]).length === 0) delete payload.subjectOverlays[String(id)];
+        }
+      }
+    }
     payload.updatedAt = stampLocalUpdated(payload.updatedAt);
     await setDoc(doc(db, 'users', currentUser.uid), payload, { merge: true });
     console.info('[cloud-sync] pushed', reason);
