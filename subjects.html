@@ -406,7 +406,8 @@ function render() {
       e.preventDefault();
       e.stopPropagation();
       document.querySelectorAll('.card-actions-dropdown.open').forEach(d => d.classList.remove('open'));
-      const id = parseInt(btn.dataset.id);
+      const rawId = btn.dataset.id;
+      const id = /^\d+$/.test(rawId) ? parseInt(rawId) : rawId;
       if (btn.dataset.action === 'edit') openEdit(id);
       if (btn.dataset.action === 'delete') openDelete(id);
       if (btn.dataset.action === 'restore') restoreSubject(id);
@@ -571,11 +572,21 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
 });
 
 function restoreSubject(id) {
-  const overlays = getOverlays();
-  if (!overlays[id]) return;
-  delete overlays[id].hidden;
-  if (Object.keys(overlays[id]).length === 0) delete overlays[id];
-  saveOverlays(overlays);
+  const subject = getSubjectById(id);
+  if (!subject) return;
+  if (subject.isCustom) {
+    const custom = JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]');
+    const idx = custom.findIndex(s => s.id === id);
+    if (idx !== -1) { delete custom[idx].hidden; }
+    localStorage.setItem('cfa_custom_subjects', JSON.stringify(custom));
+    queueSync('custom-subjects');
+  } else {
+    const overlays = getOverlays();
+    if (!overlays[id]) return;
+    delete overlays[id].hidden;
+    if (Object.keys(overlays[id]).length === 0) delete overlays[id];
+    saveOverlays(overlays);
+  }
   init();
 }
 
