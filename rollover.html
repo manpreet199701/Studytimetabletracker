@@ -314,7 +314,7 @@ function render() {
   // Summary stats
   const pastRows     = rows.filter(r => !r.isToday);
   const totalRollover = pastRows.reduce((s, r) => s + r.rolloverAdded, 0);
-  const totalStudied  = pastRows.reduce((s, r) => s + r.hours, 0);
+  const totalStudied  = pastRows.reduce((s, r) => s + (parseFloat(r.hours) || 0), 0);
   const daysMissed    = pastRows.filter(r => r.status === 'missed').length;
   const daysMet       = pastRows.filter(r => r.status === 'met' || r.status === 'surplus').length;
   const daysPartial   = pastRows.filter(r => r.status === 'partial').length;
@@ -323,7 +323,7 @@ function render() {
     <div class="summary-card card-violet">
       <div class="lbl">Total Rollover</div>
       <div class="val" style="color:${totalRollover > 0 ? 'var(--danger)' : 'var(--success)'}">${totalRollover.toFixed(1)}h</div>
-      <div class="sub">${daysMissed} day${daysMissed !== 1 ? 's' : ''} logged as 0h × ${goal}h</div>
+      <div class="sub">${daysMissed} zero-hour · ${daysPartial} partial days</div>
     </div>
     <div class="summary-card card-green">
       <div class="lbl">Total Studied</div>
