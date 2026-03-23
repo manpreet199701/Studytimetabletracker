@@ -284,8 +284,8 @@ function renderAll() {
   bar.style.width = pct + '%';
   bar.className = 'progress-fill ' + (pct >= 100 ? 'success' : pct >= 60 ? '' : 'danger');
 
-  // Rollover
-  const deficit = target - goal; // positive = behind, negative = ahead
+  // Rollover — how far behind right now (includes today's partial progress)
+  const deficit = target - hoursToday; // positive = still owed, negative = ahead
   const ro = document.getElementById('rolloverHours');
   const roDesc = document.getElementById('rolloverDesc');
   const banner = document.getElementById('rolloverBanner');
