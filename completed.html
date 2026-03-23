@@ -57,19 +57,34 @@ async function init() {
   const completed = getCompleted();
   const completedTopics = [];
 
-  // Get all completed subtopics from custom chapters
+  // Get all completed topics — both flat topics[] and customChapters
   data.subjects.forEach(subject => {
+    // Flat topics (legacy structure)
+    if (subject.topics) {
+      subject.topics.forEach(topic => {
+        const key = `s${subject.id}_t${topic.id}`;
+        if (completed[key] && completed[key] !== false) {
+          completedTopics.push({
+            name: topic.name,
+            subjectName: subject.name,
+            subjectColor: subject.color,
+            link: `subject.html?id=${subject.id}`
+          });
+        }
+      });
+    }
+    // Custom chapters with subtopics
     if (subject.customChapters) {
       subject.customChapters.forEach(chapter => {
         if (chapter.subtopics) {
           chapter.subtopics.forEach(subtopic => {
             const key = `c${chapter.id}_st${subtopic.id}`;
-            if (completed[key]) {
+            if (completed[key] && completed[key] !== false) {
               completedTopics.push({
                 name: subtopic.name,
                 subjectName: subject.name,
                 subjectColor: subject.color,
-                link: `topic.html?subject=${subject.id}&chapter=${chapter.id}`
+                link: `subject.html?id=${subject.id}`
               });
             }
           });
