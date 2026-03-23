@@ -104,7 +104,7 @@ function getTodayTarget() {
   const log = getStudyLog();
   const todayStr = today();
   let deficit = 0;
-  log.filter(l => l.date < todayStr && !l.auto).forEach(l => { const hours = parseFloat(l.hours) || 0; const shortfall = goal - hours; if (shortfall > 0) deficit += shortfall; });
+  log.filter(l => l.date < todayStr && !l.auto).forEach(l => { const h = parseFloat(l.hours) || 0; if (h < goal) deficit += (goal - h); });
   return Math.max(0, goal + deficit);
 }
 function progressRing(pct, color, size = 80, stroke = 7) {
