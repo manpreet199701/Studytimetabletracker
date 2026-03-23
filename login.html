@@ -165,7 +165,15 @@ document.getElementById('googleSignIn').addEventListener('click', async () => {
       if (cloudData.dailyGoal) localStorage.setItem('cfa_daily_goal', cloudData.dailyGoal);
       if (cloudData.completed) localStorage.setItem('cfa_completed', JSON.stringify(cloudData.completed));
       if (cloudData.customSubjects) localStorage.setItem('cfa_custom_subjects', JSON.stringify(cloudData.customSubjects));
-      const overlays = cloudData.subjectOverlays || {}; for (let i = 1; i <= 10; i++) { if (overlays[i]) delete overlays[i].hidden; if (overlays[String(i)]) delete overlays[String(i)].hidden; } localStorage.setItem("cfa_subject_overlays", JSON.stringify(overlays));
+      if (cloudData.subjectOverlays) {
+        const overlays = cloudData.subjectOverlays || {};
+        // Never hide built-in subjects (id 1-10) on login
+        for (let i = 1; i <= 10; i++) {
+          if (overlays[i]) delete overlays[i].hidden;
+          if (overlays[String(i)]) delete overlays[String(i)].hidden;
+        }
+        localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
+      }
       localStorage.setItem('cfa_last_updated', cloudData.updatedAt || new Date().toISOString());
     } else {
       localStorage.setItem('cfa_last_updated', new Date().toISOString());
