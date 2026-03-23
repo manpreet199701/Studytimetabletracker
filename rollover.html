@@ -272,7 +272,8 @@ function buildRows() {
     const hours  = entry.hours || 0;
     const missed = hours === 0 || hours === '0';
 
-    if (missed) runningRollover += goal; // +3 for every 0h entry
+    const shortfall = Math.max(0, goal - parseFloat(hours));
+    if (shortfall > 0) runningRollover += shortfall; // +3 for every 0h entry
 
     let status;
     if (missed)             status = 'missed';
@@ -285,7 +286,7 @@ function buildRows() {
       hours,
       status,
       isToday: false,
-      rolloverAdded: missed ? goal : 0,
+      rolloverAdded: shortfall,
       runningRollover
     });
   }
