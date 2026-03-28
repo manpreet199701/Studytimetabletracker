@@ -56,6 +56,16 @@
 .log-controls { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; margin-top: .6rem; }
 .section-label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: .3rem; }
 
+/* daily goal edit */
+.fr-goal-row { display: flex; align-items: center; gap: .5rem; margin-top: .4rem; }
+.fr-goal-row label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
+.fr-goal-input {
+  font-family: var(--mono); font-size: .9rem; font-weight: 600; color: var(--text-muted);
+  background: var(--surface2); border: 1.5px solid var(--border); border-radius: 6px;
+  padding: .15rem .4rem; width: 56px; cursor: pointer;
+}
+.fr-goal-input:focus { outline: none; border-color: var(--accent); color: var(--accent); }
+
 /* ── Calendar + heatmap row ── */
 .french-cal-grid {
   display: grid; grid-template-columns: repeat(2,1fr);
@@ -112,6 +122,7 @@
   width: 100%; padding: .5rem .75rem; margin: .75rem 0; box-sizing: border-box;
 }
 .modal-input:focus { outline: none; border-color: var(--accent); }
+.modal-note { font-size: .72rem; color: var(--text-muted); margin-top: .25rem; font-style: italic; }
 
 /* ── Weeks ── */
 .weeks-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; }
@@ -273,7 +284,7 @@
     <div>
       <div class="page-hero-eyebrow">🇫🇷 8-Week Plan · French Study</div>
       <h1>French <span>A0 → A1</span></h1>
-      <div class="page-hero-sub">Hours shared with dashboard · Double-click any topic to rename it</div>
+      <div class="page-hero-sub">Separate hours tracker · Double-click any topic to rename it</div>
     </div>
     <div class="overall-progress">
       <div class="op-label">Overall Progress</div>
@@ -290,7 +301,7 @@
 
     <!-- Today's session card -->
     <div class="fd-card">
-      <div class="fd-label">Today's Session</div>
+      <div class="fd-label">Today's Session — French</div>
       <div class="hours-row">
         <div>
           <p class="section-label">Hours studied</p>
@@ -298,11 +309,10 @@
         </div>
         <span style="font-size:1.2rem;color:var(--text-dim);padding-bottom:.4rem">/</span>
         <div>
-          <p class="section-label">Target</p>
-          <input id="todayTarget" class="big-input" type="number" min="0" max="24" step="0.5"
-            style="color:var(--text-muted);cursor:pointer;width:80px" readonly
-            onclick="this.readOnly=false;this.select()"
-            onblur="updateTodayTargetFR(this.value)"/>
+          <p class="section-label">Daily target</p>
+          <input id="frDailyGoalInput" class="big-input" type="number" min="0" max="24" step="0.5"
+            style="color:var(--text-muted);cursor:pointer;width:80px"
+            title="Click to change your French daily goal"/>
         </div>
         <span style="font-size:.9rem;color:var(--text-dim);padding-bottom:.4rem">hrs</span>
       </div>
@@ -317,14 +327,14 @@
 
     <!-- Total -->
     <div class="fd-card">
-      <div class="fd-label">Total Hours Logged</div>
+      <div class="fd-label">French Total Hours</div>
       <div class="fd-value" id="totalHours" style="margin-top:.4rem">0h</div>
       <div class="fd-sub" id="totalSessions">across 0 sessions</div>
     </div>
 
     <!-- Streak -->
     <div class="fd-card">
-      <div class="fd-label">Study Streak</div>
+      <div class="fd-label">French Streak</div>
       <div class="fd-value" id="streakVal" style="margin-top:.4rem">0</div>
       <div class="fd-sub">days in a row 🔥</div>
     </div>
@@ -336,7 +346,7 @@
 
     <div class="card">
       <div class="section-header">
-        <p class="label">Study Calendar <span style="font-size:.7rem;color:var(--text-muted);font-weight:500">· click any day to log hours</span></p>
+        <p class="label">French Study Calendar <span style="font-size:.7rem;color:var(--text-muted);font-weight:500">· click any day to log</span></p>
         <div style="display:flex;gap:.5rem;align-items:center">
           <button id="prevMonth" class="btn btn-ghost" style="padding:.3rem .6rem;font-size:.8rem">←</button>
           <span id="calendarMonth" style="font-size:.85rem;font-weight:600;min-width:120px;text-align:center"></span>
@@ -348,7 +358,7 @@
 
     <div class="card">
       <div class="section-header">
-        <p class="label">Study Activity</p>
+        <p class="label">French Activity</p>
         <span style="font-size:.75rem;color:var(--text-muted)">Last 90 days</span>
       </div>
       <div id="heatmap" class="heatmap"></div>
@@ -507,11 +517,12 @@
 <div class="modal" id="dayModal">
   <div class="modal-content">
     <div class="modal-header">
-      <h3 id="modalDateTitle" style="font-size:1rem;font-weight:800">Log hours</h3>
+      <h3 id="modalDateTitle" style="font-size:1rem;font-weight:800">Log French hours</h3>
       <button class="modal-close" id="modalClose">×</button>
     </div>
-    <p style="font-size:.8rem;color:var(--text-muted)">How many hours did you study?</p>
+    <p style="font-size:.8rem;color:var(--text-muted)">How many hours did you study French?</p>
     <input class="modal-input" type="number" id="modalHoursInput" min="0" max="24" step="0.5" placeholder="0"/>
+    <p class="modal-note" id="modalExistingNote"></p>
     <div style="display:flex;gap:.75rem;margin-top:.5rem">
       <button class="btn btn-primary" id="modalSaveBtn" style="flex:1">Save</button>
       <button class="btn btn-danger"  id="modalClearBtn" style="flex:1">Clear Day</button>
@@ -519,7 +530,7 @@
   </div>
 </div>
 
-<!-- app.js must load first — it provides getStudyLog, logHoursForDate, etc. -->
+<!-- app.js must load first — it provides buildHeatmap, today, etc. -->
 <script src="app.js"></script>
 <script type="module" src="firebase-sync.js"></script>
 
@@ -542,6 +553,38 @@ const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
+/* ═══════════════════════════════════════════════════════════
+   FRENCH-ONLY STORAGE  — completely separate from CFA/dashboard
+   Keys: french_study_log, french_daily_goal
+   ═══════════════════════════════════════════════════════════ */
+const FR_LOG_KEY  = 'french_study_log';
+const FR_GOAL_KEY = 'french_daily_goal';
+
+function frGetStudyLog() {
+  try { return JSON.parse(localStorage.getItem(FR_LOG_KEY)) || []; } catch(e) { return []; }
+}
+function frSaveStudyLog(log) {
+  localStorage.setItem(FR_LOG_KEY, JSON.stringify(log));
+}
+function frGetDailyGoal() {
+  return parseFloat(localStorage.getItem(FR_GOAL_KEY)) || 2;
+}
+function frSetDailyGoal(val) {
+  const g = parseFloat(val);
+  if (!isNaN(g) && g >= 0) localStorage.setItem(FR_GOAL_KEY, g);
+}
+function frGetHoursForDate(dateStr) {
+  const entry = frGetStudyLog().find(l => l.date === dateStr);
+  return entry ? entry.hours : 0;
+}
+function frLogHoursForDate(dateStr, hours) {
+  const log = frGetStudyLog();
+  const existing = log.find(l => l.date === dateStr);
+  if (existing) { existing.hours = hours; existing.auto = false; }
+  else           { log.push({ date: dateStr, hours, auto: false }); }
+  frSaveStudyLog(log);
+}
+
 /* ── State ── */
 const TOTAL   = 56;
 const checked = {};
@@ -561,52 +604,44 @@ function fmtH(h) {
   return (r % 1 === 0 ? r.toString() : r.toFixed(1)) + 'h';
 }
 
-/* ══ HOURS DASHBOARD — uses shared app.js functions ══ */
+/* ══ HOURS DASHBOARD — uses French-only functions ══ */
 function renderHoursDash() {
-  const log    = getStudyLog();
-  const goal   = getDailyGoal();
-  const todayS = today();
-  const target = getTodayTarget();
-  const hoursToday = getHoursForDate(todayS);
+  const log      = frGetStudyLog();
+  const goal     = frGetDailyGoal();
+  const todayS   = today();        // today() from app.js (just returns date string, safe to reuse)
+  const hoursToday = frGetHoursForDate(todayS);
 
-  $('hoursInput').value  = hoursToday || '';
-  $('todayTarget').value = target.toFixed(1);
+  $('hoursInput').value        = hoursToday || '';
+  $('frDailyGoalInput').value  = goal.toFixed(1);
 
-  const pct = target > 0 ? Math.min((hoursToday / target) * 100, 100) : 100;
-  const bar = $('todayBar');
+  const pct = goal > 0 ? Math.min((hoursToday / goal) * 100, 100) : 100;
+  const bar  = $('todayBar');
   bar.style.width = pct + '%';
-  bar.className = 'progress-fill ' + (pct >= 100 ? 'success' : pct >= 60 ? '' : 'danger');
+  bar.className   = 'progress-fill ' + (pct >= 100 ? 'success' : pct >= 60 ? '' : 'danger');
 
   const totalH   = log.reduce((s, l) => s + (l.hours || 0), 0);
   const sessions = log.filter(l => !l.auto).length;
-  $('totalHours').textContent   = totalH.toFixed(1) + 'h';
+  $('totalHours').textContent    = totalH.toFixed(1) + 'h';
   $('totalSessions').textContent = `across ${sessions} session${sessions !== 1 ? 's' : ''}`;
 
-  // streak
+  // streak — consecutive days meeting the French goal
   let streak = 0;
   const d = new Date();
   while (true) {
     const ds = d.toISOString().split('T')[0];
-    if (getHoursForDate(ds) >= goal) { streak++; d.setDate(d.getDate() - 1); } else break;
+    if (frGetHoursForDate(ds) >= goal) { streak++; d.setDate(d.getDate() - 1); } else break;
   }
   $('streakVal').textContent = streak;
 
-  buildHeatmap('heatmap', log, goal);
+  buildHeatmap('heatmap', log, goal);   // buildHeatmap from app.js — fine, it's just a renderer
   renderCalendar(log, goal);
 }
 
-window.updateTodayTargetFR = function(value) {
-  const newTarget = parseFloat(value);
-  if (isNaN(newTarget) || newTarget < 0) { renderHoursDash(); return; }
-  const currentTarget = getTodayTarget();
-  const adjustment = newTarget - currentTarget;
-  const todayS = today();
-  const log = getStudyLog();
-  const past = log.filter(l => l.date < todayS).sort((a, b) => b.date.localeCompare(a.date));
-  if (past.length > 0) { past[0].hours = Math.max(0, past[0].hours - adjustment); saveStudyLog(log); }
+/* ── Daily goal input ── */
+$('frDailyGoalInput').addEventListener('change', () => {
+  frSetDailyGoal($('frDailyGoalInput').value);
   renderHoursDash();
-  $('todayTarget').readOnly = true;
-};
+});
 
 /* ══ CALENDAR ══ */
 function renderCalendar(log, goal) {
@@ -634,11 +669,13 @@ function renderCalendar(log, goal) {
     const isToday  = dateStr === todayS;
     const isPast   = dateStr < todayS;
     const cls      = ['cal-day'];
-    if (isToday) cls.push('today');
-    if (hours > 0) cls.push('has-hours');
+    if (isToday)              cls.push('today');
+    if (hours > 0)            cls.push('has-hours');
     if (isLogged && hours === 0) cls.push('logged-zero');
-    const missed    = (isPast || isToday) ? Math.max(0, goal - hours) : 0;
+
+    const missed     = (isPast || isToday) ? Math.max(0, goal - hours) : 0;
     const showMissed = isLogged && missed > 0;
+
     html += `<div class="${cls.join(' ')}" data-date="${dateStr}">
       <div>${day}</div>
       ${isLogged ? `<div class="cal-hours">${fmtH(hours)}</div>` : ''}
@@ -660,8 +697,12 @@ function renderCalendar(log, goal) {
 /* ══ DAY MODAL ══ */
 function openDayModal(dateStr) {
   modalDate = dateStr;
-  $('modalDateTitle').textContent = 'Log hours for ' + dateStr;
-  $('modalHoursInput').value = getHoursForDate(dateStr) || '';
+  const existing = frGetHoursForDate(dateStr);
+  $('modalDateTitle').textContent = 'Log French hours — ' + dateStr;
+  $('modalHoursInput').value = existing || '';
+  $('modalExistingNote').textContent = existing > 0
+    ? `Currently logged: ${fmtH(existing)}`
+    : 'No hours logged yet for this day.';
   $('dayModal').classList.add('open');
   setTimeout(() => $('modalHoursInput').focus(), 50);
 }
@@ -674,18 +715,20 @@ $('modalSaveBtn').addEventListener('click', () => {
   if (!modalDate) return;
   const h = parseFloat($('modalHoursInput').value);
   if (isNaN(h) || h < 0) return;
-  logHoursForDate(modalDate, h);
+  frLogHoursForDate(modalDate, h);
   renderHoursDash();
   closeDayModal();
+  uid ? queueSave() : saveToLocal();
 });
 $('modalClearBtn').addEventListener('click', () => {
   if (!modalDate) return;
-  saveStudyLog(getStudyLog().filter(l => l.date !== modalDate));
+  frSaveStudyLog(frGetStudyLog().filter(l => l.date !== modalDate));
   renderHoursDash();
   closeDayModal();
+  uid ? queueSave() : saveToLocal();
 });
 $('modalHoursInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') $('modalSaveBtn').click();
+  if (e.key === 'Enter')  $('modalSaveBtn').click();
   if (e.key === 'Escape') closeDayModal();
 });
 
@@ -693,17 +736,26 @@ $('modalHoursInput').addEventListener('keydown', e => {
 $('logBtn').addEventListener('click', () => {
   const h = parseFloat($('hoursInput').value);
   if (isNaN(h) || h < 0) return;
-  logHoursForDate(today(), h);
+  frLogHoursForDate(today(), h);
   renderHoursDash();
+  uid ? queueSave() : saveToLocal();
 });
 $('hoursInput').addEventListener('keydown', e => { if (e.key === 'Enter') $('logBtn').click(); });
 $('clearTodayBtn').addEventListener('click', () => {
-  saveStudyLog(getStudyLog().filter(l => l.date !== today()));
+  frSaveStudyLog(frGetStudyLog().filter(l => l.date !== today()));
   $('hoursInput').value = '';
   renderHoursDash();
+  uid ? queueSave() : saveToLocal();
 });
-$('prevMonth').addEventListener('click', () => { currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()-1); renderCalendar(getStudyLog(),getDailyGoal()); });
-$('nextMonth').addEventListener('click', () => { currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()+1); renderCalendar(getStudyLog(),getDailyGoal()); });
+
+$('prevMonth').addEventListener('click', () => {
+  currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()-1);
+  renderCalendar(frGetStudyLog(), frGetDailyGoal());
+});
+$('nextMonth').addEventListener('click', () => {
+  currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()+1);
+  renderCalendar(frGetStudyLog(), frGetDailyGoal());
+});
 
 /* ══ CHECKLIST ══ */
 function renderAll() {
@@ -747,7 +799,14 @@ function queueSave() {
 async function saveToFirestore() {
   if (!uid) return;
   try {
-    await setDoc(doc(db,'users',uid), { frenchChecklist:checked, frenchTopics:topics, frenchUpdatedAt:new Date().toISOString() }, { merge:true });
+    // Saves french checklist/topics AND the french study log — all under the user doc
+    await setDoc(doc(db,'users',uid), {
+      frenchChecklist:   checked,
+      frenchTopics:      topics,
+      frenchStudyLog:    frGetStudyLog(),
+      frenchDailyGoal:   frGetDailyGoal(),
+      frenchUpdatedAt:   new Date().toISOString()
+    }, { merge: true });
     setSyncStatus('saved','✓ Saved to your account');
     setTimeout(() => setSyncStatus('','Ready'), 3000);
   } catch(e) { setSyncStatus('error','✗ Save failed — check connection'); }
@@ -760,6 +819,8 @@ async function loadFromFirestore(userId) {
       const d = snap.data();
       if (d.frenchChecklist) Object.assign(checked, d.frenchChecklist);
       if (d.frenchTopics)    Object.assign(topics,  d.frenchTopics);
+      if (d.frenchStudyLog)  frSaveStudyLog(d.frenchStudyLog);
+      if (d.frenchDailyGoal) localStorage.setItem(FR_GOAL_KEY, d.frenchDailyGoal);
     }
   } catch(e) {}
   renderAll(); hideLoader();
