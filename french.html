@@ -6,7 +6,6 @@
 <title>French A0→A1 · Study Checklist</title>
 <link rel="stylesheet" href="style.css"/>
 <style>
-/* ── Page hero ── */
 .page-hero {
   display: flex; align-items: flex-start;
   justify-content: space-between; flex-wrap: wrap;
@@ -28,7 +27,6 @@
 .op-count { font-family: var(--mono); font-size: 1.6rem; font-weight: 600; color: var(--accent); line-height: 1; }
 .op-sub   { font-size: 0.72rem; color: var(--text-muted); }
 
-/* ── Hours strip ── */
 .french-dash {
   display: grid; grid-template-columns: 2fr 1fr 1fr;
   gap: 1rem; margin-bottom: 1.5rem;
@@ -56,17 +54,6 @@
 .log-controls { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; margin-top: .6rem; }
 .section-label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: .3rem; }
 
-/* daily goal edit */
-.fr-goal-row { display: flex; align-items: center; gap: .5rem; margin-top: .4rem; }
-.fr-goal-row label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
-.fr-goal-input {
-  font-family: var(--mono); font-size: .9rem; font-weight: 600; color: var(--text-muted);
-  background: var(--surface2); border: 1.5px solid var(--border); border-radius: 6px;
-  padding: .15rem .4rem; width: 56px; cursor: pointer;
-}
-.fr-goal-input:focus { outline: none; border-color: var(--accent); color: var(--accent); }
-
-/* ── Calendar + heatmap row ── */
 .french-cal-grid {
   display: grid; grid-template-columns: repeat(2,1fr);
   gap: 1.5rem; margin-bottom: 1.5rem;
@@ -91,7 +78,6 @@
 .cal-left   { font-size: .6rem; margin-top: 2px; font-family: var(--mono); color: var(--warning); }
 .cal-header { font-weight: 600; font-size: .7rem; color: var(--text-muted); padding: .5rem 0; text-align: center; }
 
-/* Heatmap */
 .heatmap { display: flex; flex-wrap: wrap; gap: 3px; }
 .heat-cell { width: 12px; height: 12px; border-radius: 3px; }
 .heat-0 { background: var(--surface2); }
@@ -100,7 +86,7 @@
 .heat-3 { background: rgba(0,200,150,.75); }
 .heat-4 { background: var(--success); }
 
-/* ── Day modal ── */
+/* ── Modals ── */
 .modal {
   display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,.5); z-index: 1000;
@@ -109,11 +95,12 @@
 .modal.open { display: flex; }
 .modal-content {
   background: var(--surface); border-radius: var(--radius);
-  padding: 1.5rem; max-width: 360px; width: 90%;
+  padding: 1.5rem; max-width: 420px; width: 92%;
   box-shadow: var(--shadow-lg);
 }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-.modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-dim); }
+.modal-header h3 { font-size: 1rem; font-weight: 800; }
+.modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-dim); line-height:1; }
 .modal-close:hover { color: var(--text); }
 .modal-input {
   font-family: var(--mono); font-size: 2rem; font-weight: 600;
@@ -122,20 +109,41 @@
   width: 100%; padding: .5rem .75rem; margin: .75rem 0; box-sizing: border-box;
 }
 .modal-input:focus { outline: none; border-color: var(--accent); }
-.modal-note { font-size: .72rem; color: var(--text-muted); margin-top: .25rem; font-style: italic; }
+.modal-input.sm {
+  font-size: 1rem; font-weight: 500; color: var(--text);
+  font-family: var(--font); margin: .4rem 0;
+}
+.modal-label {
+  font-size: .7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--text-muted);
+  margin-top: .6rem; display: block;
+}
+.cat-select {
+  font-family: var(--font); font-size: .85rem; font-weight: 500;
+  background: var(--surface2); border: 1.5px solid var(--border);
+  border-radius: 8px; color: var(--text); padding: .45rem .65rem;
+  cursor: pointer; width: 100%; margin-top: .4rem;
+}
+.cat-select:focus { outline: none; border-color: var(--accent); }
 
 /* ── Weeks ── */
-.weeks-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; }
+.weeks-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.weeks-header h2 { font-size: 1rem; font-weight: 800; }
+.weeks-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; margin-bottom: 2rem; }
 @media(max-width:820px){ .weeks-grid { grid-template-columns: 1fr; } }
 
 .week-card {
   background: var(--surface); border: 1.5px solid var(--border);
   border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
-  transition: border-color .2s, transform .2s, box-shadow .2s;
+  transition: border-color .2s, box-shadow .2s;
 }
-.week-card:hover { border-color: rgba(108,71,255,.22); box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+.week-card:hover { border-color: rgba(108,71,255,.22); box-shadow: var(--shadow-lg); }
 
-.wk-stripe { height: 4px; border-radius: 16px 16px 0 0; }
+.wk-stripe { height: 4px; }
+.s0{background:linear-gradient(90deg,#888,#bbb)}
 .s1{background:linear-gradient(90deg,var(--accent),var(--lavender))}
 .s2{background:linear-gradient(90deg,var(--accent2),#ff9a6c)}
 .s3{background:linear-gradient(90deg,var(--success),var(--mint))}
@@ -145,70 +153,58 @@
 .s7{background:linear-gradient(90deg,var(--accent2),var(--lavender))}
 .s8{background:linear-gradient(90deg,#f5c842,#ff9a6c)}
 
-.card-head { padding: 1.1rem 1.25rem .85rem; display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
-.week-label  { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: .2rem; }
-.week-title  { font-size: .95rem; font-weight: 800; color: var(--text); line-height: 1.3; }
-.week-emoji  { font-size: 1.6rem; flex-shrink: 0; margin-top: .1rem; }
-.card-progress { padding: 0 1.25rem .75rem; display: flex; align-items: center; gap: .75rem; }
+.card-head {
+  padding: .9rem 1rem .7rem;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem;
+}
+.card-head-left { display: flex; align-items: flex-start; gap: .6rem; flex: 1; min-width: 0; }
+.week-emoji  { font-size: 1.5rem; flex-shrink: 0; }
+.week-meta   { flex: 1; min-width: 0; }
+.week-label  { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); }
+.week-title  { font-size: .92rem; font-weight: 800; color: var(--text); line-height: 1.3; word-break: break-word; }
+
+.week-actions { display: flex; gap: .3rem; flex-shrink: 0; }
+.week-action-btn {
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  font-size: .72rem; cursor: pointer; color: var(--text-muted);
+  padding: .22rem .45rem; transition: all .15s; line-height: 1;
+}
+.week-action-btn:hover { background: var(--surface2); color: var(--text); }
+.week-action-btn.danger:hover { background: rgba(255,77,109,.1); color: var(--danger); border-color: rgba(255,77,109,.3); }
+
+.card-progress { padding: 0 1rem .65rem; display: flex; align-items: center; gap: .75rem; }
 .card-progress .progress-track { flex: 1; height: 5px; }
 .cp-pct { font-family: var(--mono); font-size: .68rem; font-weight: 600; color: var(--text-muted); min-width: 28px; text-align: right; }
-.card-body { padding: 0 .75rem .75rem; display: flex; flex-direction: column; gap: .35rem; }
+
+.card-body { padding: 0 .6rem .3rem; display: flex; flex-direction: column; gap: .2rem; }
 
 .topic-row {
-  display: flex; align-items: center; gap: .75rem;
-  padding: .65rem .5rem; border-radius: var(--radius-sm);
-  border: 1.5px solid transparent; cursor: pointer; transition: all .15s;
+  display: flex; align-items: center; gap: .6rem;
+  padding: .5rem .4rem; border-radius: 8px;
+  border: 1.5px solid transparent; user-select: none;
+  transition: background .12s, border-color .12s;
 }
-.topic-row:hover { background: var(--surface2); border-color: var(--border); transform: translateX(3px); }
-.topic-row.done { opacity: .5; }
-.topic-row.done .topic-name { text-decoration: line-through; color: var(--text-muted); }
-.topic-row input[type="checkbox"] { display: none; }
+.topic-row:hover { background: var(--surface2); border-color: var(--border); }
+.topic-row.done .topic-name { text-decoration: line-through; color: var(--text-muted); opacity: .65; }
+
 .check-box {
-  width: 22px; height: 22px; border-radius: 7px; border: 2px solid var(--border);
+  width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border);
   background: var(--surface); display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: all .18s; font-size: 12px; color: transparent;
+  flex-shrink: 0; cursor: pointer; transition: all .15s; font-size: 11px; color: transparent;
 }
-.topic-row.done .check-box { border-color: transparent; background: linear-gradient(135deg,var(--success),var(--mint)); color: #fff; }
-
-.topic-name {
-  font-size: .85rem; font-weight: 500; color: var(--text); flex: 1; line-height: 1.35;
-  outline: none; border-radius: 4px; padding: 1px 3px; margin: -1px -3px;
-  transition: background .15s, box-shadow .15s;
-}
-.topic-name[contenteditable="true"] {
-  background: var(--surface2); box-shadow: 0 0 0 2px var(--accent);
-  cursor: text; text-decoration: none !important; color: var(--text) !important;
-}
-.edit-hint { font-size: .6rem; color: var(--text-muted); opacity: 0; white-space: nowrap; transition: opacity .2s; flex-shrink: 0; pointer-events: none; }
-.topic-row:hover .edit-hint { opacity: 1; }
-
-/* delete button */
-.topic-delete-btn {
-  flex-shrink: 0; background: none; border: none; cursor: pointer;
-  color: var(--text-dim); font-size: .85rem; line-height: 1;
-  width: 20px; height: 20px; border-radius: 50%; display: flex;
-  align-items: center; justify-content: center; opacity: 0;
-  transition: opacity .15s, background .15s, color .15s;
-  padding: 0;
-}
-.topic-row:hover .topic-delete-btn { opacity: 1; }
-.topic-delete-btn:hover { background: rgba(255,77,109,.12); color: var(--danger); }
-
-/* restore strip */
-.restore-strip {
-  font-size: .72rem; color: var(--text-muted); padding: .4rem .5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  border-radius: var(--radius-sm); background: var(--surface2);
-  margin-top: .25rem; display: none;
-}
-.restore-strip.visible { display: flex; }
-.restore-btn {
-  font-size: .68rem; font-weight: 700; color: var(--accent);
-  background: none; border: none; cursor: pointer; padding: 0;
-  text-decoration: underline;
+.topic-row.done .check-box {
+  border-color: transparent;
+  background: linear-gradient(135deg,var(--success),var(--mint));
+  color: #fff;
 }
 
-.cat-pill { display: inline-flex; align-items: center; padding: .18rem .6rem; border-radius: 99px; font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; flex-shrink: 0; }
+.topic-name { font-size: .82rem; font-weight: 500; color: var(--text); flex: 1; line-height: 1.3; }
+
+.cat-pill {
+  display: inline-flex; align-items: center; padding: .14rem .48rem;
+  border-radius: 99px; font-size: .57rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .05em; flex-shrink: 0;
+}
 .cat-pill.grammar { background: rgba(108,71,255,.10); color: var(--accent); }
 .cat-pill.vocab   { background: rgba(0,200,150,.12);  color: var(--success); }
 .cat-pill.listen  { background: rgba(56,191,255,.12); color: var(--sky); }
@@ -216,11 +212,36 @@
 .cat-pill.write   { background: rgba(255,107,157,.12);color: var(--accent2); }
 .cat-pill.review  { background: rgba(167,139,250,.15);color: var(--lavender); }
 .cat-pill.speak   { background: rgba(255,75,109,.10); color: var(--danger); }
+.cat-pill.other   { background: rgba(120,120,120,.1); color: var(--text-muted); }
 
-.card-footer { padding: .65rem 1.25rem 1rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.footer-count { font-size: .72rem; color: var(--text-muted); font-family: var(--mono); font-weight: 600; }
-.footer-badge { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: .2rem .6rem; border-radius: 99px; background: rgba(0,200,150,.12); color: var(--success); display: none; }
+.topic-btn {
+  flex-shrink: 0; background: none; border: none; cursor: pointer;
+  font-size: .78rem; line-height: 1; padding: .22rem .3rem;
+  border-radius: 5px; opacity: 0; transition: opacity .12s, background .12s, color .12s;
+  color: var(--text-muted);
+}
+.topic-row:hover .topic-btn { opacity: 1; }
+.topic-btn.edit-btn:hover { background: rgba(108,71,255,.12); color: var(--accent); }
+.topic-btn.del-btn:hover  { background: rgba(255,77,109,.12); color: var(--danger); }
+
+.card-footer {
+  padding: .5rem 1rem .75rem;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: .5rem;
+}
+.footer-count { font-size: .7rem; color: var(--text-muted); font-family: var(--mono); font-weight: 600; }
+.footer-badge {
+  font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+  padding: .18rem .55rem; border-radius: 99px;
+  background: rgba(0,200,150,.12); color: var(--success); display: none;
+}
 .footer-badge.visible { display: inline-flex; }
+.add-topic-btn {
+  font-size: .72rem; font-weight: 700; color: var(--accent);
+  background: rgba(108,71,255,.07); border: 1px dashed rgba(108,71,255,.3);
+  border-radius: 7px; padding: .25rem .65rem; cursor: pointer; transition: all .15s; margin-left: auto;
+}
+.add-topic-btn:hover { background: rgba(108,71,255,.14); border-style: solid; }
 
 /* Sync bar */
 .sync-bar {
@@ -241,8 +262,7 @@
   display: inline-flex; align-items: center; gap: .55rem;
   border: 1.5px solid var(--border); background: var(--surface); color: var(--text);
   border-radius: 999px; padding: .28rem .75rem .28rem .32rem;
-  cursor: pointer; font-family: var(--font); font-size: .8rem; font-weight: 700;
-  transition: all .18s; box-shadow: 0 2px 8px rgba(108,71,255,.08);
+  cursor: pointer; font-family: var(--font); font-size: .8rem; font-weight: 700; transition: all .18s;
 }
 .user-menu-toggle:hover { border-color: var(--accent); }
 .user-avatar {
@@ -260,19 +280,29 @@
 .user-menu-dropdown.open { display: block; }
 .user-menu-name  { font-size: .875rem; font-weight: 800; color: var(--text); }
 .user-menu-email { margin-top: .2rem; font-size: .75rem; color: var(--text-muted); word-break: break-word; }
-.user-logout-btn { margin-top: .75rem; width: 100%; border: 1.5px solid rgba(255,77,109,.25); background: rgba(255,77,109,.08); color: var(--danger); border-radius: 8px; padding: .5rem .65rem; font-family: var(--font); font-size: .8rem; font-weight: 700; cursor: pointer; transition: all .15s; }
+.user-logout-btn {
+  margin-top: .75rem; width: 100%;
+  border: 1.5px solid rgba(255,77,109,.25); background: rgba(255,77,109,.08);
+  color: var(--danger); border-radius: 8px; padding: .5rem .65rem;
+  font-family: var(--font); font-size: .8rem; font-weight: 700; cursor: pointer; transition: all .15s;
+}
 .user-logout-btn:hover { background: rgba(255,77,109,.16); }
 
-/* Loading overlay */
-#loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; z-index: 999; transition: opacity .4s; }
+#loading-overlay {
+  position: fixed; inset: 0; background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1rem; z-index: 999; transition: opacity .4s;
+}
 #loading-overlay.hidden { opacity: 0; pointer-events: none; }
-.loader-spinner { width: 36px; height: 36px; border-radius: 50%; border: 3px solid var(--border); border-top-color: var(--accent); animation: spin .7s linear infinite; }
+.loader-spinner {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 3px solid var(--border); border-top-color: var(--accent);
+  animation: spin .7s linear infinite;
+}
 @keyframes spin { to { transform: rotate(360deg); } }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 .fade-up { animation: fadeUp .4s cubic-bezier(.22,1,.36,1) both; }
 .d1{animation-delay:.04s}.d2{animation-delay:.08s}.d3{animation-delay:.12s}
-.d4{animation-delay:.16s}.d5{animation-delay:.20s}.d6{animation-delay:.24s}
-.d7{animation-delay:.28s}.d8{animation-delay:.32s}
 </style>
 </head>
 <body>
@@ -305,16 +335,15 @@
 
 <div class="page">
 
-  <!-- Hero -->
   <div class="page-hero fade-up">
     <div>
-      <div class="page-hero-eyebrow">🇫🇷 8-Week Plan · French Study</div>
+      <div class="page-hero-eyebrow">🇫🇷 French Study Plan</div>
       <h1>French <span>A0 → A1</span></h1>
-      <div class="page-hero-sub">Separate hours tracker · Double-click any topic to rename it</div>
+      <div class="page-hero-sub">Edit topics ✏️ · Add topics ＋ · Add or delete weeks — fully customisable</div>
     </div>
     <div class="overall-progress">
       <div class="op-label">Overall Progress</div>
-      <div class="op-count" id="op-count">0<span style="font-size:1rem;color:var(--text-muted)">/56</span></div>
+      <div class="op-count" id="op-count">0<span style="font-size:1rem;color:var(--text-muted)" id="op-total">/0</span></div>
       <div class="op-sub">tasks completed</div>
       <div class="progress-track" style="margin-top:.3rem">
         <div class="progress-fill" id="op-bar" style="width:0%"></div>
@@ -324,8 +353,6 @@
 
   <!-- Hours strip -->
   <div class="french-dash fade-up">
-
-    <!-- Today's session card -->
     <div class="fd-card">
       <div class="fd-label">Today's Session — French</div>
       <div class="hours-row">
@@ -338,7 +365,7 @@
           <p class="section-label">Daily target</p>
           <input id="frDailyGoalInput" class="big-input" type="number" min="0" max="24" step="0.5"
             style="color:var(--text-muted);cursor:pointer;width:80px"
-            title="Click to change your French daily goal"/>
+            title="Click to set your French daily goal"/>
         </div>
         <span style="font-size:.9rem;color:var(--text-dim);padding-bottom:.4rem">hrs</span>
       </div>
@@ -350,26 +377,20 @@
         <button class="btn btn-danger" id="clearTodayBtn" style="padding:.3rem .7rem;font-size:.8rem">Clear Today</button>
       </div>
     </div>
-
-    <!-- Total -->
     <div class="fd-card">
       <div class="fd-label">French Total Hours</div>
       <div class="fd-value" id="totalHours" style="margin-top:.4rem">0h</div>
       <div class="fd-sub" id="totalSessions">across 0 sessions</div>
     </div>
-
-    <!-- Streak -->
     <div class="fd-card">
       <div class="fd-label">French Streak</div>
       <div class="fd-value" id="streakVal" style="margin-top:.4rem">0</div>
       <div class="fd-sub">days in a row 🔥</div>
     </div>
-
   </div>
 
   <!-- Calendar + Heatmap -->
   <div class="french-cal-grid fade-up">
-
     <div class="card">
       <div class="section-header">
         <p class="label">French Study Calendar <span style="font-size:.7rem;color:var(--text-muted);font-weight:500">· click any day to log</span></p>
@@ -381,7 +402,6 @@
       </div>
       <div id="calendar"></div>
     </div>
-
     <div class="card">
       <div class="section-header">
         <p class="label">French Activity</p>
@@ -396,176 +416,134 @@
         <span style="font-size:.7rem;color:var(--text-dim)">More</span>
       </div>
     </div>
-
   </div>
 
-  <!-- Sync bar -->
   <div class="sync-bar" id="syncBar">
     <div class="sync-dot"></div>
     <span id="syncMsg">Ready</span>
   </div>
 
-  <!-- Weeks -->
-  <div class="weeks-grid">
+  <div class="weeks-header">
+    <h2>📋 Study Weeks</h2>
+    <button class="btn btn-primary" id="addWeekBtn" style="font-size:.8rem;padding:.4rem .9rem">＋ Add Week</button>
+  </div>
+  <div class="weeks-grid" id="weeksGrid"></div>
 
-    <div class="week-card fade-up d1">
-      <div class="wk-stripe s1"></div>
-      <div class="card-head"><div><div class="week-label">Week 1</div><div class="week-title">The Absolute Foundation</div></div><div class="week-emoji">🔤</div></div>
-      <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb1" style="width:0%"></div></div><div class="cp-pct" id="pp1">0%</div></div>
-      <div class="card-body">
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t1"><div class="check-box">✓</div><span class="topic-name" data-id="w1t1-name">French alphabet + accent marks (é, è, ê, à, ç)</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t2"><div class="check-box">✓</div><span class="topic-name" data-id="w1t2-name">Nasal sounds + silent letters rule</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t3"><div class="check-box">✓</div><span class="topic-name" data-id="w1t3-name">Gender of nouns — masculine vs feminine</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t4"><div class="check-box">✓</div><span class="topic-name" data-id="w1t4-name">Definite articles le/la/les + indefinite un/une/des</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t5"><div class="check-box">✓</div><span class="topic-name" data-id="w1t5-name">Greetings, farewells + Numbers 1–20</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t6"><div class="check-box">✓</div><span class="topic-name" data-id="w1t6-name">Days of the week + Colors</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t7"><div class="check-box">✓</div><span class="topic-name" data-id="w1t7-name">Write 5 intro sentences about yourself</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-      </div>
-      <div class="card-footer"><span class="footer-count" id="fc1">0 of 7</span><span class="footer-badge" id="fb1">✓ Done</span></div>
-    </div>
-
-    <div class="week-card fade-up d2">
-      <div class="wk-stripe s2"></div>
-      <div class="card-head"><div><div class="week-label">Week 2</div><div class="week-title">Personal Identity & Basic Verbs</div></div><div class="week-emoji">👤</div></div>
-      <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb2" style="width:0%"></div></div><div class="cp-pct" id="pp2">0%</div></div>
-      <div class="card-body">
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t1"><div class="check-box">✓</div><span class="topic-name" data-id="w2t1-name">Personal pronouns je/tu/il/elle/nous/vous/ils/elles</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t2"><div class="check-box">✓</div><span class="topic-name" data-id="w2t2-name">Verb être — full present tense conjugation</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t3"><div class="check-box">✓</div><span class="topic-name" data-id="w2t3-name">Verb avoir — full present tense conjugation</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t4"><div class="check-box">✓</div><span class="topic-name" data-id="w2t4-name">Simple negation with ne...pas</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t5"><div class="check-box">✓</div><span class="topic-name" data-id="w2t5-name">Family members + Nationalities + Professions</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t6"><div class="check-box">✓</div><span class="topic-name" data-id="w2t6-name">Numbers 20–100 + Listen to intro dialogues</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t7"><div class="check-box">✓</div><span class="topic-name" data-id="w2t7-name">Fill out a personal information form</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-      </div>
-      <div class="card-footer"><span class="footer-count" id="fc2">0 of 7</span><span class="footer-badge" id="fb2">✓ Done</span></div>
-    </div>
-
-    <div class="week-card fade-up d3">
-      <div class="wk-stripe s3"></div>
-      <div class="card-head"><div><div class="week-label">Week 3</div><div class="week-title">Daily Life & Regular Verbs</div></div><div class="week-emoji">🌅</div></div>
-      <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb3" style="width:0%"></div></div><div class="cp-pct" id="pp3">0%</div></div>
-      <div class="card-body">
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t1"><div class="check-box">✓</div><span class="topic-name" data-id="w3t1-name">Regular -er verbs: parler, manger, habiter, aimer</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t2"><div class="check-box">✓</div><span class="topic-name" data-id="w3t2-name">Basic sentence structure + yes/no questions (est-ce que)</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t3"><div class="check-box">✓</div><span class="topic-name" data-id="w3t3-name">Daily routine vocabulary + Times of day</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t4"><div class="check-box">✓</div><span class="topic-name" data-id="w3t4-name">Places in a city vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t5"><div class="check-box">✓</div><span class="topic-name" data-id="w3t5-name">Read a short paragraph about a daily routine</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t6"><div class="check-box">✓</div><span class="topic-name" data-id="w3t6-name">Listen to someone describe their daily schedule</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t7"><div class="check-box">✓</div><span class="topic-name" data-id="w3t7-name">Write a 60–80 word paragraph about your day</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-      </div>
-      <div class="card-footer"><span class="footer-count" id="fc3">0 of 7</span><span class="footer-badge" id="fb3">✓ Done</span></div>
-    </div>
-
-    <div class="week-card fade-up d4">
-      <div class="wk-stripe s4"></div>
-      <div class="card-head"><div><div class="week-label">Week 4</div><div class="week-title">Questions, Descriptions & Preferences</div></div><div class="week-emoji">💬</div></div>
-      <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb4" style="width:0%"></div></div><div class="cp-pct" id="pp4">0%</div></div>
-      <div class="card-body">
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t1"><div class="check-box">✓</div><span class="topic-name" data-id="w4t1-name">Question words: qui, quoi, où, quand, comment, pourquoi</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t2"><div class="check-box">✓</div><span class="topic-name" data-id="w4t2-name">Adjective agreement — masculine and feminine forms</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t3"><div class="check-box">✓</div><span class="topic-name" data-id="w4t3-name">Possessive adjectives: mon/ma/mes, ton/ta/tes, son/sa/ses</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t4"><div class="check-box">✓</div><span class="topic-name" data-id="w4t4-name">Physical + personality description vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t5"><div class="check-box">✓</div><span class="topic-name" data-id="w4t5-name">Hobbies + leisure + express likes/dislikes</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t6"><div class="check-box">✓</div><span class="topic-name" data-id="w4t6-name">Listen to a likes/dislikes dialogue + short reading</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t7"><div class="check-box">✓</div><span class="topic-name" data-id="w4t7-name">Write a description of yourself or a friend</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-      </div>
-      <div class="card-footer"><span class="footer-count" id="fc4">0 of 7</span><span class="footer-badge" id="fb4">✓ Done</span></div>
-    </div>
-
-    <div class="week-card fade-up d5">
-      <div class="wk-stripe s5"></div>
-      <div class="card-head"><div><div class="week-label">Week 5</div><div class="week-title">Shopping, Food & Numbers in Context</div></div><div class="week-emoji">🛒</div></div>
-      <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb5" style="width:0%"></div></div><div class="cp-pct" id="pp5">0%</div></div>
-      <div class="card-body">
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t1"><div class="check-box">✓</div><span class="topic-name" data-id="w5t1-name">Partitive articles: du / de la / de l' / des</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t2"><div class="check-box">✓</div><span class="topic-name" data-id="w5t2-name">Verbs vouloir and pouvoir — present tense</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t3"><div class="check-box">✓</div><span class="topic-name" data-id="w5t3-name">Quantities: un kilo de, beaucoup de, un peu de</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t4"><div class="check-box">✓</div><span class="topic-name" data-id="w5t4-name">Food, drinks + shops vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t5"><div class="check-box">✓</div><span class="topic-name" data-id="w5t5-name">Money + prices + read a menu or shopping list</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t6"><div class="check-box">✓</div><span class="topic-name" data-id="w5t6-name">Listen to a shopping dialogue + role-play buying something</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t7"><div class="check-box">✓</div><span class="topic-name" data-id="w5t7-name">Write a short shopping dialogue (3 sentences)</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-      </div>
-      <div class="card-footer"><span class="footer-count" id="fc5">0 of 7</span><span class="footer-badge" id="fb5">✓ Done</span></div>
-    </div>
-
-    <div class="week-card fade-up d6">
-      <div class="wk-stripe s6"></div>
-      <div class="card-head"><div><div class="week-label">Week 6</div><div class="week-title">Time, Weather & Location</div></div><div class="week-emoji">🌦️</div></div>
-      <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb6" style="width:0%"></div></div><div class="cp-pct" id="pp6">0%</div></div>
-      <div class="card-body">
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t1"><div class="check-box">✓</div><span class="topic-name" data-id="w6t1-name">Telling time: il est... heures</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t2"><div class="check-box">✓</div><span class="topic-name" data-id="w6t2-name">Prepositions of place: à/de/sur/sous/dans/devant/derrière</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t3"><div class="check-box">✓</div><span class="topic-name" data-id="w6t3-name">Verb aller + near future: aller + infinitive</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t4"><div class="check-box">✓</div><span class="topic-name" data-id="w6t4-name">Weather + Months + Seasons vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t5"><div class="check-box">✓</div><span class="topic-name" data-id="w6t5-name">Directions: à gauche, à droite, tout droit, près de</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t6"><div class="check-box">✓</div><span class="topic-name" data-id="w6t6-name">Listen to a weather forecast + practice giving directions</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t7"><div class="check-box">✓</div><span class="topic-name" data-id="w6t7-name">Write a short message: weather + plans for the day</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-      </div>
-      <div class="card-footer"><span class="footer-count" id="fc6">0 of 7</span><span class="footer-badge" id="fb6">✓ Done</span></div>
-    </div>
-
-    <div class="week-card fade-up d7">
-      <div class="wk-stripe s7"></div>
-      <div class="card-head"><div><div class="week-label">Week 7</div><div class="week-title">Communication & Social Situations</div></div><div class="week-emoji">📱</div></div>
-      <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb7" style="width:0%"></div></div><div class="cp-pct" id="pp7">0%</div></div>
-      <div class="card-body">
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t1"><div class="check-box">✓</div><span class="topic-name" data-id="w7t1-name">Irregular verbs faire and prendre — present tense</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t2"><div class="check-box">✓</div><span class="topic-name" data-id="w7t2-name">Irregular verbs venir and savoir — present tense</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t3"><div class="check-box">✓</div><span class="topic-name" data-id="w7t3-name">Stressed pronouns + conjunctions et/mais/ou/parce que</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t4"><div class="check-box">✓</div><span class="topic-name" data-id="w7t4-name">Transport + communication vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t5"><div class="check-box">✓</div><span class="topic-name" data-id="w7t5-name">Common expressions: s'il vous plaît, je ne comprends pas</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t6"><div class="check-box">✓</div><span class="topic-name" data-id="w7t6-name">Read an informal email + listen to a phone conversation</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t7"><div class="check-box">✓</div><span class="topic-name" data-id="w7t7-name">Write an 80–100 word informal email making plans</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-      </div>
-      <div class="card-footer"><span class="footer-count" id="fc7">0 of 7</span><span class="footer-badge" id="fb7">✓ Done</span></div>
-    </div>
-
-    <div class="week-card fade-up d8">
-      <div class="wk-stripe s8"></div>
-      <div class="card-head"><div><div class="week-label">Week 8 · Final</div><div class="week-title">Full Integration & Exam Readiness</div></div><div class="week-emoji">🏆</div></div>
-      <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb8" style="width:0%"></div></div><div class="cp-pct" id="pp8">0%</div></div>
-      <div class="card-body">
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t1"><div class="check-box">✓</div><span class="topic-name" data-id="w8t1-name">Full grammar review: articles, pronouns, negation, adjectives</span><span class="edit-hint">✏️</span><span class="cat-pill review">Review</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t2"><div class="check-box">✓</div><span class="topic-name" data-id="w8t2-name">Full vocabulary review: all themes from weeks 1–7</span><span class="edit-hint">✏️</span><span class="cat-pill review">Review</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t3"><div class="check-box">✓</div><span class="topic-name" data-id="w8t3-name">Timed listening — 3-min dialogue + comprehension questions</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t4"><div class="check-box">✓</div><span class="topic-name" data-id="w8t4-name">Timed reading — short texts + fill-in comprehension</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t5"><div class="check-box">✓</div><span class="topic-name" data-id="w8t5-name">Timed writing — personal info form + 80-word paragraph</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t6"><div class="check-box">✓</div><span class="topic-name" data-id="w8t6-name">Mock speaking — record intro + role-play dialogue</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t7"><div class="check-box">✓</div><span class="topic-name" data-id="w8t7-name">Final full mock test — all 4 skills in DELF A1 format</span><span class="edit-hint">✏️</span><span class="cat-pill review">Mock Test</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
-      </div>
-      <div class="card-footer"><span class="footer-count" id="fc8">0 of 7</span><span class="footer-badge" id="fb8">✓ Done</span></div>
-    </div>
-
-  </div><!-- /weeks-grid -->
 </div><!-- /page -->
 
-<!-- Day log modal -->
+<!-- Day modal -->
 <div class="modal" id="dayModal">
   <div class="modal-content">
     <div class="modal-header">
-      <h3 id="modalDateTitle" style="font-size:1rem;font-weight:800">Log French hours</h3>
-      <button class="modal-close" id="modalClose">×</button>
+      <h3 id="modalDateTitle">Log French hours</h3>
+      <button class="modal-close" id="dayModalClose">×</button>
     </div>
     <p style="font-size:.8rem;color:var(--text-muted)">How many hours did you study French?</p>
     <input class="modal-input" type="number" id="modalHoursInput" min="0" max="24" step="0.5" placeholder="0"/>
-    <p class="modal-note" id="modalExistingNote"></p>
-    <div style="display:flex;gap:.75rem;margin-top:.5rem">
+    <p style="font-size:.72rem;color:var(--text-muted);font-style:italic;margin-top:-.4rem" id="modalExistingNote"></p>
+    <div style="display:flex;gap:.75rem;margin-top:.75rem">
       <button class="btn btn-primary" id="modalSaveBtn" style="flex:1">Save</button>
       <button class="btn btn-danger"  id="modalClearBtn" style="flex:1">Clear Day</button>
     </div>
   </div>
 </div>
 
-<!-- app.js must load first — it provides buildHeatmap, today, etc. -->
+<!-- Edit topic modal -->
+<div class="modal" id="editTopicModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Edit Topic</h3>
+      <button class="modal-close" id="editTopicClose">×</button>
+    </div>
+    <label class="modal-label">Topic name</label>
+    <input class="modal-input sm" type="text" id="editTopicName" placeholder="Enter topic name…"/>
+    <label class="modal-label">Category</label>
+    <select class="cat-select" id="editTopicCat">
+      <option value="grammar">Grammar</option>
+      <option value="vocab">Vocab</option>
+      <option value="listen">Listening</option>
+      <option value="read">Reading</option>
+      <option value="write">Writing</option>
+      <option value="speak">Speaking</option>
+      <option value="review">Review</option>
+      <option value="other">Other</option>
+    </select>
+    <div style="display:flex;gap:.75rem;margin-top:1rem">
+      <button class="btn btn-primary" id="editTopicSave" style="flex:1">Save Changes</button>
+      <button class="btn btn-ghost"   id="editTopicCancel" style="flex:1">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add topic modal -->
+<div class="modal" id="addTopicModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="addTopicModalTitle">Add Topic</h3>
+      <button class="modal-close" id="addTopicClose">×</button>
+    </div>
+    <label class="modal-label">Topic name</label>
+    <input class="modal-input sm" type="text" id="addTopicName" placeholder="e.g. Verb être conjugation…"/>
+    <label class="modal-label">Category</label>
+    <select class="cat-select" id="addTopicCat">
+      <option value="grammar">Grammar</option>
+      <option value="vocab">Vocab</option>
+      <option value="listen">Listening</option>
+      <option value="read">Reading</option>
+      <option value="write">Writing</option>
+      <option value="speak">Speaking</option>
+      <option value="review">Review</option>
+      <option value="other">Other</option>
+    </select>
+    <div style="display:flex;gap:.75rem;margin-top:1rem">
+      <button class="btn btn-primary" id="addTopicSave" style="flex:1">Add Topic</button>
+      <button class="btn btn-ghost"   id="addTopicCancel" style="flex:1">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit week modal -->
+<div class="modal" id="weekModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="weekModalHeading">Add Week</h3>
+      <button class="modal-close" id="weekModalClose">×</button>
+    </div>
+    <label class="modal-label">Week title</label>
+    <input class="modal-input sm" type="text" id="weekModalTitleInput" placeholder="e.g. Advanced Grammar…"/>
+    <label class="modal-label">Emoji (optional)</label>
+    <input class="modal-input sm" type="text" id="weekModalEmoji" placeholder="📖" maxlength="4" style="width:72px"/>
+    <div style="display:flex;gap:.75rem;margin-top:1rem">
+      <button class="btn btn-primary" id="weekModalSave" style="flex:1">Save</button>
+      <button class="btn btn-ghost"   id="weekModalCancel" style="flex:1">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm delete modal -->
+<div class="modal" id="confirmModal">
+  <div class="modal-content" style="max-width:340px">
+    <div class="modal-header">
+      <h3 id="confirmTitle">Delete?</h3>
+      <button class="modal-close" id="confirmClose">×</button>
+    </div>
+    <p id="confirmMsg" style="font-size:.875rem;color:var(--text-muted);line-height:1.5;margin-top:.25rem"></p>
+    <div style="display:flex;gap:.75rem;margin-top:1.25rem">
+      <button class="btn btn-danger" id="confirmOk"     style="flex:1">Delete</button>
+      <button class="btn btn-ghost"  id="confirmCancel" style="flex:1">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <script src="app.js"></script>
 <script type="module" src="firebase-sync.js"></script>
 
 <script type="module">
-import { initializeApp }      from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getAuth, signOut, onAuthStateChanged }
-                               from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+                            from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc }
-                               from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+                            from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey:            "AIzaSyC_MRBp_-Zhkq52OEV7W3e3JDDxjkf60dw",
@@ -575,468 +553,574 @@ const firebaseConfig = {
   messagingSenderId: "93337267809",
   appId:             "1:93337267809:web:835f83be980310a54a0420"
 };
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
+const fbApp = initializeApp(firebaseConfig);
+const auth  = getAuth(fbApp);
+const db    = getFirestore(fbApp);
 
-/* ═══════════════════════════════════════════════════════════
-   FRENCH-ONLY STORAGE  — completely separate from CFA/dashboard
-   Keys: french_study_log, french_daily_goal
-   ═══════════════════════════════════════════════════════════ */
-const FR_LOG_KEY  = 'french_study_log';
-const FR_GOAL_KEY = 'french_daily_goal';
+/* ══ French-only storage keys — never touches CFA data ══ */
+const FR_LOG_KEY   = 'french_study_log';
+const FR_GOAL_KEY  = 'french_daily_goal';
+const FR_WEEKS_KEY = 'french_weeks_data';
+const FR_CHECK_KEY = 'french_checklist';
 
-function frGetStudyLog() {
-  try { return JSON.parse(localStorage.getItem(FR_LOG_KEY)) || []; } catch(e) { return []; }
-}
-function frSaveStudyLog(log) {
-  localStorage.setItem(FR_LOG_KEY, JSON.stringify(log));
-}
-function frGetDailyGoal() {
-  return parseFloat(localStorage.getItem(FR_GOAL_KEY)) || 2;
-}
-function frSetDailyGoal(val) {
-  const g = parseFloat(val);
-  if (!isNaN(g) && g >= 0) localStorage.setItem(FR_GOAL_KEY, g);
-}
-function frGetHoursForDate(dateStr) {
-  const entry = frGetStudyLog().find(l => l.date === dateStr);
-  return entry ? entry.hours : 0;
-}
-function frLogHoursForDate(dateStr, hours) {
-  const log = frGetStudyLog();
-  const existing = log.find(l => l.date === dateStr);
-  if (existing) { existing.hours = hours; existing.auto = false; }
-  else           { log.push({ date: dateStr, hours, auto: false }); }
-  frSaveStudyLog(log);
+const frGetLog    = () => { try{return JSON.parse(localStorage.getItem(FR_LOG_KEY))||[];}catch(e){return[];} };
+const frSaveLog   = l => localStorage.setItem(FR_LOG_KEY, JSON.stringify(l));
+const frGetGoal   = () => parseFloat(localStorage.getItem(FR_GOAL_KEY))||2;
+const frSetGoal   = v => { const g=parseFloat(v); if(!isNaN(g)&&g>=0) localStorage.setItem(FR_GOAL_KEY,g); };
+const frGetHours  = d => { const e=frGetLog().find(l=>l.date===d); return e?e.hours:0; };
+const frGetCheck  = () => { try{return JSON.parse(localStorage.getItem(FR_CHECK_KEY))||{};}catch(e){return{};} };
+const frSaveCheck = c => localStorage.setItem(FR_CHECK_KEY, JSON.stringify(c));
+const frGetWeeks  = () => { try{return JSON.parse(localStorage.getItem(FR_WEEKS_KEY))||null;}catch(e){return null;} };
+const frSaveWeeks = w => localStorage.setItem(FR_WEEKS_KEY, JSON.stringify(w));
+
+function frLogHours(dateStr, hours) {
+  const log = frGetLog();
+  const ex  = log.find(l => l.date === dateStr);
+  if (ex) { ex.hours = hours; ex.auto = false; }
+  else    { log.push({ date: dateStr, hours, auto: false }); }
+  frSaveLog(log);
 }
 
-/* ── State ── */
-const TOTAL   = 56;
-const checked = {};
-const topics  = {};
-let   uid     = null;
-let   saveTimer = null;
-let   currentCalendarMonth = new Date(); currentCalendarMonth.setDate(1);
-let   modalDate = null;
+/* ══ Default 8-week curriculum ══ */
+const STRIPES = ['s1','s2','s3','s4','s5','s6','s7','s8'];
 
-const $ = id => document.getElementById(id);
-const syncBar = $('syncBar'), syncMsg = $('syncMsg');
-
-function setSyncStatus(s, m) { syncBar.className = 'sync-bar ' + s; syncMsg.textContent = m; }
-
-function fmtH(h) {
-  const r = Math.round(h * 2) / 2;
-  return (r % 1 === 0 ? r.toString() : r.toFixed(1)) + 'h';
+function defaultWeeks() {
+  return [
+    { id:'w1', title:'The Absolute Foundation',           emoji:'🔤', stripe:'s1', topics:[
+      {id:'w1t1',name:'French alphabet + accent marks (é, è, ê, à, ç)',cat:'grammar'},
+      {id:'w1t2',name:'Nasal sounds + silent letters rule',             cat:'grammar'},
+      {id:'w1t3',name:'Gender of nouns — masculine vs feminine',        cat:'grammar'},
+      {id:'w1t4',name:'Definite articles le/la/les + indefinite un/une/des', cat:'grammar'},
+      {id:'w1t5',name:'Greetings, farewells + Numbers 1–20',           cat:'vocab'},
+      {id:'w1t6',name:'Days of the week + Colors',                     cat:'vocab'},
+      {id:'w1t7',name:'Write 5 intro sentences about yourself',        cat:'write'},
+    ]},
+    { id:'w2', title:'Personal Identity & Basic Verbs',   emoji:'👤', stripe:'s2', topics:[
+      {id:'w2t1',name:'Personal pronouns je/tu/il/elle/nous/vous/ils/elles',cat:'grammar'},
+      {id:'w2t2',name:'Verb être — full present tense conjugation',    cat:'grammar'},
+      {id:'w2t3',name:'Verb avoir — full present tense conjugation',   cat:'grammar'},
+      {id:'w2t4',name:'Simple negation with ne...pas',                 cat:'grammar'},
+      {id:'w2t5',name:'Family members + Nationalities + Professions',  cat:'vocab'},
+      {id:'w2t6',name:'Numbers 20–100 + Listen to intro dialogues',   cat:'listen'},
+      {id:'w2t7',name:'Fill out a personal information form',          cat:'write'},
+    ]},
+    { id:'w3', title:'Daily Life & Regular Verbs',        emoji:'🌅', stripe:'s3', topics:[
+      {id:'w3t1',name:'Regular -er verbs: parler, manger, habiter, aimer',cat:'grammar'},
+      {id:'w3t2',name:'Basic sentence structure + yes/no questions (est-ce que)',cat:'grammar'},
+      {id:'w3t3',name:'Daily routine vocabulary + Times of day',       cat:'vocab'},
+      {id:'w3t4',name:'Places in a city vocabulary',                   cat:'vocab'},
+      {id:'w3t5',name:'Read a short paragraph about a daily routine',  cat:'read'},
+      {id:'w3t6',name:'Listen to someone describe their daily schedule',cat:'listen'},
+      {id:'w3t7',name:'Write a 60–80 word paragraph about your day',   cat:'write'},
+    ]},
+    { id:'w4', title:'Questions, Descriptions & Preferences',emoji:'💬',stripe:'s4',topics:[
+      {id:'w4t1',name:'Question words: qui, quoi, où, quand, comment, pourquoi',cat:'grammar'},
+      {id:'w4t2',name:'Adjective agreement — masculine and feminine forms',cat:'grammar'},
+      {id:'w4t3',name:"Possessive adjectives: mon/ma/mes, ton/ta/tes, son/sa/ses",cat:'grammar'},
+      {id:'w4t4',name:'Physical + personality description vocabulary',  cat:'vocab'},
+      {id:'w4t5',name:'Hobbies + leisure + express likes/dislikes',    cat:'speak'},
+      {id:'w4t6',name:'Listen to a likes/dislikes dialogue + short reading',cat:'listen'},
+      {id:'w4t7',name:'Write a description of yourself or a friend',   cat:'write'},
+    ]},
+    { id:'w5', title:'Shopping, Food & Numbers in Context',emoji:'🛒',stripe:'s5',topics:[
+      {id:'w5t1',name:"Partitive articles: du / de la / de l' / des",  cat:'grammar'},
+      {id:'w5t2',name:'Verbs vouloir and pouvoir — present tense',     cat:'grammar'},
+      {id:'w5t3',name:'Quantities: un kilo de, beaucoup de, un peu de',cat:'vocab'},
+      {id:'w5t4',name:'Food, drinks + shops vocabulary',               cat:'vocab'},
+      {id:'w5t5',name:'Money + prices + read a menu or shopping list', cat:'read'},
+      {id:'w5t6',name:'Listen to a shopping dialogue + role-play',     cat:'speak'},
+      {id:'w5t7',name:'Write a short shopping dialogue (3 sentences)', cat:'write'},
+    ]},
+    { id:'w6', title:'Time, Weather & Location',           emoji:'🌦️',stripe:'s6',topics:[
+      {id:'w6t1',name:'Telling time: il est... heures',                cat:'grammar'},
+      {id:'w6t2',name:'Prepositions of place: à/de/sur/sous/dans/devant/derrière',cat:'grammar'},
+      {id:'w6t3',name:'Verb aller + near future: aller + infinitive',  cat:'grammar'},
+      {id:'w6t4',name:'Weather + Months + Seasons vocabulary',         cat:'vocab'},
+      {id:'w6t5',name:'Directions: à gauche, à droite, tout droit, près de',cat:'vocab'},
+      {id:'w6t6',name:'Listen to a weather forecast + practice giving directions',cat:'listen'},
+      {id:'w6t7',name:'Write a short message: weather + plans for the day',cat:'write'},
+    ]},
+    { id:'w7', title:'Communication & Social Situations',  emoji:'📱',stripe:'s7',topics:[
+      {id:'w7t1',name:'Irregular verbs faire and prendre — present tense',cat:'grammar'},
+      {id:'w7t2',name:'Irregular verbs venir and savoir — present tense',cat:'grammar'},
+      {id:'w7t3',name:'Stressed pronouns + conjunctions et/mais/ou/parce que',cat:'grammar'},
+      {id:'w7t4',name:'Transport + communication vocabulary',           cat:'vocab'},
+      {id:'w7t5',name:"Common expressions: s'il vous plaît, je ne comprends pas",cat:'speak'},
+      {id:'w7t6',name:'Read an informal email + listen to a phone conversation',cat:'read'},
+      {id:'w7t7',name:'Write an 80–100 word informal email making plans',cat:'write'},
+    ]},
+    { id:'w8', title:'Full Integration & Exam Readiness', emoji:'🏆',stripe:'s8',topics:[
+      {id:'w8t1',name:'Full grammar review: articles, pronouns, negation, adjectives',cat:'review'},
+      {id:'w8t2',name:'Full vocabulary review: all themes from weeks 1–7',cat:'review'},
+      {id:'w8t3',name:'Timed listening — 3-min dialogue + comprehension questions',cat:'listen'},
+      {id:'w8t4',name:'Timed reading — short texts + fill-in comprehension',cat:'read'},
+      {id:'w8t5',name:'Timed writing — personal info form + 80-word paragraph',cat:'write'},
+      {id:'w8t6',name:'Mock speaking — record intro + role-play dialogue',cat:'speak'},
+      {id:'w8t7',name:'Final full mock test — all 4 skills in DELF A1 format',cat:'review'},
+    ]},
+  ];
 }
 
-/* ══ HOURS DASHBOARD — uses French-only functions ══ */
-function renderHoursDash() {
-  const log      = frGetStudyLog();
-  const goal     = frGetDailyGoal();
-  const todayS   = today();        // today() from app.js (just returns date string, safe to reuse)
-  const hoursToday = frGetHoursForDate(todayS);
+/* ══ App state ══ */
+let weeks     = [];
+let checklist = {};
+let uid       = null;
+let saveTimer = null;
+let modalDate = null;
+let editingTopic = null;   // { weekId, topicId }
+let addingToWeek = null;   // weekId
+let editingWeek  = null;   // weekId or null (new)
+let confirmCb    = null;
 
-  $('hoursInput').value        = hoursToday || '';
-  $('frDailyGoalInput').value  = goal.toFixed(1);
+let currentCalendarMonth = new Date(); currentCalendarMonth.setDate(1);
 
-  const pct = goal > 0 ? Math.min((hoursToday / goal) * 100, 100) : 100;
-  const bar  = $('todayBar');
-  bar.style.width = pct + '%';
-  bar.className   = 'progress-fill ' + (pct >= 100 ? 'success' : pct >= 60 ? '' : 'danger');
+const $  = id => document.getElementById(id);
+const ss = (s,m) => { $('syncBar').className='sync-bar '+s; $('syncMsg').textContent=m; };
+const uid_ = () => Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const fmtH = h => { const r=Math.round(h*2)/2; return (r%1===0?r.toString():r.toFixed(1))+'h'; };
+const esc  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  const totalH   = log.reduce((s, l) => s + (l.hours || 0), 0);
-  const sessions = log.filter(l => !l.auto).length;
-  $('totalHours').textContent    = totalH.toFixed(1) + 'h';
-  $('totalSessions').textContent = `across ${sessions} session${sessions !== 1 ? 's' : ''}`;
+const catLabel = c => ({grammar:'Grammar',vocab:'Vocab',listen:'Listening',read:'Reading',
+                         write:'Writing',speak:'Speaking',review:'Review',other:'Other'}[c]||c);
 
-  // streak — consecutive days meeting the French goal
-  let streak = 0;
-  const d = new Date();
-  while (true) {
-    const ds = d.toISOString().split('T')[0];
-    if (frGetHoursForDate(ds) >= goal) { streak++; d.setDate(d.getDate() - 1); } else break;
+/* ══════════════ RENDER WEEKS ══════════════ */
+function renderWeeks() {
+  const grid = $('weeksGrid');
+  grid.innerHTML = '';
+
+  weeks.forEach((week, wi) => {
+    const stripe = week.stripe || STRIPES[wi % STRIPES.length];
+    const done   = week.topics.filter(t => checklist[t.id]).length;
+    const total  = week.topics.length;
+    const pct    = total ? Math.round(done/total*100) : 0;
+
+    const card = document.createElement('div');
+    card.className = 'week-card';
+    card.dataset.weekId = week.id;
+
+    card.innerHTML = `
+      <div class="wk-stripe ${stripe}"></div>
+      <div class="card-head">
+        <div class="card-head-left">
+          <div class="week-emoji">${week.emoji||'📖'}</div>
+          <div class="week-meta">
+            <div class="week-label">Week ${wi+1}</div>
+            <div class="week-title">${esc(week.title)}</div>
+          </div>
+        </div>
+        <div class="week-actions">
+          <button class="week-action-btn" title="Edit week title / emoji"
+            data-action="edit-week" data-wid="${week.id}">✏️ Edit</button>
+          <button class="week-action-btn danger" title="Delete this week"
+            data-action="delete-week" data-wid="${week.id}">🗑 Delete</button>
+        </div>
+      </div>
+      <div class="card-progress">
+        <div class="progress-track">
+          <div class="progress-fill" id="pb-${week.id}" style="width:${pct}%"></div>
+        </div>
+        <div class="cp-pct" id="pp-${week.id}">${pct}%</div>
+      </div>
+      <div class="card-body" id="body-${week.id}">
+        ${week.topics.map(t => topicHTML(t)).join('')}
+      </div>
+      <div class="card-footer">
+        <span class="footer-count" id="fc-${week.id}">${done} of ${total}</span>
+        <span class="footer-badge ${done===total&&total>0?'visible':''}" id="fb-${week.id}">✓ Done</span>
+        <button class="add-topic-btn" data-action="add-topic" data-wid="${week.id}">＋ Add Topic</button>
+      </div>`;
+
+    grid.appendChild(card);
+  });
+
+  // Single delegated listener on the grid
+  grid.onclick = e => {
+    const el = e.target.closest('[data-action]');
+    if (!el) return;
+    e.stopPropagation();
+    const { action, wid, tid } = el.dataset;
+    if (action==='toggle')       handleToggle(tid);
+    if (action==='edit-topic')   openEditTopic(tid);
+    if (action==='delete-topic') confirmDeleteTopic(tid);
+    if (action==='add-topic')    openAddTopic(wid);
+    if (action==='edit-week')    openEditWeek(wid);
+    if (action==='delete-week')  confirmDeleteWeek(wid);
+  };
+
+  updateOverall();
+}
+
+function topicHTML(t) {
+  const done = !!checklist[t.id];
+  return `<div class="topic-row ${done?'done':''}" data-tid="${t.id}">
+    <div class="check-box" data-action="toggle" data-tid="${t.id}">${done?'✓':''}</div>
+    <span class="topic-name">${esc(t.name)}</span>
+    <span class="cat-pill ${t.cat}">${catLabel(t.cat)}</span>
+    <button class="topic-btn edit-btn" title="Edit topic"   data-action="edit-topic"   data-tid="${t.id}">✏️</button>
+    <button class="topic-btn del-btn"  title="Delete topic" data-action="delete-topic" data-tid="${t.id}">✕</button>
+  </div>`;
+}
+
+/* ══ TOGGLE ══ */
+function handleToggle(tid) {
+  checklist[tid] = !checklist[tid];
+  frSaveCheck(checklist);
+  const row = document.querySelector(`.topic-row[data-tid="${tid}"]`);
+  if (row) {
+    const done = checklist[tid];
+    row.querySelector('.check-box').textContent = done ? '✓' : '';
+    row.classList.toggle('done', done);
   }
+  const week = weeks.find(w => w.topics.some(t => t.id===tid));
+  if (week) updateWeekUI(week.id);
+  updateOverall();
+  queueSave();
+}
+
+function updateWeekUI(wid) {
+  const week = weeks.find(w => w.id===wid); if(!week) return;
+  const done  = week.topics.filter(t=>checklist[t.id]).length;
+  const total = week.topics.length;
+  const pct   = total ? Math.round(done/total*100) : 0;
+  const pb=$('pb-'+wid),pp=$('pp-'+wid),fc=$('fc-'+wid),fb=$('fb-'+wid);
+  if(pb) pb.style.width=pct+'%';
+  if(pp) pp.textContent=pct+'%';
+  if(fc) fc.textContent=`${done} of ${total}`;
+  if(fb) fb.classList.toggle('visible', done===total&&total>0);
+}
+
+function updateOverall() {
+  const all   = weeks.flatMap(w=>w.topics);
+  const total = all.length;
+  const done  = all.filter(t=>checklist[t.id]).length;
+  const pct   = total ? Math.round(done/total*100) : 0;
+  $('op-count').innerHTML=`${done}<span style="font-size:1rem;color:var(--text-muted)">/${total}</span>`;
+  $('op-bar').style.width=pct+'%';
+}
+
+/* ══ EDIT TOPIC ══ */
+function openEditTopic(tid) {
+  const week  = weeks.find(w=>w.topics.some(t=>t.id===tid));
+  const topic = week?.topics.find(t=>t.id===tid);
+  if (!topic) return;
+  editingTopic = { weekId: week.id, topicId: tid };
+  $('editTopicName').value = topic.name;
+  $('editTopicCat').value  = topic.cat||'grammar';
+  openModal('editTopicModal');
+  setTimeout(()=>{ $('editTopicName').focus(); $('editTopicName').select(); }, 80);
+}
+$('editTopicSave').onclick = () => {
+  if (!editingTopic) return;
+  const name = $('editTopicName').value.trim();
+  if (!name) { $('editTopicName').focus(); return; }
+  const week  = weeks.find(w=>w.id===editingTopic.weekId);
+  const topic = week?.topics.find(t=>t.id===editingTopic.topicId);
+  if (!topic) return;
+  topic.name = name;
+  topic.cat  = $('editTopicCat').value;
+  frSaveWeeks(weeks);
+  closeModal('editTopicModal');
+  // Update just this row without full re-render
+  const row = document.querySelector(`.topic-row[data-tid="${topic.id}"]`);
+  if (row) {
+    row.querySelector('.topic-name').textContent = topic.name;
+    row.querySelector('.cat-pill').className = `cat-pill ${topic.cat}`;
+    row.querySelector('.cat-pill').textContent = catLabel(topic.cat);
+  }
+  queueSave();
+};
+$('editTopicClose').onclick  = () => closeModal('editTopicModal');
+$('editTopicCancel').onclick = () => closeModal('editTopicModal');
+$('editTopicName').onkeydown = e => { if(e.key==='Enter') $('editTopicSave').click(); if(e.key==='Escape') closeModal('editTopicModal'); };
+
+/* ══ DELETE TOPIC ══ */
+function confirmDeleteTopic(tid) {
+  const week  = weeks.find(w=>w.topics.some(t=>t.id===tid));
+  const topic = week?.topics.find(t=>t.id===tid);
+  openConfirm('Delete topic?',
+    `"${topic?.name}" will be permanently removed.`,
+    () => {
+      week.topics = week.topics.filter(t=>t.id!==tid);
+      delete checklist[tid];
+      frSaveWeeks(weeks); frSaveCheck(checklist);
+      // Remove row from DOM, update counters
+      document.querySelector(`.topic-row[data-tid="${tid}"]`)?.remove();
+      updateWeekUI(week.id); updateOverall();
+      queueSave();
+    });
+}
+
+/* ══ ADD TOPIC ══ */
+function openAddTopic(wid) {
+  addingToWeek = wid;
+  const week = weeks.find(w=>w.id===wid);
+  $('addTopicModalTitle').textContent = `Add Topic to "${week?.title||'Week'}"`;
+  $('addTopicName').value = '';
+  $('addTopicCat').value  = 'grammar';
+  openModal('addTopicModal');
+  setTimeout(()=>$('addTopicName').focus(), 80);
+}
+$('addTopicSave').onclick = () => {
+  const name = $('addTopicName').value.trim();
+  if (!name || !addingToWeek) { $('addTopicName').focus(); return; }
+  const week = weeks.find(w=>w.id===addingToWeek);
+  if (!week) return;
+  const newTopic = { id: addingToWeek+'t'+uid_(), name, cat: $('addTopicCat').value };
+  week.topics.push(newTopic);
+  frSaveWeeks(weeks);
+  closeModal('addTopicModal');
+  // Inject new row into DOM
+  const body = $('body-'+addingToWeek);
+  if (body) body.insertAdjacentHTML('beforeend', topicHTML(newTopic));
+  updateWeekUI(addingToWeek); updateOverall();
+  queueSave();
+};
+$('addTopicClose').onclick  = () => closeModal('addTopicModal');
+$('addTopicCancel').onclick = () => closeModal('addTopicModal');
+$('addTopicName').onkeydown = e => { if(e.key==='Enter') $('addTopicSave').click(); if(e.key==='Escape') closeModal('addTopicModal'); };
+
+/* ══ ADD / EDIT WEEK ══ */
+$('addWeekBtn').onclick = () => {
+  editingWeek = null;
+  $('weekModalHeading').textContent = 'Add New Week';
+  $('weekModalTitleInput').value = '';
+  $('weekModalEmoji').value = '📖';
+  openModal('weekModal');
+  setTimeout(()=>$('weekModalTitleInput').focus(), 80);
+};
+function openEditWeek(wid) {
+  editingWeek = wid;
+  const week = weeks.find(w=>w.id===wid);
+  $('weekModalHeading').textContent = 'Edit Week';
+  $('weekModalTitleInput').value = week?.title||'';
+  $('weekModalEmoji').value = week?.emoji||'📖';
+  openModal('weekModal');
+  setTimeout(()=>{ $('weekModalTitleInput').focus(); $('weekModalTitleInput').select(); }, 80);
+}
+$('weekModalSave').onclick = () => {
+  const title = $('weekModalTitleInput').value.trim();
+  const emoji = $('weekModalEmoji').value.trim()||'📖';
+  if (!title) { $('weekModalTitleInput').focus(); return; }
+  if (editingWeek) {
+    const week = weeks.find(w=>w.id===editingWeek);
+    if (week) { week.title=title; week.emoji=emoji; }
+  } else {
+    weeks.push({ id:'w'+uid_(), title, emoji, stripe: STRIPES[weeks.length%STRIPES.length], topics:[] });
+  }
+  frSaveWeeks(weeks);
+  closeModal('weekModal');
+  renderWeeks();
+  queueSave();
+};
+$('weekModalClose').onclick  = () => closeModal('weekModal');
+$('weekModalCancel').onclick = () => closeModal('weekModal');
+$('weekModalTitleInput').onkeydown = e => { if(e.key==='Enter') $('weekModalSave').click(); if(e.key==='Escape') closeModal('weekModal'); };
+
+/* ══ DELETE WEEK ══ */
+function confirmDeleteWeek(wid) {
+  const week = weeks.find(w=>w.id===wid);
+  openConfirm('Delete week?',
+    `"${week?.title}" and all ${week?.topics.length||0} topics will be permanently removed.`,
+    () => {
+      week?.topics.forEach(t=>delete checklist[t.id]);
+      weeks = weeks.filter(w=>w.id!==wid);
+      frSaveWeeks(weeks); frSaveCheck(checklist);
+      renderWeeks();
+      queueSave();
+    });
+}
+
+/* ══ CONFIRM MODAL ══ */
+function openConfirm(title, msg, cb) {
+  $('confirmTitle').textContent = title;
+  $('confirmMsg').textContent   = msg;
+  confirmCb = cb;
+  openModal('confirmModal');
+}
+$('confirmOk').onclick     = () => { if(confirmCb) confirmCb(); confirmCb=null; closeModal('confirmModal'); };
+$('confirmCancel').onclick = () => { confirmCb=null; closeModal('confirmModal'); };
+$('confirmClose').onclick  = () => { confirmCb=null; closeModal('confirmModal'); };
+
+/* ══ MODAL HELPERS ══ */
+function openModal(id)  { $(id).classList.add('open'); }
+function closeModal(id) { $(id).classList.remove('open'); }
+document.querySelectorAll('.modal').forEach(m => {
+  m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); });
+});
+
+/* ══ HOURS DASHBOARD ══ */
+function renderHoursDash() {
+  const log    = frGetLog();
+  const goal   = frGetGoal();
+  const todayS = today();
+  const hoursToday = frGetHours(todayS);
+
+  $('hoursInput').value       = hoursToday||'';
+  $('frDailyGoalInput').value = goal.toFixed(1);
+
+  const pct = goal>0 ? Math.min((hoursToday/goal)*100,100) : 100;
+  $('todayBar').style.width = pct+'%';
+  $('todayBar').className   = 'progress-fill '+(pct>=100?'success':pct>=60?'':'danger');
+
+  const totalH   = log.reduce((s,l)=>s+(l.hours||0),0);
+  const sessions = log.filter(l=>!l.auto).length;
+  $('totalHours').textContent    = totalH.toFixed(1)+'h';
+  $('totalSessions').textContent = `across ${sessions} session${sessions!==1?'s':''}`;
+
+  let streak=0, d=new Date();
+  while(true){ const ds=d.toISOString().split('T')[0]; if(frGetHours(ds)>=goal){streak++;d.setDate(d.getDate()-1);}else break; }
   $('streakVal').textContent = streak;
 
-  buildHeatmap('heatmap', log, goal);   // buildHeatmap from app.js — fine, it's just a renderer
+  buildHeatmap('heatmap', log, goal);
   renderCalendar(log, goal);
 }
 
-/* ── Daily goal input ── */
-$('frDailyGoalInput').addEventListener('change', () => {
-  frSetDailyGoal($('frDailyGoalInput').value);
-  renderHoursDash();
-});
+$('frDailyGoalInput').addEventListener('change', () => { frSetGoal($('frDailyGoalInput').value); renderHoursDash(); });
 
 /* ══ CALENDAR ══ */
 function renderCalendar(log, goal) {
-  const year  = currentCalendarMonth.getFullYear();
-  const month = currentCalendarMonth.getMonth();
-  const firstDay    = new Date(year, month, 1);
-  const lastDay     = new Date(year, month + 1, 0);
-  const startDay    = firstDay.getDay();
-  const daysInMonth = lastDay.getDate();
-  const todayS = today();
-
-  $('calendarMonth').textContent = firstDay.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-
-  let html = '<div class="calendar">';
-  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => { html += `<div class="cal-header">${d}</div>`; });
-
-  const prevDays = new Date(year, month, 0).getDate();
-  for (let i = startDay - 1; i >= 0; i--) html += `<div class="cal-day other-month">${prevDays - i}</div>`;
-
-  for (let day = 1; day <= daysInMonth; day++) {
-    const dateStr  = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-    const entry    = log.find(l => l.date === dateStr);
-    const hours    = entry ? entry.hours : 0;
-    const isLogged = !!(entry && !entry.auto);
-    const isToday  = dateStr === todayS;
-    const isPast   = dateStr < todayS;
-    const cls      = ['cal-day'];
-    if (isToday)              cls.push('today');
-    if (hours > 0)            cls.push('has-hours');
-    if (isLogged && hours === 0) cls.push('logged-zero');
-
-    const missed     = (isPast || isToday) ? Math.max(0, goal - hours) : 0;
-    const showMissed = isLogged && missed > 0;
-
-    html += `<div class="${cls.join(' ')}" data-date="${dateStr}">
+  const yr=currentCalendarMonth.getFullYear(), mo=currentCalendarMonth.getMonth();
+  const firstDay=new Date(yr,mo,1), startDay=firstDay.getDay(), daysInMonth=new Date(yr,mo+1,0).getDate();
+  const todayS=today();
+  $('calendarMonth').textContent=firstDay.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  let html='<div class="calendar">';
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>{html+=`<div class="cal-header">${d}</div>`;});
+  const prevDays=new Date(yr,mo,0).getDate();
+  for(let i=startDay-1;i>=0;i--) html+=`<div class="cal-day other-month">${prevDays-i}</div>`;
+  for(let day=1;day<=daysInMonth;day++){
+    const ds=`${yr}-${String(mo+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const entry=log.find(l=>l.date===ds), hours=entry?entry.hours:0;
+    const isLogged=!!(entry&&!entry.auto), isToday=ds===todayS, isPast=ds<todayS;
+    const cls=['cal-day'];
+    if(isToday) cls.push('today');
+    if(hours>0) cls.push('has-hours');
+    if(isLogged&&hours===0) cls.push('logged-zero');
+    const missed=(isPast||isToday)?Math.max(0,goal-hours):0;
+    const showMissed=isLogged&&missed>0;
+    html+=`<div class="${cls.join(' ')}" data-date="${ds}">
       <div>${day}</div>
-      ${isLogged ? `<div class="cal-hours">${fmtH(hours)}</div>` : ''}
-      ${showMissed ? `<div class="${isToday ? 'cal-left' : 'cal-missed'}">-${fmtH(missed)}</div>` : ''}
+      ${isLogged?`<div class="cal-hours">${fmtH(hours)}</div>`:''}
+      ${showMissed?`<div class="${isToday?'cal-left':'cal-missed'}">-${fmtH(missed)}</div>`:''}
     </div>`;
   }
-
-  const totalCells = startDay + daysInMonth;
-  const remaining  = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
-  for (let i = 1; i <= remaining; i++) html += `<div class="cal-day other-month">${i}</div>`;
-  html += '</div>';
-  $('calendar').innerHTML = html;
-
-  $('calendar').querySelectorAll('.cal-day:not(.other-month)').forEach(cell => {
-    cell.addEventListener('click', () => openDayModal(cell.dataset.date));
+  const rem=(startDay+daysInMonth)%7===0?0:7-(startDay+daysInMonth)%7;
+  for(let i=1;i<=rem;i++) html+=`<div class="cal-day other-month">${i}</div>`;
+  html+='</div>';
+  $('calendar').innerHTML=html;
+  $('calendar').querySelectorAll('.cal-day:not(.other-month)').forEach(c=>{
+    c.addEventListener('click',()=>openDayModal(c.dataset.date));
   });
 }
 
 /* ══ DAY MODAL ══ */
-function openDayModal(dateStr) {
-  modalDate = dateStr;
-  const existing = frGetHoursForDate(dateStr);
-  $('modalDateTitle').textContent = 'Log French hours — ' + dateStr;
-  $('modalHoursInput').value = existing || '';
-  $('modalExistingNote').textContent = existing > 0
-    ? `Currently logged: ${fmtH(existing)}`
-    : 'No hours logged yet for this day.';
-  $('dayModal').classList.add('open');
-  setTimeout(() => $('modalHoursInput').focus(), 50);
+function openDayModal(ds) {
+  modalDate=ds;
+  const ex=frGetHours(ds);
+  $('modalDateTitle').textContent='Log French hours — '+ds;
+  $('modalHoursInput').value=ex||'';
+  $('modalExistingNote').textContent=ex>0?`Currently logged: ${fmtH(ex)}`:'No hours logged yet.';
+  openModal('dayModal');
+  setTimeout(()=>$('modalHoursInput').focus(),50);
 }
-function closeDayModal() { $('dayModal').classList.remove('open'); modalDate = null; }
-
-$('modalClose').addEventListener('click', closeDayModal);
-$('dayModal').addEventListener('click', e => { if (e.target === $('dayModal')) closeDayModal(); });
-
-$('modalSaveBtn').addEventListener('click', () => {
-  if (!modalDate) return;
-  const h = parseFloat($('modalHoursInput').value);
-  if (isNaN(h) || h < 0) return;
-  frLogHoursForDate(modalDate, h);
-  renderHoursDash();
-  closeDayModal();
-  uid ? queueSave() : saveToLocal();
-});
-$('modalClearBtn').addEventListener('click', () => {
-  if (!modalDate) return;
-  frSaveStudyLog(frGetStudyLog().filter(l => l.date !== modalDate));
-  renderHoursDash();
-  closeDayModal();
-  uid ? queueSave() : saveToLocal();
-});
-$('modalHoursInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter')  $('modalSaveBtn').click();
-  if (e.key === 'Escape') closeDayModal();
-});
+$('dayModalClose').onclick=()=>{ closeModal('dayModal'); modalDate=null; };
+$('dayModal').onclick=e=>{ if(e.target===$('dayModal')){ closeModal('dayModal'); modalDate=null; } };
+$('modalSaveBtn').onclick=()=>{
+  if(!modalDate) return;
+  const h=parseFloat($('modalHoursInput').value);
+  if(isNaN(h)||h<0) return;
+  frLogHours(modalDate,h); renderHoursDash(); closeModal('dayModal'); modalDate=null; queueSave();
+};
+$('modalClearBtn').onclick=()=>{
+  if(!modalDate) return;
+  frSaveLog(frGetLog().filter(l=>l.date!==modalDate));
+  renderHoursDash(); closeModal('dayModal'); modalDate=null; queueSave();
+};
+$('modalHoursInput').onkeydown=e=>{ if(e.key==='Enter')$('modalSaveBtn').click(); if(e.key==='Escape'){ closeModal('dayModal'); modalDate=null; } };
 
 /* ══ TODAY LOG / CLEAR ══ */
-$('logBtn').addEventListener('click', () => {
-  const h = parseFloat($('hoursInput').value);
-  if (isNaN(h) || h < 0) return;
-  frLogHoursForDate(today(), h);
-  renderHoursDash();
-  uid ? queueSave() : saveToLocal();
-});
-$('hoursInput').addEventListener('keydown', e => { if (e.key === 'Enter') $('logBtn').click(); });
-$('clearTodayBtn').addEventListener('click', () => {
-  frSaveStudyLog(frGetStudyLog().filter(l => l.date !== today()));
-  $('hoursInput').value = '';
-  renderHoursDash();
-  uid ? queueSave() : saveToLocal();
-});
-
-$('prevMonth').addEventListener('click', () => {
-  currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()-1);
-  renderCalendar(frGetStudyLog(), frGetDailyGoal());
-});
-$('nextMonth').addEventListener('click', () => {
-  currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()+1);
-  renderCalendar(frGetStudyLog(), frGetDailyGoal());
-});
-
-/* ══ CHECKLIST ══ */
-function renderAll() {
-  document.querySelectorAll('.topic-row .topic-cb').forEach(cb => {
-    const row = cb.closest('.topic-row');
-    cb.checked = !!checked[cb.dataset.id];
-    row.classList.toggle('done', !!checked[cb.dataset.id]);
-  });
-  document.querySelectorAll('.topic-name[data-id]').forEach(el => {
-    if (topics[el.dataset.id]) el.textContent = topics[el.dataset.id];
-  });
-  // Load deleted state from storage into memory
-  Object.assign(deleted, frGetDeleted());
-  applyDeletedState();
-  for (let w = 1; w <= 8; w++) updateWeekUI('w'+w);
-  updateOverall();
-  renderHoursDash();
-}
-
-function updateWeekUI(week) {
-  const n    = week.replace('w','');
-  const rows = [...document.querySelectorAll(`[data-id^="${week}t"]`)].filter(cb => !deleted[cb.dataset.id]);
-  const total = rows.length;
-  const done  = rows.filter(cb => !!checked[cb.dataset.id]).length;
-  const pct   = total ? Math.round(done / total * 100) : 0;
-  $('pb'+n).style.width = pct+'%'; $('pp'+n).textContent = pct+'%';
-  $('fc'+n).textContent = `${done} of ${total}`;
-  $('fb'+n).classList.toggle('visible', total > 0 && done === total);
-}
-
-function updateOverall() {
-  const done = Object.values(checked).filter(Boolean).length;
-  const pct  = Math.round(done / TOTAL * 100);
-  $('op-count').innerHTML = `${done}<span style="font-size:1rem;color:var(--text-muted)">/${TOTAL}</span>`;
-  $('op-bar').style.width = pct+'%';
-}
+$('logBtn').onclick=()=>{
+  const h=parseFloat($('hoursInput').value);
+  if(isNaN(h)||h<0) return;
+  frLogHours(today(),h); renderHoursDash(); queueSave();
+};
+$('hoursInput').onkeydown=e=>{ if(e.key==='Enter')$('logBtn').click(); };
+$('clearTodayBtn').onclick=()=>{
+  frSaveLog(frGetLog().filter(l=>l.date!==today()));
+  $('hoursInput').value=''; renderHoursDash(); queueSave();
+};
+$('prevMonth').onclick=()=>{ currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()-1); renderCalendar(frGetLog(),frGetGoal()); };
+$('nextMonth').onclick=()=>{ currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()+1); renderCalendar(frGetLog(),frGetGoal()); };
 
 /* ══ SAVE / LOAD ══ */
-function queueSave() {
-  setSyncStatus('saving','Saving…');
+function queueSave(){
+  ss('saving','Saving…');
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveToFirestore, 1500);
+  saveTimer=setTimeout(saveToFirestore,1500);
 }
 
-async function saveToFirestore() {
-  if (!uid) return;
-  try {
-    await setDoc(doc(db,'users',uid), {
-      frenchChecklist:   checked,
-      frenchTopics:      topics,
-      frenchDeleted:     deleted,
-      frenchStudyLog:    frGetStudyLog(),
-      frenchDailyGoal:   frGetDailyGoal(),
-      frenchUpdatedAt:   new Date().toISOString()
-    }, { merge: true });
-    setSyncStatus('saved','✓ Saved to your account');
-    setTimeout(() => setSyncStatus('','Ready'), 3000);
-  } catch(e) { setSyncStatus('error','✗ Save failed — check connection'); }
+async function saveToFirestore(){
+  if(!uid) return;
+  try{
+    await setDoc(doc(db,'users',uid),{
+      frenchWeeks:     weeks,
+      frenchChecklist: checklist,
+      frenchStudyLog:  frGetLog(),
+      frenchDailyGoal: frGetGoal(),
+      frenchUpdatedAt: new Date().toISOString()
+    },{merge:true});
+    ss('saved','✓ Saved to your account');
+    setTimeout(()=>ss('','Ready'),3000);
+  }catch(e){ ss('error','✗ Save failed — check connection'); }
 }
 
-async function loadFromFirestore(userId) {
-  try {
-    const snap = await getDoc(doc(db,'users',userId));
-    if (snap.exists()) {
-      const d = snap.data();
-      if (d.frenchChecklist) Object.assign(checked,  d.frenchChecklist);
-      if (d.frenchTopics)    Object.assign(topics,   d.frenchTopics);
-      if (d.frenchDeleted)   { Object.assign(deleted, d.frenchDeleted); frSaveDeleted(deleted); }
-      if (d.frenchStudyLog)  frSaveStudyLog(d.frenchStudyLog);
-      if (d.frenchDailyGoal) localStorage.setItem(FR_GOAL_KEY, d.frenchDailyGoal);
+async function loadFromFirestore(userId){
+  try{
+    const snap=await getDoc(doc(db,'users',userId));
+    if(snap.exists()){
+      const d=snap.data();
+      if(d.frenchWeeks&&d.frenchWeeks.length){ weeks=d.frenchWeeks; frSaveWeeks(weeks); }
+      if(d.frenchChecklist){ Object.assign(checklist,d.frenchChecklist); frSaveCheck(checklist); }
+      if(d.frenchStudyLog)  frSaveLog(d.frenchStudyLog);
+      if(d.frenchDailyGoal) localStorage.setItem(FR_GOAL_KEY,d.frenchDailyGoal);
     }
-  } catch(e) {}
-  renderAll(); hideLoader();
+  }catch(e){}
+  renderWeeks(); renderHoursDash(); hideLoader();
 }
 
-function loadFromLocal() {
-  try {
-    const c = localStorage.getItem('french_checklist');
-    const t = localStorage.getItem('french_topics');
-    if (c) Object.assign(checked, JSON.parse(c));
-    if (t) Object.assign(topics,  JSON.parse(t));
-  } catch(e) {}
-  renderAll(); hideLoader();
+function loadFromLocal(){
+  const saved=frGetWeeks();
+  if(saved&&saved.length) weeks=saved; else weeks=defaultWeeks();
+  Object.assign(checklist, frGetCheck());
+  renderWeeks(); renderHoursDash(); hideLoader();
 }
 
-function saveToLocal() {
-  localStorage.setItem('french_checklist', JSON.stringify(checked));
-  localStorage.setItem('french_topics',    JSON.stringify(topics));
-  frSaveDeleted(deleted);
-  setSyncStatus('saved','✓ Saved locally (log in to sync)');
-  setTimeout(() => setSyncStatus('','Ready'), 3000);
-}
-
-function hideLoader() { $('loading-overlay').classList.add('hidden'); }
-
-/* ══ CHECKBOX — manual toggle (rows are divs now, not labels) ══ */
-document.querySelectorAll('.topic-row').forEach(row => {
-  const cb       = row.querySelector('.topic-cb');
-  const checkBox = row.querySelector('.check-box');
-  if (!cb || !checkBox) return;
-
-  // Click on check-box div OR anywhere on the row EXCEPT the name/delete btn
-  row.addEventListener('click', e => {
-    // Don't toggle if clicking the editable name or delete button
-    if (e.target.closest('.topic-name') || e.target.closest('.topic-delete-btn')) return;
-    cb.checked = !cb.checked;
-    const id = cb.dataset.id;
-    checked[id] = cb.checked;
-    row.classList.toggle('done', cb.checked);
-    updateWeekUI(id.match(/^(w\d)/)[1]);
-    updateOverall();
-    uid ? queueSave() : saveToLocal();
-  });
-});
-
-/* ══ EDITABLE TOPICS — works because rows are no longer <label> ══ */
-document.querySelectorAll('.topic-name[data-id]').forEach(el => {
-  // Single-click while already in edit mode → keep focus
-  el.addEventListener('click', e => {
-    if (el.contentEditable === 'true') { e.stopPropagation(); return; }
-  });
-
-  // Double-click → enter edit mode
-  el.addEventListener('dblclick', e => {
-    e.stopPropagation();
-    el.contentEditable = 'true';
-    el.focus();
-    const r = document.createRange();
-    r.selectNodeContents(el);
-    const s = window.getSelection();
-    s.removeAllRanges();
-    s.addRange(r);
-  });
-
-  const saveEdit = () => {
-    el.contentEditable = 'false';
-    const t = el.textContent.trim();
-    if (t) { topics[el.dataset.id] = t; el.textContent = t; }
-    else   { el.textContent = topics[el.dataset.id] || el.dataset.id; }
-    uid ? queueSave() : saveToLocal();
-  };
-
-  el.addEventListener('blur',    saveEdit);
-  el.addEventListener('keydown', e => {
-    if (e.key === 'Enter')  { e.preventDefault(); el.blur(); }
-    if (e.key === 'Escape') {
-      el.textContent     = topics[el.dataset.id] || el.textContent;
-      el.contentEditable = 'false';
-    }
-    e.stopPropagation();
-  });
-});
-
-/* ══ DELETE TOPICS ══ */
-const deleted = {};
-
-function frGetDeleted() {
-  try { return JSON.parse(localStorage.getItem('french_deleted_topics') || '{}'); } catch(e) { return {}; }
-}
-function frSaveDeleted(d) {
-  localStorage.setItem('french_deleted_topics', JSON.stringify(d));
-}
-
-function applyDeletedState() {
-  Object.keys(deleted).forEach(id => {
-    if (deleted[id]) {
-      const row = document.querySelector(`.topic-row .topic-cb[data-id="${id}"]`)?.closest('.topic-row');
-      if (row) {
-        row.style.display = 'none';
-        showRestoreStrip(row.closest('.card-body'), id);
-      }
-    }
-  });
-}
-
-function showRestoreStrip(cardBody, topicId) {
-  if (!cardBody) return;
-  let strip = cardBody.querySelector('.restore-strip');
-  if (!strip) {
-    strip = document.createElement('div');
-    strip.className = 'restore-strip';
-    cardBody.appendChild(strip);
-  }
-  const hiddenCount = Object.values(deleted).filter(Boolean).length;
-  strip.classList.add('visible');
-  strip.innerHTML = `<span>${hiddenCount} topic${hiddenCount !== 1 ? 's' : ''} hidden</span>
-    <button class="restore-btn" data-restore-all>Restore all</button>`;
-  strip.querySelector('[data-restore-all]').addEventListener('click', () => {
-    // restore every hidden topic in this card
-    cardBody.querySelectorAll('.topic-row').forEach(r => {
-      const cb = r.querySelector('.topic-cb');
-      if (cb && deleted[cb.dataset.id]) {
-        deleted[cb.dataset.id] = false;
-        r.style.display = '';
-      }
-    });
-    frSaveDeleted(deleted);
-    strip.classList.remove('visible');
-    updateOverall();
-    const week = cardBody.querySelector('.topic-cb')?.dataset.id?.match(/^(w\d)/)?.[1];
-    if (week) updateWeekUI(week);
-    uid ? queueSave() : saveToLocal();
-  });
-}
-
-document.querySelectorAll('.topic-delete-btn').forEach(btn => {
-  btn.addEventListener('click', e => {
-    e.stopPropagation();
-    const row = btn.closest('.topic-row');
-    const cb  = row?.querySelector('.topic-cb');
-    if (!cb) return;
-    const id = cb.dataset.id;
-    // Uncheck if done
-    if (checked[id]) {
-      checked[id] = false;
-      cb.checked = false;
-      row.classList.remove('done');
-    }
-    deleted[id] = true;
-    frSaveDeleted(deleted);
-    row.style.display = 'none';
-    showRestoreStrip(row.closest('.card-body'), id);
-    const week = id.match(/^(w\d)/)?.[1];
-    if (week) updateWeekUI(week);
-    updateOverall();
-    uid ? queueSave() : saveToLocal();
-  });
-});
+function hideLoader(){ $('loading-overlay').classList.add('hidden'); }
 
 /* ══ USER MENU ══ */
-$('userToggle').addEventListener('click', e => { e.stopPropagation(); $('userDropdown').classList.toggle('open'); });
-document.addEventListener('click', () => $('userDropdown').classList.remove('open'));
+$('userToggle').onclick=e=>{ e.stopPropagation(); $('userDropdown').classList.toggle('open'); };
+document.addEventListener('click',()=>$('userDropdown').classList.remove('open'));
 
-function setUserUI(name, email) {
-  const initials = name ? name.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase() : '?';
-  $('userAvatar').textContent = initials; $('userNameDisplay').textContent = name || 'Guest';
-  $('dropName').textContent   = name || 'Guest'; $('dropEmail').textContent = email || 'Not signed in';
+function setUserUI(name,email){
+  const ini=name?name.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase():'?';
+  $('userAvatar').textContent=ini; $('userNameDisplay').textContent=name||'Guest';
+  $('dropName').textContent=name||'Guest'; $('dropEmail').textContent=email||'Not signed in';
 }
-
-$('logoutBtn').addEventListener('click', async () => {
+$('logoutBtn').onclick=async()=>{
   await signOut(auth);
-  ['user_id','user_name','user_email'].forEach(k => localStorage.removeItem(k));
-  window.location.href = 'login.html';
-});
+  ['user_id','user_name','user_email'].forEach(k=>localStorage.removeItem(k));
+  window.location.href='login.html';
+};
 
 /* ══ AUTH ══ */
-onAuthStateChanged(auth, user => {
-  if (user) {
-    uid = user.uid;
-    setUserUI(localStorage.getItem('user_name') || user.displayName || 'Student', user.email);
-    setSyncStatus('saving','Loading your progress…');
+onAuthStateChanged(auth, user=>{
+  if(user){
+    uid=user.uid;
+    setUserUI(localStorage.getItem('user_name')||user.displayName||'Student',user.email);
+    ss('saving','Loading your progress…');
     loadFromFirestore(uid);
-  } else {
-    setUserUI(localStorage.getItem('user_name') || 'Guest', localStorage.getItem('user_email') || '');
-    setSyncStatus('','Not signed in — progress saved locally only');
+  }else{
+    setUserUI(localStorage.getItem('user_name')||'Guest',localStorage.getItem('user_email')||'');
+    ss('','Not signed in — progress saved locally only');
     loadFromLocal();
   }
 });
