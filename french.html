@@ -182,6 +182,32 @@
 .edit-hint { font-size: .6rem; color: var(--text-muted); opacity: 0; white-space: nowrap; transition: opacity .2s; flex-shrink: 0; pointer-events: none; }
 .topic-row:hover .edit-hint { opacity: 1; }
 
+/* delete button */
+.topic-delete-btn {
+  flex-shrink: 0; background: none; border: none; cursor: pointer;
+  color: var(--text-dim); font-size: .85rem; line-height: 1;
+  width: 20px; height: 20px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; opacity: 0;
+  transition: opacity .15s, background .15s, color .15s;
+  padding: 0;
+}
+.topic-row:hover .topic-delete-btn { opacity: 1; }
+.topic-delete-btn:hover { background: rgba(255,77,109,.12); color: var(--danger); }
+
+/* restore strip */
+.restore-strip {
+  font-size: .72rem; color: var(--text-muted); padding: .4rem .5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-radius: var(--radius-sm); background: var(--surface2);
+  margin-top: .25rem; display: none;
+}
+.restore-strip.visible { display: flex; }
+.restore-btn {
+  font-size: .68rem; font-weight: 700; color: var(--accent);
+  background: none; border: none; cursor: pointer; padding: 0;
+  text-decoration: underline;
+}
+
 .cat-pill { display: inline-flex; align-items: center; padding: .18rem .6rem; border-radius: 99px; font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; flex-shrink: 0; }
 .cat-pill.grammar { background: rgba(108,71,255,.10); color: var(--accent); }
 .cat-pill.vocab   { background: rgba(0,200,150,.12);  color: var(--success); }
@@ -387,13 +413,13 @@
       <div class="card-head"><div><div class="week-label">Week 1</div><div class="week-title">The Absolute Foundation</div></div><div class="week-emoji">🔤</div></div>
       <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb1" style="width:0%"></div></div><div class="cp-pct" id="pp1">0%</div></div>
       <div class="card-body">
-        <label class="topic-row"><input type="checkbox" data-id="w1t1"><div class="check-box">✓</div><span class="topic-name" data-id="w1t1-name">French alphabet + accent marks (é, è, ê, à, ç)</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w1t2"><div class="check-box">✓</div><span class="topic-name" data-id="w1t2-name">Nasal sounds + silent letters rule</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w1t3"><div class="check-box">✓</div><span class="topic-name" data-id="w1t3-name">Gender of nouns — masculine vs feminine</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w1t4"><div class="check-box">✓</div><span class="topic-name" data-id="w1t4-name">Definite articles le/la/les + indefinite un/une/des</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w1t5"><div class="check-box">✓</div><span class="topic-name" data-id="w1t5-name">Greetings, farewells + Numbers 1–20</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w1t6"><div class="check-box">✓</div><span class="topic-name" data-id="w1t6-name">Days of the week + Colors</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w1t7"><div class="check-box">✓</div><span class="topic-name" data-id="w1t7-name">Write 5 intro sentences about yourself</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span></label>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t1"><div class="check-box">✓</div><span class="topic-name" data-id="w1t1-name">French alphabet + accent marks (é, è, ê, à, ç)</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t2"><div class="check-box">✓</div><span class="topic-name" data-id="w1t2-name">Nasal sounds + silent letters rule</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t3"><div class="check-box">✓</div><span class="topic-name" data-id="w1t3-name">Gender of nouns — masculine vs feminine</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t4"><div class="check-box">✓</div><span class="topic-name" data-id="w1t4-name">Definite articles le/la/les + indefinite un/une/des</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t5"><div class="check-box">✓</div><span class="topic-name" data-id="w1t5-name">Greetings, farewells + Numbers 1–20</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t6"><div class="check-box">✓</div><span class="topic-name" data-id="w1t6-name">Days of the week + Colors</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w1t7"><div class="check-box">✓</div><span class="topic-name" data-id="w1t7-name">Write 5 intro sentences about yourself</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
       </div>
       <div class="card-footer"><span class="footer-count" id="fc1">0 of 7</span><span class="footer-badge" id="fb1">✓ Done</span></div>
     </div>
@@ -403,13 +429,13 @@
       <div class="card-head"><div><div class="week-label">Week 2</div><div class="week-title">Personal Identity & Basic Verbs</div></div><div class="week-emoji">👤</div></div>
       <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb2" style="width:0%"></div></div><div class="cp-pct" id="pp2">0%</div></div>
       <div class="card-body">
-        <label class="topic-row"><input type="checkbox" data-id="w2t1"><div class="check-box">✓</div><span class="topic-name" data-id="w2t1-name">Personal pronouns je/tu/il/elle/nous/vous/ils/elles</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w2t2"><div class="check-box">✓</div><span class="topic-name" data-id="w2t2-name">Verb être — full present tense conjugation</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w2t3"><div class="check-box">✓</div><span class="topic-name" data-id="w2t3-name">Verb avoir — full present tense conjugation</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w2t4"><div class="check-box">✓</div><span class="topic-name" data-id="w2t4-name">Simple negation with ne...pas</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w2t5"><div class="check-box">✓</div><span class="topic-name" data-id="w2t5-name">Family members + Nationalities + Professions</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w2t6"><div class="check-box">✓</div><span class="topic-name" data-id="w2t6-name">Numbers 20–100 + Listen to intro dialogues</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w2t7"><div class="check-box">✓</div><span class="topic-name" data-id="w2t7-name">Fill out a personal information form</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span></label>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t1"><div class="check-box">✓</div><span class="topic-name" data-id="w2t1-name">Personal pronouns je/tu/il/elle/nous/vous/ils/elles</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t2"><div class="check-box">✓</div><span class="topic-name" data-id="w2t2-name">Verb être — full present tense conjugation</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t3"><div class="check-box">✓</div><span class="topic-name" data-id="w2t3-name">Verb avoir — full present tense conjugation</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t4"><div class="check-box">✓</div><span class="topic-name" data-id="w2t4-name">Simple negation with ne...pas</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t5"><div class="check-box">✓</div><span class="topic-name" data-id="w2t5-name">Family members + Nationalities + Professions</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t6"><div class="check-box">✓</div><span class="topic-name" data-id="w2t6-name">Numbers 20–100 + Listen to intro dialogues</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w2t7"><div class="check-box">✓</div><span class="topic-name" data-id="w2t7-name">Fill out a personal information form</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
       </div>
       <div class="card-footer"><span class="footer-count" id="fc2">0 of 7</span><span class="footer-badge" id="fb2">✓ Done</span></div>
     </div>
@@ -419,13 +445,13 @@
       <div class="card-head"><div><div class="week-label">Week 3</div><div class="week-title">Daily Life & Regular Verbs</div></div><div class="week-emoji">🌅</div></div>
       <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb3" style="width:0%"></div></div><div class="cp-pct" id="pp3">0%</div></div>
       <div class="card-body">
-        <label class="topic-row"><input type="checkbox" data-id="w3t1"><div class="check-box">✓</div><span class="topic-name" data-id="w3t1-name">Regular -er verbs: parler, manger, habiter, aimer</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w3t2"><div class="check-box">✓</div><span class="topic-name" data-id="w3t2-name">Basic sentence structure + yes/no questions (est-ce que)</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w3t3"><div class="check-box">✓</div><span class="topic-name" data-id="w3t3-name">Daily routine vocabulary + Times of day</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w3t4"><div class="check-box">✓</div><span class="topic-name" data-id="w3t4-name">Places in a city vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w3t5"><div class="check-box">✓</div><span class="topic-name" data-id="w3t5-name">Read a short paragraph about a daily routine</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w3t6"><div class="check-box">✓</div><span class="topic-name" data-id="w3t6-name">Listen to someone describe their daily schedule</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w3t7"><div class="check-box">✓</div><span class="topic-name" data-id="w3t7-name">Write a 60–80 word paragraph about your day</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span></label>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t1"><div class="check-box">✓</div><span class="topic-name" data-id="w3t1-name">Regular -er verbs: parler, manger, habiter, aimer</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t2"><div class="check-box">✓</div><span class="topic-name" data-id="w3t2-name">Basic sentence structure + yes/no questions (est-ce que)</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t3"><div class="check-box">✓</div><span class="topic-name" data-id="w3t3-name">Daily routine vocabulary + Times of day</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t4"><div class="check-box">✓</div><span class="topic-name" data-id="w3t4-name">Places in a city vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t5"><div class="check-box">✓</div><span class="topic-name" data-id="w3t5-name">Read a short paragraph about a daily routine</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t6"><div class="check-box">✓</div><span class="topic-name" data-id="w3t6-name">Listen to someone describe their daily schedule</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w3t7"><div class="check-box">✓</div><span class="topic-name" data-id="w3t7-name">Write a 60–80 word paragraph about your day</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
       </div>
       <div class="card-footer"><span class="footer-count" id="fc3">0 of 7</span><span class="footer-badge" id="fb3">✓ Done</span></div>
     </div>
@@ -435,13 +461,13 @@
       <div class="card-head"><div><div class="week-label">Week 4</div><div class="week-title">Questions, Descriptions & Preferences</div></div><div class="week-emoji">💬</div></div>
       <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb4" style="width:0%"></div></div><div class="cp-pct" id="pp4">0%</div></div>
       <div class="card-body">
-        <label class="topic-row"><input type="checkbox" data-id="w4t1"><div class="check-box">✓</div><span class="topic-name" data-id="w4t1-name">Question words: qui, quoi, où, quand, comment, pourquoi</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w4t2"><div class="check-box">✓</div><span class="topic-name" data-id="w4t2-name">Adjective agreement — masculine and feminine forms</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w4t3"><div class="check-box">✓</div><span class="topic-name" data-id="w4t3-name">Possessive adjectives: mon/ma/mes, ton/ta/tes, son/sa/ses</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w4t4"><div class="check-box">✓</div><span class="topic-name" data-id="w4t4-name">Physical + personality description vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w4t5"><div class="check-box">✓</div><span class="topic-name" data-id="w4t5-name">Hobbies + leisure + express likes/dislikes</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w4t6"><div class="check-box">✓</div><span class="topic-name" data-id="w4t6-name">Listen to a likes/dislikes dialogue + short reading</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w4t7"><div class="check-box">✓</div><span class="topic-name" data-id="w4t7-name">Write a description of yourself or a friend</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span></label>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t1"><div class="check-box">✓</div><span class="topic-name" data-id="w4t1-name">Question words: qui, quoi, où, quand, comment, pourquoi</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t2"><div class="check-box">✓</div><span class="topic-name" data-id="w4t2-name">Adjective agreement — masculine and feminine forms</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t3"><div class="check-box">✓</div><span class="topic-name" data-id="w4t3-name">Possessive adjectives: mon/ma/mes, ton/ta/tes, son/sa/ses</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t4"><div class="check-box">✓</div><span class="topic-name" data-id="w4t4-name">Physical + personality description vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t5"><div class="check-box">✓</div><span class="topic-name" data-id="w4t5-name">Hobbies + leisure + express likes/dislikes</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t6"><div class="check-box">✓</div><span class="topic-name" data-id="w4t6-name">Listen to a likes/dislikes dialogue + short reading</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w4t7"><div class="check-box">✓</div><span class="topic-name" data-id="w4t7-name">Write a description of yourself or a friend</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
       </div>
       <div class="card-footer"><span class="footer-count" id="fc4">0 of 7</span><span class="footer-badge" id="fb4">✓ Done</span></div>
     </div>
@@ -451,13 +477,13 @@
       <div class="card-head"><div><div class="week-label">Week 5</div><div class="week-title">Shopping, Food & Numbers in Context</div></div><div class="week-emoji">🛒</div></div>
       <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb5" style="width:0%"></div></div><div class="cp-pct" id="pp5">0%</div></div>
       <div class="card-body">
-        <label class="topic-row"><input type="checkbox" data-id="w5t1"><div class="check-box">✓</div><span class="topic-name" data-id="w5t1-name">Partitive articles: du / de la / de l' / des</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w5t2"><div class="check-box">✓</div><span class="topic-name" data-id="w5t2-name">Verbs vouloir and pouvoir — present tense</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w5t3"><div class="check-box">✓</div><span class="topic-name" data-id="w5t3-name">Quantities: un kilo de, beaucoup de, un peu de</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w5t4"><div class="check-box">✓</div><span class="topic-name" data-id="w5t4-name">Food, drinks + shops vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w5t5"><div class="check-box">✓</div><span class="topic-name" data-id="w5t5-name">Money + prices + read a menu or shopping list</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w5t6"><div class="check-box">✓</div><span class="topic-name" data-id="w5t6-name">Listen to a shopping dialogue + role-play buying something</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w5t7"><div class="check-box">✓</div><span class="topic-name" data-id="w5t7-name">Write a short shopping dialogue (3 sentences)</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span></label>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t1"><div class="check-box">✓</div><span class="topic-name" data-id="w5t1-name">Partitive articles: du / de la / de l' / des</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t2"><div class="check-box">✓</div><span class="topic-name" data-id="w5t2-name">Verbs vouloir and pouvoir — present tense</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t3"><div class="check-box">✓</div><span class="topic-name" data-id="w5t3-name">Quantities: un kilo de, beaucoup de, un peu de</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t4"><div class="check-box">✓</div><span class="topic-name" data-id="w5t4-name">Food, drinks + shops vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t5"><div class="check-box">✓</div><span class="topic-name" data-id="w5t5-name">Money + prices + read a menu or shopping list</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t6"><div class="check-box">✓</div><span class="topic-name" data-id="w5t6-name">Listen to a shopping dialogue + role-play buying something</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w5t7"><div class="check-box">✓</div><span class="topic-name" data-id="w5t7-name">Write a short shopping dialogue (3 sentences)</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
       </div>
       <div class="card-footer"><span class="footer-count" id="fc5">0 of 7</span><span class="footer-badge" id="fb5">✓ Done</span></div>
     </div>
@@ -467,13 +493,13 @@
       <div class="card-head"><div><div class="week-label">Week 6</div><div class="week-title">Time, Weather & Location</div></div><div class="week-emoji">🌦️</div></div>
       <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb6" style="width:0%"></div></div><div class="cp-pct" id="pp6">0%</div></div>
       <div class="card-body">
-        <label class="topic-row"><input type="checkbox" data-id="w6t1"><div class="check-box">✓</div><span class="topic-name" data-id="w6t1-name">Telling time: il est... heures</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w6t2"><div class="check-box">✓</div><span class="topic-name" data-id="w6t2-name">Prepositions of place: à/de/sur/sous/dans/devant/derrière</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w6t3"><div class="check-box">✓</div><span class="topic-name" data-id="w6t3-name">Verb aller + near future: aller + infinitive</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w6t4"><div class="check-box">✓</div><span class="topic-name" data-id="w6t4-name">Weather + Months + Seasons vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w6t5"><div class="check-box">✓</div><span class="topic-name" data-id="w6t5-name">Directions: à gauche, à droite, tout droit, près de</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w6t6"><div class="check-box">✓</div><span class="topic-name" data-id="w6t6-name">Listen to a weather forecast + practice giving directions</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w6t7"><div class="check-box">✓</div><span class="topic-name" data-id="w6t7-name">Write a short message: weather + plans for the day</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span></label>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t1"><div class="check-box">✓</div><span class="topic-name" data-id="w6t1-name">Telling time: il est... heures</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t2"><div class="check-box">✓</div><span class="topic-name" data-id="w6t2-name">Prepositions of place: à/de/sur/sous/dans/devant/derrière</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t3"><div class="check-box">✓</div><span class="topic-name" data-id="w6t3-name">Verb aller + near future: aller + infinitive</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t4"><div class="check-box">✓</div><span class="topic-name" data-id="w6t4-name">Weather + Months + Seasons vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t5"><div class="check-box">✓</div><span class="topic-name" data-id="w6t5-name">Directions: à gauche, à droite, tout droit, près de</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t6"><div class="check-box">✓</div><span class="topic-name" data-id="w6t6-name">Listen to a weather forecast + practice giving directions</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w6t7"><div class="check-box">✓</div><span class="topic-name" data-id="w6t7-name">Write a short message: weather + plans for the day</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
       </div>
       <div class="card-footer"><span class="footer-count" id="fc6">0 of 7</span><span class="footer-badge" id="fb6">✓ Done</span></div>
     </div>
@@ -483,13 +509,13 @@
       <div class="card-head"><div><div class="week-label">Week 7</div><div class="week-title">Communication & Social Situations</div></div><div class="week-emoji">📱</div></div>
       <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb7" style="width:0%"></div></div><div class="cp-pct" id="pp7">0%</div></div>
       <div class="card-body">
-        <label class="topic-row"><input type="checkbox" data-id="w7t1"><div class="check-box">✓</div><span class="topic-name" data-id="w7t1-name">Irregular verbs faire and prendre — present tense</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w7t2"><div class="check-box">✓</div><span class="topic-name" data-id="w7t2-name">Irregular verbs venir and savoir — present tense</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w7t3"><div class="check-box">✓</div><span class="topic-name" data-id="w7t3-name">Stressed pronouns + conjunctions et/mais/ou/parce que</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w7t4"><div class="check-box">✓</div><span class="topic-name" data-id="w7t4-name">Transport + communication vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w7t5"><div class="check-box">✓</div><span class="topic-name" data-id="w7t5-name">Common expressions: s'il vous plaît, je ne comprends pas</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w7t6"><div class="check-box">✓</div><span class="topic-name" data-id="w7t6-name">Read an informal email + listen to a phone conversation</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w7t7"><div class="check-box">✓</div><span class="topic-name" data-id="w7t7-name">Write an 80–100 word informal email making plans</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span></label>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t1"><div class="check-box">✓</div><span class="topic-name" data-id="w7t1-name">Irregular verbs faire and prendre — present tense</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t2"><div class="check-box">✓</div><span class="topic-name" data-id="w7t2-name">Irregular verbs venir and savoir — present tense</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t3"><div class="check-box">✓</div><span class="topic-name" data-id="w7t3-name">Stressed pronouns + conjunctions et/mais/ou/parce que</span><span class="edit-hint">✏️</span><span class="cat-pill grammar">Grammar</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t4"><div class="check-box">✓</div><span class="topic-name" data-id="w7t4-name">Transport + communication vocabulary</span><span class="edit-hint">✏️</span><span class="cat-pill vocab">Vocab</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t5"><div class="check-box">✓</div><span class="topic-name" data-id="w7t5-name">Common expressions: s'il vous plaît, je ne comprends pas</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t6"><div class="check-box">✓</div><span class="topic-name" data-id="w7t6-name">Read an informal email + listen to a phone conversation</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w7t7"><div class="check-box">✓</div><span class="topic-name" data-id="w7t7-name">Write an 80–100 word informal email making plans</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
       </div>
       <div class="card-footer"><span class="footer-count" id="fc7">0 of 7</span><span class="footer-badge" id="fb7">✓ Done</span></div>
     </div>
@@ -499,13 +525,13 @@
       <div class="card-head"><div><div class="week-label">Week 8 · Final</div><div class="week-title">Full Integration & Exam Readiness</div></div><div class="week-emoji">🏆</div></div>
       <div class="card-progress"><div class="progress-track"><div class="progress-fill" id="pb8" style="width:0%"></div></div><div class="cp-pct" id="pp8">0%</div></div>
       <div class="card-body">
-        <label class="topic-row"><input type="checkbox" data-id="w8t1"><div class="check-box">✓</div><span class="topic-name" data-id="w8t1-name">Full grammar review: articles, pronouns, negation, adjectives</span><span class="edit-hint">✏️</span><span class="cat-pill review">Review</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w8t2"><div class="check-box">✓</div><span class="topic-name" data-id="w8t2-name">Full vocabulary review: all themes from weeks 1–7</span><span class="edit-hint">✏️</span><span class="cat-pill review">Review</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w8t3"><div class="check-box">✓</div><span class="topic-name" data-id="w8t3-name">Timed listening — 3-min dialogue + comprehension questions</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w8t4"><div class="check-box">✓</div><span class="topic-name" data-id="w8t4-name">Timed reading — short texts + fill-in comprehension</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w8t5"><div class="check-box">✓</div><span class="topic-name" data-id="w8t5-name">Timed writing — personal info form + 80-word paragraph</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w8t6"><div class="check-box">✓</div><span class="topic-name" data-id="w8t6-name">Mock speaking — record intro + role-play dialogue</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span></label>
-        <label class="topic-row"><input type="checkbox" data-id="w8t7"><div class="check-box">✓</div><span class="topic-name" data-id="w8t7-name">Final full mock test — all 4 skills in DELF A1 format</span><span class="edit-hint">✏️</span><span class="cat-pill review">Mock Test</span></label>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t1"><div class="check-box">✓</div><span class="topic-name" data-id="w8t1-name">Full grammar review: articles, pronouns, negation, adjectives</span><span class="edit-hint">✏️</span><span class="cat-pill review">Review</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t2"><div class="check-box">✓</div><span class="topic-name" data-id="w8t2-name">Full vocabulary review: all themes from weeks 1–7</span><span class="edit-hint">✏️</span><span class="cat-pill review">Review</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t3"><div class="check-box">✓</div><span class="topic-name" data-id="w8t3-name">Timed listening — 3-min dialogue + comprehension questions</span><span class="edit-hint">✏️</span><span class="cat-pill listen">Listening</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t4"><div class="check-box">✓</div><span class="topic-name" data-id="w8t4-name">Timed reading — short texts + fill-in comprehension</span><span class="edit-hint">✏️</span><span class="cat-pill read">Reading</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t5"><div class="check-box">✓</div><span class="topic-name" data-id="w8t5-name">Timed writing — personal info form + 80-word paragraph</span><span class="edit-hint">✏️</span><span class="cat-pill write">Writing</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t6"><div class="check-box">✓</div><span class="topic-name" data-id="w8t6-name">Mock speaking — record intro + role-play dialogue</span><span class="edit-hint">✏️</span><span class="cat-pill speak">Speaking</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
+        <div class="topic-row"><input type="checkbox" class="topic-cb" data-id="w8t7"><div class="check-box">✓</div><span class="topic-name" data-id="w8t7-name">Final full mock test — all 4 skills in DELF A1 format</span><span class="edit-hint">✏️</span><span class="cat-pill review">Mock Test</span><button class="topic-delete-btn" title="Remove topic">×</button></div>
       </div>
       <div class="card-footer"><span class="footer-count" id="fc8">0 of 7</span><span class="footer-badge" id="fb8">✓ Done</span></div>
     </div>
@@ -759,7 +785,7 @@ $('nextMonth').addEventListener('click', () => {
 
 /* ══ CHECKLIST ══ */
 function renderAll() {
-  document.querySelectorAll('.topic-row input[type="checkbox"]').forEach(cb => {
+  document.querySelectorAll('.topic-row .topic-cb').forEach(cb => {
     const row = cb.closest('.topic-row');
     cb.checked = !!checked[cb.dataset.id];
     row.classList.toggle('done', !!checked[cb.dataset.id]);
@@ -767,6 +793,9 @@ function renderAll() {
   document.querySelectorAll('.topic-name[data-id]').forEach(el => {
     if (topics[el.dataset.id]) el.textContent = topics[el.dataset.id];
   });
+  // Load deleted state from storage into memory
+  Object.assign(deleted, frGetDeleted());
+  applyDeletedState();
   for (let w = 1; w <= 8; w++) updateWeekUI('w'+w);
   updateOverall();
   renderHoursDash();
@@ -774,12 +803,13 @@ function renderAll() {
 
 function updateWeekUI(week) {
   const n    = week.replace('w','');
-  const rows = document.querySelectorAll(`[data-id^="${week}t"]`);
-  const done = [...rows].filter(cb => !!checked[cb.dataset.id]).length;
-  const pct  = Math.round(done / rows.length * 100);
+  const rows = [...document.querySelectorAll(`[data-id^="${week}t"]`)].filter(cb => !deleted[cb.dataset.id]);
+  const total = rows.length;
+  const done  = rows.filter(cb => !!checked[cb.dataset.id]).length;
+  const pct   = total ? Math.round(done / total * 100) : 0;
   $('pb'+n).style.width = pct+'%'; $('pp'+n).textContent = pct+'%';
-  $('fc'+n).textContent = `${done} of ${rows.length}`;
-  $('fb'+n).classList.toggle('visible', done === rows.length);
+  $('fc'+n).textContent = `${done} of ${total}`;
+  $('fb'+n).classList.toggle('visible', total > 0 && done === total);
 }
 
 function updateOverall() {
@@ -799,10 +829,10 @@ function queueSave() {
 async function saveToFirestore() {
   if (!uid) return;
   try {
-    // Saves french checklist/topics AND the french study log — all under the user doc
     await setDoc(doc(db,'users',uid), {
       frenchChecklist:   checked,
       frenchTopics:      topics,
+      frenchDeleted:     deleted,
       frenchStudyLog:    frGetStudyLog(),
       frenchDailyGoal:   frGetDailyGoal(),
       frenchUpdatedAt:   new Date().toISOString()
@@ -817,8 +847,9 @@ async function loadFromFirestore(userId) {
     const snap = await getDoc(doc(db,'users',userId));
     if (snap.exists()) {
       const d = snap.data();
-      if (d.frenchChecklist) Object.assign(checked, d.frenchChecklist);
-      if (d.frenchTopics)    Object.assign(topics,  d.frenchTopics);
+      if (d.frenchChecklist) Object.assign(checked,  d.frenchChecklist);
+      if (d.frenchTopics)    Object.assign(topics,   d.frenchTopics);
+      if (d.frenchDeleted)   { Object.assign(deleted, d.frenchDeleted); frSaveDeleted(deleted); }
       if (d.frenchStudyLog)  frSaveStudyLog(d.frenchStudyLog);
       if (d.frenchDailyGoal) localStorage.setItem(FR_GOAL_KEY, d.frenchDailyGoal);
     }
@@ -839,46 +870,145 @@ function loadFromLocal() {
 function saveToLocal() {
   localStorage.setItem('french_checklist', JSON.stringify(checked));
   localStorage.setItem('french_topics',    JSON.stringify(topics));
+  frSaveDeleted(deleted);
   setSyncStatus('saved','✓ Saved locally (log in to sync)');
   setTimeout(() => setSyncStatus('','Ready'), 3000);
 }
 
 function hideLoader() { $('loading-overlay').classList.add('hidden'); }
 
-/* ══ CHECKBOX LISTENERS ══ */
-document.querySelectorAll('.topic-row input[type="checkbox"]').forEach(cb => {
-  cb.addEventListener('change', () => {
+/* ══ CHECKBOX — manual toggle (rows are divs now, not labels) ══ */
+document.querySelectorAll('.topic-row').forEach(row => {
+  const cb       = row.querySelector('.topic-cb');
+  const checkBox = row.querySelector('.check-box');
+  if (!cb || !checkBox) return;
+
+  // Click on check-box div OR anywhere on the row EXCEPT the name/delete btn
+  row.addEventListener('click', e => {
+    // Don't toggle if clicking the editable name or delete button
+    if (e.target.closest('.topic-name') || e.target.closest('.topic-delete-btn')) return;
+    cb.checked = !cb.checked;
     const id = cb.dataset.id;
     checked[id] = cb.checked;
-    cb.closest('.topic-row').classList.toggle('done', cb.checked);
+    row.classList.toggle('done', cb.checked);
     updateWeekUI(id.match(/^(w\d)/)[1]);
     updateOverall();
     uid ? queueSave() : saveToLocal();
   });
 });
 
-/* ══ EDITABLE TOPICS ══ */
+/* ══ EDITABLE TOPICS — works because rows are no longer <label> ══ */
 document.querySelectorAll('.topic-name[data-id]').forEach(el => {
-  el.addEventListener('dblclick', e => {
-    e.preventDefault(); e.stopPropagation();
-    el.contentEditable = 'true'; el.focus();
-    const r = document.createRange(); r.selectNodeContents(el);
-    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  // Single-click while already in edit mode → keep focus
+  el.addEventListener('click', e => {
+    if (el.contentEditable === 'true') { e.stopPropagation(); return; }
   });
+
+  // Double-click → enter edit mode
+  el.addEventListener('dblclick', e => {
+    e.stopPropagation();
+    el.contentEditable = 'true';
+    el.focus();
+    const r = document.createRange();
+    r.selectNodeContents(el);
+    const s = window.getSelection();
+    s.removeAllRanges();
+    s.addRange(r);
+  });
+
   const saveEdit = () => {
     el.contentEditable = 'false';
     const t = el.textContent.trim();
     if (t) { topics[el.dataset.id] = t; el.textContent = t; }
-    else   { el.textContent = topics[el.dataset.id] || el.textContent; }
+    else   { el.textContent = topics[el.dataset.id] || el.dataset.id; }
     uid ? queueSave() : saveToLocal();
   };
-  el.addEventListener('blur', saveEdit);
+
+  el.addEventListener('blur',    saveEdit);
   el.addEventListener('keydown', e => {
     if (e.key === 'Enter')  { e.preventDefault(); el.blur(); }
-    if (e.key === 'Escape') { el.textContent = topics[el.dataset.id] || el.textContent; el.contentEditable = 'false'; }
+    if (e.key === 'Escape') {
+      el.textContent     = topics[el.dataset.id] || el.textContent;
+      el.contentEditable = 'false';
+    }
     e.stopPropagation();
   });
-  el.addEventListener('click', e => { if (el.contentEditable === 'true') e.stopPropagation(); });
+});
+
+/* ══ DELETE TOPICS ══ */
+const deleted = {};
+
+function frGetDeleted() {
+  try { return JSON.parse(localStorage.getItem('french_deleted_topics') || '{}'); } catch(e) { return {}; }
+}
+function frSaveDeleted(d) {
+  localStorage.setItem('french_deleted_topics', JSON.stringify(d));
+}
+
+function applyDeletedState() {
+  Object.keys(deleted).forEach(id => {
+    if (deleted[id]) {
+      const row = document.querySelector(`.topic-row .topic-cb[data-id="${id}"]`)?.closest('.topic-row');
+      if (row) {
+        row.style.display = 'none';
+        showRestoreStrip(row.closest('.card-body'), id);
+      }
+    }
+  });
+}
+
+function showRestoreStrip(cardBody, topicId) {
+  if (!cardBody) return;
+  let strip = cardBody.querySelector('.restore-strip');
+  if (!strip) {
+    strip = document.createElement('div');
+    strip.className = 'restore-strip';
+    cardBody.appendChild(strip);
+  }
+  const hiddenCount = Object.values(deleted).filter(Boolean).length;
+  strip.classList.add('visible');
+  strip.innerHTML = `<span>${hiddenCount} topic${hiddenCount !== 1 ? 's' : ''} hidden</span>
+    <button class="restore-btn" data-restore-all>Restore all</button>`;
+  strip.querySelector('[data-restore-all]').addEventListener('click', () => {
+    // restore every hidden topic in this card
+    cardBody.querySelectorAll('.topic-row').forEach(r => {
+      const cb = r.querySelector('.topic-cb');
+      if (cb && deleted[cb.dataset.id]) {
+        deleted[cb.dataset.id] = false;
+        r.style.display = '';
+      }
+    });
+    frSaveDeleted(deleted);
+    strip.classList.remove('visible');
+    updateOverall();
+    const week = cardBody.querySelector('.topic-cb')?.dataset.id?.match(/^(w\d)/)?.[1];
+    if (week) updateWeekUI(week);
+    uid ? queueSave() : saveToLocal();
+  });
+}
+
+document.querySelectorAll('.topic-delete-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const row = btn.closest('.topic-row');
+    const cb  = row?.querySelector('.topic-cb');
+    if (!cb) return;
+    const id = cb.dataset.id;
+    // Uncheck if done
+    if (checked[id]) {
+      checked[id] = false;
+      cb.checked = false;
+      row.classList.remove('done');
+    }
+    deleted[id] = true;
+    frSaveDeleted(deleted);
+    row.style.display = 'none';
+    showRestoreStrip(row.closest('.card-body'), id);
+    const week = id.match(/^(w\d)/)?.[1];
+    if (week) updateWeekUI(week);
+    updateOverall();
+    uid ? queueSave() : saveToLocal();
+  });
 });
 
 /* ══ USER MENU ══ */
