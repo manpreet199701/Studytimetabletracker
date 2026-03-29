@@ -41,6 +41,14 @@ const TRACKED_KEYS = new Set([
   'cfa_start_date',
   'cfa_end_date'
 ]);
+const FRENCH_KEYS = new Set([
+  'french_study_log',
+  'french_daily_goal',
+  'french_weeks_data',
+  'french_checklist'
+]);
+
+const ALL_TRACKED_KEYS = new Set([...TRACKED_KEYS, ...FRENCH_KEYS]);
 
 let resolveAuthReady;
 const authReady = new Promise((res) => { resolveAuthReady = res; });
