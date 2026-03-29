@@ -65,8 +65,7 @@
   aspect-ratio: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   border-radius: 6px; border: 1px solid var(--border);
-  font-size: .75rem; background: var(--surface);
-  cursor: pointer; transition: all .15s;
+  font-size: .75rem; background: var(--surface); cursor: pointer; transition: all .15s;
 }
 .cal-day:hover:not(.other-month) { background: var(--surface2); border-color: var(--accent); }
 .cal-day.today    { border-color: var(--accent); border-width: 2px; }
@@ -86,7 +85,7 @@
 .heat-3 { background: rgba(0,200,150,.75); }
 .heat-4 { background: var(--success); }
 
-/* ── Modals ── */
+/* Modals */
 .modal {
   display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,.5); z-index: 1000;
@@ -126,10 +125,9 @@
 }
 .cat-select:focus { outline: none; border-color: var(--accent); }
 
-/* ── Weeks ── */
+/* Weeks */
 .weeks-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 1rem;
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;
 }
 .weeks-header h2 { font-size: 1rem; font-weight: 800; }
 .weeks-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; margin-bottom: 2rem; }
@@ -162,7 +160,6 @@
 .week-meta   { flex: 1; min-width: 0; }
 .week-label  { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); }
 .week-title  { font-size: .92rem; font-weight: 800; color: var(--text); line-height: 1.3; word-break: break-word; }
-
 .week-actions { display: flex; gap: .3rem; flex-shrink: 0; }
 .week-action-btn {
   background: none; border: 1px solid var(--border); border-radius: 6px;
@@ -217,7 +214,7 @@
 .topic-btn {
   flex-shrink: 0; background: none; border: none; cursor: pointer;
   font-size: .78rem; line-height: 1; padding: .22rem .3rem;
-  border-radius: 5px; opacity: 0; transition: opacity .12s, background .12s, color .12s;
+  border-radius: 5px; opacity: 0; transition: opacity .12s, background .12s;
   color: var(--text-muted);
 }
 .topic-row:hover .topic-btn { opacity: 1; }
@@ -225,8 +222,7 @@
 .topic-btn.del-btn:hover  { background: rgba(255,77,109,.12); color: var(--danger); }
 
 .card-footer {
-  padding: .5rem 1rem .75rem;
-  border-top: 1px solid var(--border);
+  padding: .5rem 1rem .75rem; border-top: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between; gap: .5rem;
 }
 .footer-count { font-size: .7rem; color: var(--text-muted); font-family: var(--mono); font-weight: 600; }
@@ -256,7 +252,7 @@
 .sync-bar.error  { border-color: rgba(255,77,109,.3);  color: var(--danger);  background: rgba(255,77,109,.05); }
 .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
 
-/* User menu */
+/* User menu — French page owns this, stops app.js from injecting a second one */
 .user-menu { margin-left: auto; position: relative; }
 .user-menu-toggle {
   display: inline-flex; align-items: center; gap: .55rem;
@@ -320,7 +316,8 @@
     <a href="french.html">🇫🇷 French</a>
     <a href="sync.html">Sync</a>
   </div>
-  <div class="user-menu">
+  <!-- BUG FIX: French page owns its own user menu so app.js doesn't inject a second one -->
+  <div class="user-menu" id="frUserMenu">
     <button class="user-menu-toggle" id="userToggle">
       <div class="user-avatar" id="userAvatar">?</div>
       <span id="userNameDisplay">…</span>
@@ -362,7 +359,7 @@
         </div>
         <span style="font-size:1.2rem;color:var(--text-dim);padding-bottom:.4rem">/</span>
         <div>
-          <p class="section-label">Daily target</p>
+          <p class="section-label">Daily goal</p>
           <input id="frDailyGoalInput" class="big-input" type="number" min="0" max="24" step="0.5"
             style="color:var(--text-muted);cursor:pointer;width:80px"
             title="Click to set your French daily goal"/>
@@ -429,15 +426,12 @@
   </div>
   <div class="weeks-grid" id="weeksGrid"></div>
 
-</div><!-- /page -->
+</div>
 
 <!-- Day modal -->
 <div class="modal" id="dayModal">
   <div class="modal-content">
-    <div class="modal-header">
-      <h3 id="modalDateTitle">Log French hours</h3>
-      <button class="modal-close" id="dayModalClose">×</button>
-    </div>
+    <div class="modal-header"><h3 id="modalDateTitle">Log French hours</h3><button class="modal-close" id="dayModalClose">×</button></div>
     <p style="font-size:.8rem;color:var(--text-muted)">How many hours did you study French?</p>
     <input class="modal-input" type="number" id="modalHoursInput" min="0" max="24" step="0.5" placeholder="0"/>
     <p style="font-size:.72rem;color:var(--text-muted);font-style:italic;margin-top:-.4rem" id="modalExistingNote"></p>
@@ -451,22 +445,15 @@
 <!-- Edit topic modal -->
 <div class="modal" id="editTopicModal">
   <div class="modal-content">
-    <div class="modal-header">
-      <h3>Edit Topic</h3>
-      <button class="modal-close" id="editTopicClose">×</button>
-    </div>
+    <div class="modal-header"><h3>Edit Topic</h3><button class="modal-close" id="editTopicClose">×</button></div>
     <label class="modal-label">Topic name</label>
     <input class="modal-input sm" type="text" id="editTopicName" placeholder="Enter topic name…"/>
     <label class="modal-label">Category</label>
     <select class="cat-select" id="editTopicCat">
-      <option value="grammar">Grammar</option>
-      <option value="vocab">Vocab</option>
-      <option value="listen">Listening</option>
-      <option value="read">Reading</option>
-      <option value="write">Writing</option>
-      <option value="speak">Speaking</option>
-      <option value="review">Review</option>
-      <option value="other">Other</option>
+      <option value="grammar">Grammar</option><option value="vocab">Vocab</option>
+      <option value="listen">Listening</option><option value="read">Reading</option>
+      <option value="write">Writing</option><option value="speak">Speaking</option>
+      <option value="review">Review</option><option value="other">Other</option>
     </select>
     <div style="display:flex;gap:.75rem;margin-top:1rem">
       <button class="btn btn-primary" id="editTopicSave" style="flex:1">Save Changes</button>
@@ -478,22 +465,15 @@
 <!-- Add topic modal -->
 <div class="modal" id="addTopicModal">
   <div class="modal-content">
-    <div class="modal-header">
-      <h3 id="addTopicModalTitle">Add Topic</h3>
-      <button class="modal-close" id="addTopicClose">×</button>
-    </div>
+    <div class="modal-header"><h3 id="addTopicModalTitle">Add Topic</h3><button class="modal-close" id="addTopicClose">×</button></div>
     <label class="modal-label">Topic name</label>
     <input class="modal-input sm" type="text" id="addTopicName" placeholder="e.g. Verb être conjugation…"/>
     <label class="modal-label">Category</label>
     <select class="cat-select" id="addTopicCat">
-      <option value="grammar">Grammar</option>
-      <option value="vocab">Vocab</option>
-      <option value="listen">Listening</option>
-      <option value="read">Reading</option>
-      <option value="write">Writing</option>
-      <option value="speak">Speaking</option>
-      <option value="review">Review</option>
-      <option value="other">Other</option>
+      <option value="grammar">Grammar</option><option value="vocab">Vocab</option>
+      <option value="listen">Listening</option><option value="read">Reading</option>
+      <option value="write">Writing</option><option value="speak">Speaking</option>
+      <option value="review">Review</option><option value="other">Other</option>
     </select>
     <div style="display:flex;gap:.75rem;margin-top:1rem">
       <button class="btn btn-primary" id="addTopicSave" style="flex:1">Add Topic</button>
@@ -505,10 +485,7 @@
 <!-- Add/Edit week modal -->
 <div class="modal" id="weekModal">
   <div class="modal-content">
-    <div class="modal-header">
-      <h3 id="weekModalHeading">Add Week</h3>
-      <button class="modal-close" id="weekModalClose">×</button>
-    </div>
+    <div class="modal-header"><h3 id="weekModalHeading">Add Week</h3><button class="modal-close" id="weekModalClose">×</button></div>
     <label class="modal-label">Week title</label>
     <input class="modal-input sm" type="text" id="weekModalTitleInput" placeholder="e.g. Advanced Grammar…"/>
     <label class="modal-label">Emoji (optional)</label>
@@ -523,10 +500,7 @@
 <!-- Confirm delete modal -->
 <div class="modal" id="confirmModal">
   <div class="modal-content" style="max-width:340px">
-    <div class="modal-header">
-      <h3 id="confirmTitle">Delete?</h3>
-      <button class="modal-close" id="confirmClose">×</button>
-    </div>
+    <div class="modal-header"><h3 id="confirmTitle">Delete?</h3><button class="modal-close" id="confirmClose">×</button></div>
     <p id="confirmMsg" style="font-size:.875rem;color:var(--text-muted);line-height:1.5;margin-top:.25rem"></p>
     <div style="display:flex;gap:.75rem;margin-top:1.25rem">
       <button class="btn btn-danger" id="confirmOk"     style="flex:1">Delete</button>
@@ -535,15 +509,24 @@
   </div>
 </div>
 
+<!-- app.js loaded first for today() helper used by buildHeatmap -->
 <script src="app.js"></script>
-<script type="module" src="firebase-sync.js"></script>
+
+<!--
+  BUG FIX: We do NOT load firebase-sync.js here.
+  firebase-sync.js hooks localStorage and only tracks cfa_* keys. Loading it on
+  the French page caused:
+    1. A second onAuthStateChanged that re-ran initUserNav(), injecting a 2nd user menu button.
+    2. A page-load pull that could overwrite freshly loaded French data with stale CFA data.
+  The French page handles its own Firestore sync directly below.
+-->
 
 <script type="module">
-import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getAuth, signOut, onAuthStateChanged }
-                            from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+  from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc }
-                            from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+  from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey:            "AIzaSyC_MRBp_-Zhkq52OEV7W3e3JDDxjkf60dw",
@@ -553,25 +536,31 @@ const firebaseConfig = {
   messagingSenderId: "93337267809",
   appId:             "1:93337267809:web:835f83be980310a54a0420"
 };
-const fbApp = initializeApp(firebaseConfig);
+
+// Reuse existing Firebase app if already initialised (avoids duplicate-app error)
+const fbApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth  = getAuth(fbApp);
 const db    = getFirestore(fbApp);
 
-/* ══ French-only storage keys — never touches CFA data ══ */
+/* ══ French-only localStorage keys (never touches cfa_* data) ══ */
 const FR_LOG_KEY   = 'french_study_log';
 const FR_GOAL_KEY  = 'french_daily_goal';
 const FR_WEEKS_KEY = 'french_weeks_data';
 const FR_CHECK_KEY = 'french_checklist';
 
-const frGetLog    = () => { try{return JSON.parse(localStorage.getItem(FR_LOG_KEY))||[];}catch(e){return[];} };
-const frSaveLog   = l => localStorage.setItem(FR_LOG_KEY, JSON.stringify(l));
-const frGetGoal   = () => parseFloat(localStorage.getItem(FR_GOAL_KEY))||2;
-const frSetGoal   = v => { const g=parseFloat(v); if(!isNaN(g)&&g>=0) localStorage.setItem(FR_GOAL_KEY,g); };
-const frGetHours  = d => { const e=frGetLog().find(l=>l.date===d); return e?e.hours:0; };
-const frGetCheck  = () => { try{return JSON.parse(localStorage.getItem(FR_CHECK_KEY))||{};}catch(e){return{};} };
-const frSaveCheck = c => localStorage.setItem(FR_CHECK_KEY, JSON.stringify(c));
-const frGetWeeks  = () => { try{return JSON.parse(localStorage.getItem(FR_WEEKS_KEY))||null;}catch(e){return null;} };
-const frSaveWeeks = w => localStorage.setItem(FR_WEEKS_KEY, JSON.stringify(w));
+// Use raw localStorage access so firebase-sync.js hooks don't intercept French writes
+const rawSet = (k, v) => Object.getPrototypeOf(localStorage).setItem.call(localStorage, k, v);
+const rawGet = (k)    => Object.getPrototypeOf(localStorage).getItem.call(localStorage, k);
+
+const frGetLog    = () => { try{return JSON.parse(rawGet(FR_LOG_KEY))||[];}catch(e){return[];} };
+const frSaveLog   = l  => rawSet(FR_LOG_KEY, JSON.stringify(l));
+const frGetGoal   = () => parseFloat(rawGet(FR_GOAL_KEY))||2;
+const frSetGoal   = v  => { const g=parseFloat(v); if(!isNaN(g)&&g>=0) rawSet(FR_GOAL_KEY,g); };
+const frGetHours  = d  => { const e=frGetLog().find(l=>l.date===d); return e?e.hours:0; };
+const frGetCheck  = () => { try{return JSON.parse(rawGet(FR_CHECK_KEY))||{};}catch(e){return{};} };
+const frSaveCheck = c  => rawSet(FR_CHECK_KEY, JSON.stringify(c));
+const frGetWeeks  = () => { try{return JSON.parse(rawGet(FR_WEEKS_KEY))||null;}catch(e){return null;} };
+const frSaveWeeks = w  => rawSet(FR_WEEKS_KEY, JSON.stringify(w));
 
 function frLogHours(dateStr, hours) {
   const log = frGetLog();
@@ -586,70 +575,70 @@ const STRIPES = ['s1','s2','s3','s4','s5','s6','s7','s8'];
 
 function defaultWeeks() {
   return [
-    { id:'w1', title:'The Absolute Foundation',           emoji:'🔤', stripe:'s1', topics:[
+    { id:'w1', title:'The Absolute Foundation',              emoji:'🔤', stripe:'s1', topics:[
       {id:'w1t1',name:'French alphabet + accent marks (é, è, ê, à, ç)',cat:'grammar'},
       {id:'w1t2',name:'Nasal sounds + silent letters rule',             cat:'grammar'},
       {id:'w1t3',name:'Gender of nouns — masculine vs feminine',        cat:'grammar'},
-      {id:'w1t4',name:'Definite articles le/la/les + indefinite un/une/des', cat:'grammar'},
-      {id:'w1t5',name:'Greetings, farewells + Numbers 1–20',           cat:'vocab'},
-      {id:'w1t6',name:'Days of the week + Colors',                     cat:'vocab'},
-      {id:'w1t7',name:'Write 5 intro sentences about yourself',        cat:'write'},
+      {id:'w1t4',name:'Definite articles le/la/les + indefinite un/une/des',cat:'grammar'},
+      {id:'w1t5',name:'Greetings, farewells + Numbers 1–20',            cat:'vocab'},
+      {id:'w1t6',name:'Days of the week + Colors',                      cat:'vocab'},
+      {id:'w1t7',name:'Write 5 intro sentences about yourself',         cat:'write'},
     ]},
-    { id:'w2', title:'Personal Identity & Basic Verbs',   emoji:'👤', stripe:'s2', topics:[
+    { id:'w2', title:'Personal Identity & Basic Verbs',      emoji:'👤', stripe:'s2', topics:[
       {id:'w2t1',name:'Personal pronouns je/tu/il/elle/nous/vous/ils/elles',cat:'grammar'},
-      {id:'w2t2',name:'Verb être — full present tense conjugation',    cat:'grammar'},
-      {id:'w2t3',name:'Verb avoir — full present tense conjugation',   cat:'grammar'},
-      {id:'w2t4',name:'Simple negation with ne...pas',                 cat:'grammar'},
-      {id:'w2t5',name:'Family members + Nationalities + Professions',  cat:'vocab'},
-      {id:'w2t6',name:'Numbers 20–100 + Listen to intro dialogues',   cat:'listen'},
-      {id:'w2t7',name:'Fill out a personal information form',          cat:'write'},
+      {id:'w2t2',name:'Verb être — full present tense conjugation',     cat:'grammar'},
+      {id:'w2t3',name:'Verb avoir — full present tense conjugation',    cat:'grammar'},
+      {id:'w2t4',name:'Simple negation with ne...pas',                  cat:'grammar'},
+      {id:'w2t5',name:'Family members + Nationalities + Professions',   cat:'vocab'},
+      {id:'w2t6',name:'Numbers 20–100 + Listen to intro dialogues',    cat:'listen'},
+      {id:'w2t7',name:'Fill out a personal information form',           cat:'write'},
     ]},
-    { id:'w3', title:'Daily Life & Regular Verbs',        emoji:'🌅', stripe:'s3', topics:[
+    { id:'w3', title:'Daily Life & Regular Verbs',           emoji:'🌅', stripe:'s3', topics:[
       {id:'w3t1',name:'Regular -er verbs: parler, manger, habiter, aimer',cat:'grammar'},
       {id:'w3t2',name:'Basic sentence structure + yes/no questions (est-ce que)',cat:'grammar'},
-      {id:'w3t3',name:'Daily routine vocabulary + Times of day',       cat:'vocab'},
-      {id:'w3t4',name:'Places in a city vocabulary',                   cat:'vocab'},
-      {id:'w3t5',name:'Read a short paragraph about a daily routine',  cat:'read'},
+      {id:'w3t3',name:'Daily routine vocabulary + Times of day',        cat:'vocab'},
+      {id:'w3t4',name:'Places in a city vocabulary',                    cat:'vocab'},
+      {id:'w3t5',name:'Read a short paragraph about a daily routine',   cat:'read'},
       {id:'w3t6',name:'Listen to someone describe their daily schedule',cat:'listen'},
-      {id:'w3t7',name:'Write a 60–80 word paragraph about your day',   cat:'write'},
+      {id:'w3t7',name:'Write a 60–80 word paragraph about your day',    cat:'write'},
     ]},
-    { id:'w4', title:'Questions, Descriptions & Preferences',emoji:'💬',stripe:'s4',topics:[
+    { id:'w4', title:'Questions, Descriptions & Preferences',emoji:'💬', stripe:'s4', topics:[
       {id:'w4t1',name:'Question words: qui, quoi, où, quand, comment, pourquoi',cat:'grammar'},
       {id:'w4t2',name:'Adjective agreement — masculine and feminine forms',cat:'grammar'},
       {id:'w4t3',name:"Possessive adjectives: mon/ma/mes, ton/ta/tes, son/sa/ses",cat:'grammar'},
-      {id:'w4t4',name:'Physical + personality description vocabulary',  cat:'vocab'},
-      {id:'w4t5',name:'Hobbies + leisure + express likes/dislikes',    cat:'speak'},
+      {id:'w4t4',name:'Physical + personality description vocabulary',   cat:'vocab'},
+      {id:'w4t5',name:'Hobbies + leisure + express likes/dislikes',     cat:'speak'},
       {id:'w4t6',name:'Listen to a likes/dislikes dialogue + short reading',cat:'listen'},
-      {id:'w4t7',name:'Write a description of yourself or a friend',   cat:'write'},
+      {id:'w4t7',name:'Write a description of yourself or a friend',    cat:'write'},
     ]},
-    { id:'w5', title:'Shopping, Food & Numbers in Context',emoji:'🛒',stripe:'s5',topics:[
-      {id:'w5t1',name:"Partitive articles: du / de la / de l' / des",  cat:'grammar'},
-      {id:'w5t2',name:'Verbs vouloir and pouvoir — present tense',     cat:'grammar'},
-      {id:'w5t3',name:'Quantities: un kilo de, beaucoup de, un peu de',cat:'vocab'},
-      {id:'w5t4',name:'Food, drinks + shops vocabulary',               cat:'vocab'},
-      {id:'w5t5',name:'Money + prices + read a menu or shopping list', cat:'read'},
-      {id:'w5t6',name:'Listen to a shopping dialogue + role-play',     cat:'speak'},
-      {id:'w5t7',name:'Write a short shopping dialogue (3 sentences)', cat:'write'},
+    { id:'w5', title:'Shopping, Food & Numbers in Context',  emoji:'🛒', stripe:'s5', topics:[
+      {id:'w5t1',name:"Partitive articles: du / de la / de l' / des",   cat:'grammar'},
+      {id:'w5t2',name:'Verbs vouloir and pouvoir — present tense',      cat:'grammar'},
+      {id:'w5t3',name:'Quantities: un kilo de, beaucoup de, un peu de', cat:'vocab'},
+      {id:'w5t4',name:'Food, drinks + shops vocabulary',                cat:'vocab'},
+      {id:'w5t5',name:'Money + prices + read a menu or shopping list',  cat:'read'},
+      {id:'w5t6',name:'Listen to a shopping dialogue + role-play',      cat:'speak'},
+      {id:'w5t7',name:'Write a short shopping dialogue (3 sentences)',  cat:'write'},
     ]},
-    { id:'w6', title:'Time, Weather & Location',           emoji:'🌦️',stripe:'s6',topics:[
-      {id:'w6t1',name:'Telling time: il est... heures',                cat:'grammar'},
+    { id:'w6', title:'Time, Weather & Location',             emoji:'🌦️', stripe:'s6', topics:[
+      {id:'w6t1',name:'Telling time: il est... heures',                 cat:'grammar'},
       {id:'w6t2',name:'Prepositions of place: à/de/sur/sous/dans/devant/derrière',cat:'grammar'},
-      {id:'w6t3',name:'Verb aller + near future: aller + infinitive',  cat:'grammar'},
-      {id:'w6t4',name:'Weather + Months + Seasons vocabulary',         cat:'vocab'},
+      {id:'w6t3',name:'Verb aller + near future: aller + infinitive',   cat:'grammar'},
+      {id:'w6t4',name:'Weather + Months + Seasons vocabulary',          cat:'vocab'},
       {id:'w6t5',name:'Directions: à gauche, à droite, tout droit, près de',cat:'vocab'},
       {id:'w6t6',name:'Listen to a weather forecast + practice giving directions',cat:'listen'},
       {id:'w6t7',name:'Write a short message: weather + plans for the day',cat:'write'},
     ]},
-    { id:'w7', title:'Communication & Social Situations',  emoji:'📱',stripe:'s7',topics:[
+    { id:'w7', title:'Communication & Social Situations',    emoji:'📱', stripe:'s7', topics:[
       {id:'w7t1',name:'Irregular verbs faire and prendre — present tense',cat:'grammar'},
       {id:'w7t2',name:'Irregular verbs venir and savoir — present tense',cat:'grammar'},
       {id:'w7t3',name:'Stressed pronouns + conjunctions et/mais/ou/parce que',cat:'grammar'},
-      {id:'w7t4',name:'Transport + communication vocabulary',           cat:'vocab'},
+      {id:'w7t4',name:'Transport + communication vocabulary',            cat:'vocab'},
       {id:'w7t5',name:"Common expressions: s'il vous plaît, je ne comprends pas",cat:'speak'},
       {id:'w7t6',name:'Read an informal email + listen to a phone conversation',cat:'read'},
       {id:'w7t7',name:'Write an 80–100 word informal email making plans',cat:'write'},
     ]},
-    { id:'w8', title:'Full Integration & Exam Readiness', emoji:'🏆',stripe:'s8',topics:[
+    { id:'w8', title:'Full Integration & Exam Readiness',    emoji:'🏆', stripe:'s8', topics:[
       {id:'w8t1',name:'Full grammar review: articles, pronouns, negation, adjectives',cat:'review'},
       {id:'w8t2',name:'Full vocabulary review: all themes from weeks 1–7',cat:'review'},
       {id:'w8t3',name:'Timed listening — 3-min dialogue + comprehension questions',cat:'listen'},
@@ -667,37 +656,34 @@ let checklist = {};
 let uid       = null;
 let saveTimer = null;
 let modalDate = null;
-let editingTopic = null;   // { weekId, topicId }
-let addingToWeek = null;   // weekId
-let editingWeek  = null;   // weekId or null (new)
+let editingTopic = null;
+let addingToWeek = null;
+let editingWeek  = null;
 let confirmCb    = null;
+let appInitialised = false; // BUG FIX: prevent double-init from multiple auth events
 
 let currentCalendarMonth = new Date(); currentCalendarMonth.setDate(1);
 
-const $  = id => document.getElementById(id);
-const ss = (s,m) => { $('syncBar').className='sync-bar '+s; $('syncMsg').textContent=m; };
+const $   = id => document.getElementById(id);
+const ss  = (s,m) => { $('syncBar').className='sync-bar '+s; $('syncMsg').textContent=m; };
 const uid_ = () => Date.now().toString(36)+Math.random().toString(36).slice(2,5);
 const fmtH = h => { const r=Math.round(h*2)/2; return (r%1===0?r.toString():r.toFixed(1))+'h'; };
 const esc  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-
 const catLabel = c => ({grammar:'Grammar',vocab:'Vocab',listen:'Listening',read:'Reading',
-                         write:'Writing',speak:'Speaking',review:'Review',other:'Other'}[c]||c);
+                          write:'Writing',speak:'Speaking',review:'Review',other:'Other'}[c]||c);
 
 /* ══════════════ RENDER WEEKS ══════════════ */
 function renderWeeks() {
   const grid = $('weeksGrid');
   grid.innerHTML = '';
-
   weeks.forEach((week, wi) => {
     const stripe = week.stripe || STRIPES[wi % STRIPES.length];
     const done   = week.topics.filter(t => checklist[t.id]).length;
     const total  = week.topics.length;
     const pct    = total ? Math.round(done/total*100) : 0;
-
-    const card = document.createElement('div');
+    const card   = document.createElement('div');
     card.className = 'week-card';
     card.dataset.weekId = week.id;
-
     card.innerHTML = `
       <div class="wk-stripe ${stripe}"></div>
       <div class="card-head">
@@ -709,31 +695,23 @@ function renderWeeks() {
           </div>
         </div>
         <div class="week-actions">
-          <button class="week-action-btn" title="Edit week title / emoji"
-            data-action="edit-week" data-wid="${week.id}">✏️ Edit</button>
-          <button class="week-action-btn danger" title="Delete this week"
-            data-action="delete-week" data-wid="${week.id}">🗑 Delete</button>
+          <button class="week-action-btn" data-action="edit-week" data-wid="${week.id}">✏️ Edit</button>
+          <button class="week-action-btn danger" data-action="delete-week" data-wid="${week.id}">🗑 Delete</button>
         </div>
       </div>
       <div class="card-progress">
-        <div class="progress-track">
-          <div class="progress-fill" id="pb-${week.id}" style="width:${pct}%"></div>
-        </div>
+        <div class="progress-track"><div class="progress-fill" id="pb-${week.id}" style="width:${pct}%"></div></div>
         <div class="cp-pct" id="pp-${week.id}">${pct}%</div>
       </div>
-      <div class="card-body" id="body-${week.id}">
-        ${week.topics.map(t => topicHTML(t)).join('')}
-      </div>
+      <div class="card-body" id="body-${week.id}">${week.topics.map(t=>topicHTML(t)).join('')}</div>
       <div class="card-footer">
         <span class="footer-count" id="fc-${week.id}">${done} of ${total}</span>
         <span class="footer-badge ${done===total&&total>0?'visible':''}" id="fb-${week.id}">✓ Done</span>
         <button class="add-topic-btn" data-action="add-topic" data-wid="${week.id}">＋ Add Topic</button>
       </div>`;
-
     grid.appendChild(card);
   });
 
-  // Single delegated listener on the grid
   grid.onclick = e => {
     const el = e.target.closest('[data-action]');
     if (!el) return;
@@ -746,7 +724,6 @@ function renderWeeks() {
     if (action==='edit-week')    openEditWeek(wid);
     if (action==='delete-week')  confirmDeleteWeek(wid);
   };
-
   updateOverall();
 }
 
@@ -756,12 +733,11 @@ function topicHTML(t) {
     <div class="check-box" data-action="toggle" data-tid="${t.id}">${done?'✓':''}</div>
     <span class="topic-name">${esc(t.name)}</span>
     <span class="cat-pill ${t.cat}">${catLabel(t.cat)}</span>
-    <button class="topic-btn edit-btn" title="Edit topic"   data-action="edit-topic"   data-tid="${t.id}">✏️</button>
-    <button class="topic-btn del-btn"  title="Delete topic" data-action="delete-topic" data-tid="${t.id}">✕</button>
+    <button class="topic-btn edit-btn" data-action="edit-topic"   data-tid="${t.id}">✏️</button>
+    <button class="topic-btn del-btn"  data-action="delete-topic" data-tid="${t.id}">✕</button>
   </div>`;
 }
 
-/* ══ TOGGLE ══ */
 function handleToggle(tid) {
   checklist[tid] = !checklist[tid];
   frSaveCheck(checklist);
@@ -778,210 +754,145 @@ function handleToggle(tid) {
 }
 
 function updateWeekUI(wid) {
-  const week = weeks.find(w => w.id===wid); if(!week) return;
-  const done  = week.topics.filter(t=>checklist[t.id]).length;
-  const total = week.topics.length;
-  const pct   = total ? Math.round(done/total*100) : 0;
+  const week = weeks.find(w=>w.id===wid); if(!week) return;
+  const done=week.topics.filter(t=>checklist[t.id]).length, total=week.topics.length;
+  const pct=total?Math.round(done/total*100):0;
   const pb=$('pb-'+wid),pp=$('pp-'+wid),fc=$('fc-'+wid),fb=$('fb-'+wid);
-  if(pb) pb.style.width=pct+'%';
-  if(pp) pp.textContent=pct+'%';
-  if(fc) fc.textContent=`${done} of ${total}`;
-  if(fb) fb.classList.toggle('visible', done===total&&total>0);
+  if(pb)pb.style.width=pct+'%'; if(pp)pp.textContent=pct+'%';
+  if(fc)fc.textContent=`${done} of ${total}`;
+  if(fb)fb.classList.toggle('visible',done===total&&total>0);
 }
 
 function updateOverall() {
-  const all   = weeks.flatMap(w=>w.topics);
-  const total = all.length;
-  const done  = all.filter(t=>checklist[t.id]).length;
-  const pct   = total ? Math.round(done/total*100) : 0;
+  const all=weeks.flatMap(w=>w.topics), total=all.length;
+  const done=all.filter(t=>checklist[t.id]).length;
+  const pct=total?Math.round(done/total*100):0;
   $('op-count').innerHTML=`${done}<span style="font-size:1rem;color:var(--text-muted)">/${total}</span>`;
   $('op-bar').style.width=pct+'%';
 }
 
 /* ══ EDIT TOPIC ══ */
 function openEditTopic(tid) {
-  const week  = weeks.find(w=>w.topics.some(t=>t.id===tid));
-  const topic = week?.topics.find(t=>t.id===tid);
-  if (!topic) return;
-  editingTopic = { weekId: week.id, topicId: tid };
-  $('editTopicName').value = topic.name;
-  $('editTopicCat').value  = topic.cat||'grammar';
-  openModal('editTopicModal');
-  setTimeout(()=>{ $('editTopicName').focus(); $('editTopicName').select(); }, 80);
+  const week=weeks.find(w=>w.topics.some(t=>t.id===tid));
+  const topic=week?.topics.find(t=>t.id===tid); if(!topic) return;
+  editingTopic={weekId:week.id,topicId:tid};
+  $('editTopicName').value=topic.name; $('editTopicCat').value=topic.cat||'grammar';
+  openModal('editTopicModal'); setTimeout(()=>{$('editTopicName').focus();$('editTopicName').select();},80);
 }
-$('editTopicSave').onclick = () => {
-  if (!editingTopic) return;
-  const name = $('editTopicName').value.trim();
-  if (!name) { $('editTopicName').focus(); return; }
-  const week  = weeks.find(w=>w.id===editingTopic.weekId);
-  const topic = week?.topics.find(t=>t.id===editingTopic.topicId);
-  if (!topic) return;
-  topic.name = name;
-  topic.cat  = $('editTopicCat').value;
-  frSaveWeeks(weeks);
-  closeModal('editTopicModal');
-  // Update just this row without full re-render
-  const row = document.querySelector(`.topic-row[data-tid="${topic.id}"]`);
-  if (row) {
-    row.querySelector('.topic-name').textContent = topic.name;
-    row.querySelector('.cat-pill').className = `cat-pill ${topic.cat}`;
-    row.querySelector('.cat-pill').textContent = catLabel(topic.cat);
-  }
+$('editTopicSave').onclick=()=>{
+  if(!editingTopic) return;
+  const name=$('editTopicName').value.trim(); if(!name){$('editTopicName').focus();return;}
+  const week=weeks.find(w=>w.id===editingTopic.weekId);
+  const topic=week?.topics.find(t=>t.id===editingTopic.topicId); if(!topic) return;
+  topic.name=name; topic.cat=$('editTopicCat').value;
+  frSaveWeeks(weeks); closeModal('editTopicModal');
+  const row=document.querySelector(`.topic-row[data-tid="${topic.id}"]`);
+  if(row){row.querySelector('.topic-name').textContent=topic.name;row.querySelector('.cat-pill').className=`cat-pill ${topic.cat}`;row.querySelector('.cat-pill').textContent=catLabel(topic.cat);}
   queueSave();
 };
-$('editTopicClose').onclick  = () => closeModal('editTopicModal');
-$('editTopicCancel').onclick = () => closeModal('editTopicModal');
-$('editTopicName').onkeydown = e => { if(e.key==='Enter') $('editTopicSave').click(); if(e.key==='Escape') closeModal('editTopicModal'); };
+$('editTopicClose').onclick=$('editTopicCancel').onclick=()=>closeModal('editTopicModal');
+$('editTopicName').onkeydown=e=>{if(e.key==='Enter')$('editTopicSave').click();if(e.key==='Escape')closeModal('editTopicModal');};
 
 /* ══ DELETE TOPIC ══ */
 function confirmDeleteTopic(tid) {
-  const week  = weeks.find(w=>w.topics.some(t=>t.id===tid));
-  const topic = week?.topics.find(t=>t.id===tid);
-  openConfirm('Delete topic?',
-    `"${topic?.name}" will be permanently removed.`,
-    () => {
-      week.topics = week.topics.filter(t=>t.id!==tid);
-      delete checklist[tid];
-      frSaveWeeks(weeks); frSaveCheck(checklist);
-      // Remove row from DOM, update counters
-      document.querySelector(`.topic-row[data-tid="${tid}"]`)?.remove();
-      updateWeekUI(week.id); updateOverall();
-      queueSave();
-    });
+  const week=weeks.find(w=>w.topics.some(t=>t.id===tid));
+  const topic=week?.topics.find(t=>t.id===tid);
+  openConfirm('Delete topic?',`"${topic?.name}" will be permanently removed.`,()=>{
+    week.topics=week.topics.filter(t=>t.id!==tid); delete checklist[tid];
+    frSaveWeeks(weeks); frSaveCheck(checklist);
+    document.querySelector(`.topic-row[data-tid="${tid}"]`)?.remove();
+    updateWeekUI(week.id); updateOverall(); queueSave();
+  });
 }
 
 /* ══ ADD TOPIC ══ */
 function openAddTopic(wid) {
-  addingToWeek = wid;
-  const week = weeks.find(w=>w.id===wid);
-  $('addTopicModalTitle').textContent = `Add Topic to "${week?.title||'Week'}"`;
-  $('addTopicName').value = '';
-  $('addTopicCat').value  = 'grammar';
-  openModal('addTopicModal');
-  setTimeout(()=>$('addTopicName').focus(), 80);
+  addingToWeek=wid;
+  const week=weeks.find(w=>w.id===wid);
+  $('addTopicModalTitle').textContent=`Add Topic to "${week?.title||'Week'}"`;
+  $('addTopicName').value=''; $('addTopicCat').value='grammar';
+  openModal('addTopicModal'); setTimeout(()=>$('addTopicName').focus(),80);
 }
-$('addTopicSave').onclick = () => {
-  const name = $('addTopicName').value.trim();
-  if (!name || !addingToWeek) { $('addTopicName').focus(); return; }
-  const week = weeks.find(w=>w.id===addingToWeek);
-  if (!week) return;
-  const newTopic = { id: addingToWeek+'t'+uid_(), name, cat: $('addTopicCat').value };
-  week.topics.push(newTopic);
-  frSaveWeeks(weeks);
-  closeModal('addTopicModal');
-  // Inject new row into DOM
-  const body = $('body-'+addingToWeek);
-  if (body) body.insertAdjacentHTML('beforeend', topicHTML(newTopic));
-  updateWeekUI(addingToWeek); updateOverall();
-  queueSave();
+$('addTopicSave').onclick=()=>{
+  const name=$('addTopicName').value.trim(); if(!name||!addingToWeek){$('addTopicName').focus();return;}
+  const week=weeks.find(w=>w.id===addingToWeek); if(!week) return;
+  const newTopic={id:addingToWeek+'t'+uid_(),name,cat:$('addTopicCat').value};
+  week.topics.push(newTopic); frSaveWeeks(weeks); closeModal('addTopicModal');
+  const body=$('body-'+addingToWeek);
+  if(body) body.insertAdjacentHTML('beforeend',topicHTML(newTopic));
+  updateWeekUI(addingToWeek); updateOverall(); queueSave();
 };
-$('addTopicClose').onclick  = () => closeModal('addTopicModal');
-$('addTopicCancel').onclick = () => closeModal('addTopicModal');
-$('addTopicName').onkeydown = e => { if(e.key==='Enter') $('addTopicSave').click(); if(e.key==='Escape') closeModal('addTopicModal'); };
+$('addTopicClose').onclick=$('addTopicCancel').onclick=()=>closeModal('addTopicModal');
+$('addTopicName').onkeydown=e=>{if(e.key==='Enter')$('addTopicSave').click();if(e.key==='Escape')closeModal('addTopicModal');};
 
 /* ══ ADD / EDIT WEEK ══ */
-$('addWeekBtn').onclick = () => {
-  editingWeek = null;
-  $('weekModalHeading').textContent = 'Add New Week';
-  $('weekModalTitleInput').value = '';
-  $('weekModalEmoji').value = '📖';
-  openModal('weekModal');
-  setTimeout(()=>$('weekModalTitleInput').focus(), 80);
+$('addWeekBtn').onclick=()=>{
+  editingWeek=null; $('weekModalHeading').textContent='Add New Week';
+  $('weekModalTitleInput').value=''; $('weekModalEmoji').value='📖';
+  openModal('weekModal'); setTimeout(()=>$('weekModalTitleInput').focus(),80);
 };
-function openEditWeek(wid) {
-  editingWeek = wid;
-  const week = weeks.find(w=>w.id===wid);
-  $('weekModalHeading').textContent = 'Edit Week';
-  $('weekModalTitleInput').value = week?.title||'';
-  $('weekModalEmoji').value = week?.emoji||'📖';
-  openModal('weekModal');
-  setTimeout(()=>{ $('weekModalTitleInput').focus(); $('weekModalTitleInput').select(); }, 80);
+function openEditWeek(wid){
+  editingWeek=wid; const week=weeks.find(w=>w.id===wid);
+  $('weekModalHeading').textContent='Edit Week';
+  $('weekModalTitleInput').value=week?.title||''; $('weekModalEmoji').value=week?.emoji||'📖';
+  openModal('weekModal'); setTimeout(()=>{$('weekModalTitleInput').focus();$('weekModalTitleInput').select();},80);
 }
-$('weekModalSave').onclick = () => {
-  const title = $('weekModalTitleInput').value.trim();
-  const emoji = $('weekModalEmoji').value.trim()||'📖';
-  if (!title) { $('weekModalTitleInput').focus(); return; }
-  if (editingWeek) {
-    const week = weeks.find(w=>w.id===editingWeek);
-    if (week) { week.title=title; week.emoji=emoji; }
-  } else {
-    weeks.push({ id:'w'+uid_(), title, emoji, stripe: STRIPES[weeks.length%STRIPES.length], topics:[] });
-  }
-  frSaveWeeks(weeks);
-  closeModal('weekModal');
-  renderWeeks();
-  queueSave();
+$('weekModalSave').onclick=()=>{
+  const title=$('weekModalTitleInput').value.trim(),emoji=$('weekModalEmoji').value.trim()||'📖';
+  if(!title){$('weekModalTitleInput').focus();return;}
+  if(editingWeek){const week=weeks.find(w=>w.id===editingWeek);if(week){week.title=title;week.emoji=emoji;}}
+  else weeks.push({id:'w'+uid_(),title,emoji,stripe:STRIPES[weeks.length%STRIPES.length],topics:[]});
+  frSaveWeeks(weeks); closeModal('weekModal'); renderWeeks(); queueSave();
 };
-$('weekModalClose').onclick  = () => closeModal('weekModal');
-$('weekModalCancel').onclick = () => closeModal('weekModal');
-$('weekModalTitleInput').onkeydown = e => { if(e.key==='Enter') $('weekModalSave').click(); if(e.key==='Escape') closeModal('weekModal'); };
+$('weekModalClose').onclick=$('weekModalCancel').onclick=()=>closeModal('weekModal');
+$('weekModalTitleInput').onkeydown=e=>{if(e.key==='Enter')$('weekModalSave').click();if(e.key==='Escape')closeModal('weekModal');};
 
 /* ══ DELETE WEEK ══ */
-function confirmDeleteWeek(wid) {
-  const week = weeks.find(w=>w.id===wid);
-  openConfirm('Delete week?',
-    `"${week?.title}" and all ${week?.topics.length||0} topics will be permanently removed.`,
-    () => {
-      week?.topics.forEach(t=>delete checklist[t.id]);
-      weeks = weeks.filter(w=>w.id!==wid);
-      frSaveWeeks(weeks); frSaveCheck(checklist);
-      renderWeeks();
-      queueSave();
-    });
+function confirmDeleteWeek(wid){
+  const week=weeks.find(w=>w.id===wid);
+  openConfirm('Delete week?',`"${week?.title}" and all ${week?.topics.length||0} topics will be permanently removed.`,()=>{
+    week?.topics.forEach(t=>delete checklist[t.id]);
+    weeks=weeks.filter(w=>w.id!==wid);
+    frSaveWeeks(weeks); frSaveCheck(checklist); renderWeeks(); queueSave();
+  });
 }
 
-/* ══ CONFIRM MODAL ══ */
-function openConfirm(title, msg, cb) {
-  $('confirmTitle').textContent = title;
-  $('confirmMsg').textContent   = msg;
-  confirmCb = cb;
-  openModal('confirmModal');
-}
-$('confirmOk').onclick     = () => { if(confirmCb) confirmCb(); confirmCb=null; closeModal('confirmModal'); };
-$('confirmCancel').onclick = () => { confirmCb=null; closeModal('confirmModal'); };
-$('confirmClose').onclick  = () => { confirmCb=null; closeModal('confirmModal'); };
+/* ══ CONFIRM ══ */
+function openConfirm(title,msg,cb){$('confirmTitle').textContent=title;$('confirmMsg').textContent=msg;confirmCb=cb;openModal('confirmModal');}
+$('confirmOk').onclick=()=>{if(confirmCb)confirmCb();confirmCb=null;closeModal('confirmModal');};
+$('confirmCancel').onclick=$('confirmClose').onclick=()=>{confirmCb=null;closeModal('confirmModal');};
 
 /* ══ MODAL HELPERS ══ */
-function openModal(id)  { $(id).classList.add('open'); }
-function closeModal(id) { $(id).classList.remove('open'); }
-document.querySelectorAll('.modal').forEach(m => {
-  m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); });
+function openModal(id){$(id).classList.add('open');}
+function closeModal(id){$(id).classList.remove('open');}
+document.querySelectorAll('.modal').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});
 });
 
 /* ══ HOURS DASHBOARD ══ */
 function renderHoursDash() {
-  const log    = frGetLog();
-  const goal   = frGetGoal();
-  const todayS = today();
-  const hoursToday = frGetHours(todayS);
-
-  $('hoursInput').value       = hoursToday||'';
-  $('frDailyGoalInput').value = goal.toFixed(1);
-
-  const pct = goal>0 ? Math.min((hoursToday/goal)*100,100) : 100;
-  $('todayBar').style.width = pct+'%';
-  $('todayBar').className   = 'progress-fill '+(pct>=100?'success':pct>=60?'':'danger');
-
-  const totalH   = log.reduce((s,l)=>s+(l.hours||0),0);
-  const sessions = log.filter(l=>!l.auto).length;
-  $('totalHours').textContent    = totalH.toFixed(1)+'h';
-  $('totalSessions').textContent = `across ${sessions} session${sessions!==1?'s':''}`;
-
-  let streak=0, d=new Date();
-  while(true){ const ds=d.toISOString().split('T')[0]; if(frGetHours(ds)>=goal){streak++;d.setDate(d.getDate()-1);}else break; }
-  $('streakVal').textContent = streak;
-
-  buildHeatmap('heatmap', log, goal);
-  renderCalendar(log, goal);
+  const log=frGetLog(), goal=frGetGoal(), todayS=today(), hoursToday=frGetHours(todayS);
+  $('hoursInput').value=hoursToday||'';
+  $('frDailyGoalInput').value=goal.toFixed(1);
+  const pct=goal>0?Math.min((hoursToday/goal)*100,100):100;
+  $('todayBar').style.width=pct+'%';
+  $('todayBar').className='progress-fill '+(pct>=100?'success':pct>=60?'':'danger');
+  const totalH=log.reduce((s,l)=>s+(l.hours||0),0), sessions=log.filter(l=>!l.auto).length;
+  $('totalHours').textContent=totalH.toFixed(1)+'h';
+  $('totalSessions').textContent=`across ${sessions} session${sessions!==1?'s':''}`;
+  let streak=0,d=new Date();
+  while(true){const ds=d.toISOString().split('T')[0];if(frGetHours(ds)>=goal){streak++;d.setDate(d.getDate()-1);}else break;}
+  $('streakVal').textContent=streak;
+  buildHeatmap('heatmap',log,goal);
+  renderCalendar(log,goal);
 }
 
-$('frDailyGoalInput').addEventListener('change', () => { frSetGoal($('frDailyGoalInput').value); renderHoursDash(); });
+$('frDailyGoalInput').addEventListener('change',()=>{frSetGoal($('frDailyGoalInput').value);renderHoursDash();});
 
 /* ══ CALENDAR ══ */
-function renderCalendar(log, goal) {
-  const yr=currentCalendarMonth.getFullYear(), mo=currentCalendarMonth.getMonth();
-  const firstDay=new Date(yr,mo,1), startDay=firstDay.getDay(), daysInMonth=new Date(yr,mo+1,0).getDate();
-  const todayS=today();
+function renderCalendar(log,goal){
+  const yr=currentCalendarMonth.getFullYear(),mo=currentCalendarMonth.getMonth();
+  const firstDay=new Date(yr,mo,1),startDay=firstDay.getDay(),daysInMonth=new Date(yr,mo+1,0).getDate(),todayS=today();
   $('calendarMonth').textContent=firstDay.toLocaleDateString('en-US',{month:'long',year:'numeric'});
   let html='<div class="calendar">';
   ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>{html+=`<div class="cal-header">${d}</div>`;});
@@ -989,69 +900,52 @@ function renderCalendar(log, goal) {
   for(let i=startDay-1;i>=0;i--) html+=`<div class="cal-day other-month">${prevDays-i}</div>`;
   for(let day=1;day<=daysInMonth;day++){
     const ds=`${yr}-${String(mo+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-    const entry=log.find(l=>l.date===ds), hours=entry?entry.hours:0;
-    const isLogged=!!(entry&&!entry.auto), isToday=ds===todayS, isPast=ds<todayS;
+    const entry=log.find(l=>l.date===ds),hours=entry?entry.hours:0;
+    const isLogged=!!(entry&&!entry.auto),isToday=ds===todayS,isPast=ds<todayS;
     const cls=['cal-day'];
-    if(isToday) cls.push('today');
-    if(hours>0) cls.push('has-hours');
-    if(isLogged&&hours===0) cls.push('logged-zero');
-    const missed=(isPast||isToday)?Math.max(0,goal-hours):0;
-    const showMissed=isLogged&&missed>0;
-    html+=`<div class="${cls.join(' ')}" data-date="${ds}">
-      <div>${day}</div>
-      ${isLogged?`<div class="cal-hours">${fmtH(hours)}</div>`:''}
-      ${showMissed?`<div class="${isToday?'cal-left':'cal-missed'}">-${fmtH(missed)}</div>`:''}
-    </div>`;
+    if(isToday)cls.push('today');if(hours>0)cls.push('has-hours');if(isLogged&&hours===0)cls.push('logged-zero');
+    const missed=(isPast||isToday)?Math.max(0,goal-hours):0,showMissed=isLogged&&missed>0;
+    html+=`<div class="${cls.join(' ')}" data-date="${ds}"><div>${day}</div>${isLogged?`<div class="cal-hours">${fmtH(hours)}</div>`:''}${showMissed?`<div class="${isToday?'cal-left':'cal-missed'}">-${fmtH(missed)}</div>`:''}</div>`;
   }
   const rem=(startDay+daysInMonth)%7===0?0:7-(startDay+daysInMonth)%7;
   for(let i=1;i<=rem;i++) html+=`<div class="cal-day other-month">${i}</div>`;
-  html+='</div>';
-  $('calendar').innerHTML=html;
+  html+='</div>'; $('calendar').innerHTML=html;
   $('calendar').querySelectorAll('.cal-day:not(.other-month)').forEach(c=>{
     c.addEventListener('click',()=>openDayModal(c.dataset.date));
   });
 }
 
 /* ══ DAY MODAL ══ */
-function openDayModal(ds) {
+function openDayModal(ds){
   modalDate=ds;
   const ex=frGetHours(ds);
   $('modalDateTitle').textContent='Log French hours — '+ds;
   $('modalHoursInput').value=ex||'';
   $('modalExistingNote').textContent=ex>0?`Currently logged: ${fmtH(ex)}`:'No hours logged yet.';
-  openModal('dayModal');
-  setTimeout(()=>$('modalHoursInput').focus(),50);
+  openModal('dayModal'); setTimeout(()=>$('modalHoursInput').focus(),50);
 }
-$('dayModalClose').onclick=()=>{ closeModal('dayModal'); modalDate=null; };
-$('dayModal').onclick=e=>{ if(e.target===$('dayModal')){ closeModal('dayModal'); modalDate=null; } };
+$('dayModalClose').onclick=()=>{closeModal('dayModal');modalDate=null;};
+$('dayModal').addEventListener('click',e=>{if(e.target===$('dayModal')){closeModal('dayModal');modalDate=null;}});
 $('modalSaveBtn').onclick=()=>{
-  if(!modalDate) return;
-  const h=parseFloat($('modalHoursInput').value);
-  if(isNaN(h)||h<0) return;
+  if(!modalDate)return;
+  const h=parseFloat($('modalHoursInput').value); if(isNaN(h)||h<0)return;
   frLogHours(modalDate,h); renderHoursDash(); closeModal('dayModal'); modalDate=null; queueSave();
 };
 $('modalClearBtn').onclick=()=>{
-  if(!modalDate) return;
+  if(!modalDate)return;
   frSaveLog(frGetLog().filter(l=>l.date!==modalDate));
   renderHoursDash(); closeModal('dayModal'); modalDate=null; queueSave();
 };
-$('modalHoursInput').onkeydown=e=>{ if(e.key==='Enter')$('modalSaveBtn').click(); if(e.key==='Escape'){ closeModal('dayModal'); modalDate=null; } };
+$('modalHoursInput').onkeydown=e=>{if(e.key==='Enter')$('modalSaveBtn').click();if(e.key==='Escape'){closeModal('dayModal');modalDate=null;}};
 
 /* ══ TODAY LOG / CLEAR ══ */
-$('logBtn').onclick=()=>{
-  const h=parseFloat($('hoursInput').value);
-  if(isNaN(h)||h<0) return;
-  frLogHours(today(),h); renderHoursDash(); queueSave();
-};
-$('hoursInput').onkeydown=e=>{ if(e.key==='Enter')$('logBtn').click(); };
-$('clearTodayBtn').onclick=()=>{
-  frSaveLog(frGetLog().filter(l=>l.date!==today()));
-  $('hoursInput').value=''; renderHoursDash(); queueSave();
-};
-$('prevMonth').onclick=()=>{ currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()-1); renderCalendar(frGetLog(),frGetGoal()); };
-$('nextMonth').onclick=()=>{ currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()+1); renderCalendar(frGetLog(),frGetGoal()); };
+$('logBtn').onclick=()=>{const h=parseFloat($('hoursInput').value);if(isNaN(h)||h<0)return;frLogHours(today(),h);renderHoursDash();queueSave();};
+$('hoursInput').onkeydown=e=>{if(e.key==='Enter')$('logBtn').click();};
+$('clearTodayBtn').onclick=()=>{frSaveLog(frGetLog().filter(l=>l.date!==today()));$('hoursInput').value='';renderHoursDash();queueSave();};
+$('prevMonth').onclick=()=>{currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()-1);renderCalendar(frGetLog(),frGetGoal());};
+$('nextMonth').onclick=()=>{currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()+1);renderCalendar(frGetLog(),frGetGoal());};
 
-/* ══ SAVE / LOAD ══ */
+/* ══ FIRESTORE SAVE / LOAD ══ */
 function queueSave(){
   ss('saving','Saving…');
   clearTimeout(saveTimer);
@@ -1078,26 +972,40 @@ async function loadFromFirestore(userId){
     const snap=await getDoc(doc(db,'users',userId));
     if(snap.exists()){
       const d=snap.data();
+      // BUG FIX: only overwrite local data if Firestore actually has French data
       if(d.frenchWeeks&&d.frenchWeeks.length){ weeks=d.frenchWeeks; frSaveWeeks(weeks); }
-      if(d.frenchChecklist){ Object.assign(checklist,d.frenchChecklist); frSaveCheck(checklist); }
-      if(d.frenchStudyLog)  frSaveLog(d.frenchStudyLog);
-      if(d.frenchDailyGoal) localStorage.setItem(FR_GOAL_KEY,d.frenchDailyGoal);
+      else { weeks=frGetWeeks()||defaultWeeks(); frSaveWeeks(weeks); }
+      if(d.frenchChecklist){ checklist=d.frenchChecklist; frSaveCheck(checklist); }
+      else { checklist=frGetCheck(); }
+      if(d.frenchStudyLog) frSaveLog(d.frenchStudyLog);
+      if(d.frenchDailyGoal) rawSet(FR_GOAL_KEY, d.frenchDailyGoal);
+    } else {
+      // No Firestore doc yet — use local or defaults
+      weeks=frGetWeeks()||defaultWeeks(); frSaveWeeks(weeks);
+      checklist=frGetCheck();
     }
-  }catch(e){}
+  }catch(e){
+    // Network error — fall back to local
+    weeks=frGetWeeks()||defaultWeeks(); frSaveWeeks(weeks);
+    checklist=frGetCheck();
+  }
   renderWeeks(); renderHoursDash(); hideLoader();
 }
 
 function loadFromLocal(){
-  const saved=frGetWeeks();
-  if(saved&&saved.length) weeks=saved; else weeks=defaultWeeks();
-  Object.assign(checklist, frGetCheck());
+  weeks=frGetWeeks()||defaultWeeks(); frSaveWeeks(weeks);
+  checklist=frGetCheck();
   renderWeeks(); renderHoursDash(); hideLoader();
 }
 
-function hideLoader(){ $('loading-overlay').classList.add('hidden'); }
+function hideLoader(){$('loading-overlay').classList.add('hidden');}
 
-/* ══ USER MENU ══ */
-$('userToggle').onclick=e=>{ e.stopPropagation(); $('userDropdown').classList.toggle('open'); };
+/* ══ USER MENU ══
+   BUG FIX: We override window.initUserNav so app.js doesn't inject a second user menu.
+   The French page has its own user menu in the HTML above. ══ */
+window.initUserNav = function() { /* no-op on French page — menu is already in the HTML */ };
+
+$('userToggle').onclick=e=>{e.stopPropagation();$('userDropdown').classList.toggle('open');};
 document.addEventListener('click',()=>$('userDropdown').classList.remove('open'));
 
 function setUserUI(name,email){
@@ -1111,15 +1019,23 @@ $('logoutBtn').onclick=async()=>{
   window.location.href='login.html';
 };
 
-/* ══ AUTH ══ */
-onAuthStateChanged(auth, user=>{
-  if(user){
-    uid=user.uid;
-    setUserUI(localStorage.getItem('user_name')||user.displayName||'Student',user.email);
+/* ══ AUTH — single listener only ══ */
+onAuthStateChanged(auth, user => {
+  // BUG FIX: guard against duplicate auth events running init twice
+  if (appInitialised) {
+    // Auth state changed after init (e.g. token refresh) — just update UI
+    if (user) setUserUI(localStorage.getItem('user_name')||user.displayName||'Student', user.email);
+    return;
+  }
+  appInitialised = true;
+
+  if (user) {
+    uid = user.uid;
+    setUserUI(localStorage.getItem('user_name')||user.displayName||'Student', user.email);
     ss('saving','Loading your progress…');
     loadFromFirestore(uid);
-  }else{
-    setUserUI(localStorage.getItem('user_name')||'Guest',localStorage.getItem('user_email')||'');
+  } else {
+    setUserUI(localStorage.getItem('user_name')||'Guest', localStorage.getItem('user_email')||'');
     ss('','Not signed in — progress saved locally only');
     loadFromLocal();
   }
