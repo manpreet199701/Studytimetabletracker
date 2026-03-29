@@ -299,24 +299,20 @@
   <div class="nav-links">
     <a href="index.html">Dashboard</a>
     <a href="subjects.html">Subjects</a>
-    <a href="french.html">🇫🇷 French</a>
     <a href="sync.html">Sync</a>
-  </div>
-  <!-- Single user menu — app.js initUserNav() is overridden below to prevent a 2nd one -->
-  <div class="user-menu" id="frUserMenu">
-    <button class="user-menu-toggle" id="userToggle">
-      <div class="user-avatar" id="userAvatar">?</div>
-      <span id="userNameDisplay">…</span>
-    </button>
-    <div class="user-menu-dropdown" id="userDropdown">
-      <div class="user-menu-name"  id="dropName">—</div>
-      <div class="user-menu-email" id="dropEmail">—</div>
-      <hr class="user-menu-divider"/>
-      <button class="user-save-btn" id="syncNowBtn">☁️ Sync Now</button>
-      <button class="user-logout-btn" id="logoutBtn">Sign Out</button>
-    </div>
+    <a href="french.html">🇫🇷 French</a>
+    
   </div>
 </nav>
+(async () => {
+  // If the user is logged in, wait for the initial cloud data to be loaded.
+  // window.cloudDataReady is a promise from firebase-sync.js that resolves after
+  // the first successful pull from Firestore (or immediately if not logged in).
+  if (window.cloudDataReady) await window.cloudDataReady;
+  // Now localStorage contains the most recent data (cloud or local).
+  loadFromLocal();   // loads weeks, checklist, etc. and renders
+  hideLoader();
+})();
 
 <div class="page">
 
