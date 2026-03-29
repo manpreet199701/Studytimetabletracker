@@ -7,66 +7,26 @@
 <link rel="stylesheet" href="style.css"/>
 <style>
 .login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 80vh;
+  display: flex; align-items: center; justify-content: center; min-height: 80vh;
 }
-.login-card {
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-}
+.login-card { max-width: 400px; width: 100%; text-align: center; }
 .google-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  width: 100%;
-  padding: 0.85rem 1rem;
-  background: #fff;
-  color: #333;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
-  margin-bottom: 1rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+  width: 100%; padding: 0.85rem 1rem;
+  background: #fff; color: #333; border: 1px solid #ddd; border-radius: 8px;
+  font-size: 1rem; font-weight: 600; cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s; margin-bottom: 1rem;
 }
-.google-btn:hover {
-  background: #f5f5f5;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-.google-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-.google-logo {
-  width: 22px;
-  height: 22px;
-}
-.divider {
-  margin: 1.5rem 0;
-  border: none;
-  border-top: 1px solid var(--border);
-}
+.google-btn:hover { background: #f5f5f5; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.google-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.google-logo { width: 22px; height: 22px; }
+.divider { margin: 1.5rem 0; border: none; border-top: 1px solid var(--border); }
 .skip-link {
-  display: block;
-  margin-top: 1rem;
-  color: var(--text-muted);
-  font-size: 0.875rem;
-  text-decoration: none;
+  display: block; margin-top: 1rem; color: var(--text-muted);
+  font-size: 0.875rem; text-decoration: none;
 }
-.skip-link:hover {
-  color: var(--accent);
-}
-#errorMsg {
-  color: #e74c3c;
-  font-size: 0.875rem;
-  margin-top: 0.75rem;
-  display: none;
-}
+.skip-link:hover { color: var(--accent); }
+#errorMsg { color: #e74c3c; font-size: 0.875rem; margin-top: 0.75rem; display: none; }
 </style>
 </head>
 <body>
@@ -88,10 +48,8 @@
       </button>
 
       <p id="errorMsg"></p>
-
       <hr class="divider"/>
-
-      <a href="index.html" class="skip-link">Skip Login (Use Local Storage)</a>
+      <a href="index.html" class="skip-link">Continue without signing in (data saved locally only)</a>
     </div>
   </div>
 </div>
@@ -99,82 +57,94 @@
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
-// Redirect if already logged in
 const currentUser = localStorage.getItem('user_id');
-if (currentUser) {
-  window.location.href = 'index.html';
-}
+if (currentUser) window.location.href = 'index.html';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC_MRBp_-Zhkq52OEV7W3e3JDDxjkf60dw",
-  authDomain: "studytimetabletracker-f882c.firebaseapp.com",
-  projectId: "studytimetabletracker-f882c",
-  storageBucket: "studytimetabletracker-f882c.firebasestorage.app",
+  apiKey:            "AIzaSyC_MRBp_-Zhkq52OEV7W3e3JDDxjkf60dw",
+  authDomain:        "studytimetabletracker-f882c.firebaseapp.com",
+  projectId:         "studytimetabletracker-f882c",
+  storageBucket:     "studytimetabletracker-f882c.firebasestorage.app",
   messagingSenderId: "93337267809",
-  appId: "1:93337267809:web:835f83be980310a54a0420"
+  appId:             "1:93337267809:web:835f83be980310a54a0420"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const app      = initializeApp(firebaseConfig);
+const auth     = getAuth(app);
+const db       = getFirestore(app);
 const provider = new GoogleAuthProvider();
-
 let isSigningIn = false;
 
-document.getElementById('googleSignIn').addEventListener('click', async () => {
-  if (isSigningIn) return; // prevent double click
-  isSigningIn = true;
+const GOOGLE_SVG = `<svg class="google-logo" viewBox="0 0 48 48">
+  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+</svg> Sign in with Google`;
 
+document.getElementById('googleSignIn').addEventListener('click', async () => {
+  if (isSigningIn) return;
+  isSigningIn = true;
   const btn = document.getElementById('googleSignIn');
   const errorMsg = document.getElementById('errorMsg');
-  
   btn.disabled = true;
-  btn.innerHTML = '⏳ Signing in...';
+  btn.innerHTML = '⏳ Signing in…';
   errorMsg.style.display = 'none';
 
   try {
     const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    const user   = result.user;
 
-    const previousUserId = localStorage.getItem('user_id');
-    if (previousUserId && previousUserId !== user.uid) {
-      localStorage.removeItem('cfa_study_log');
-      localStorage.removeItem('cfa_daily_goal');
-      localStorage.removeItem('cfa_completed');
-      localStorage.removeItem('cfa_custom_subjects');
-      localStorage.removeItem('cfa_subject_overlays');
-      localStorage.removeItem('cfa_last_updated');
+    // Clear stale data if switching accounts
+    const prevId = localStorage.getItem('user_id');
+    if (prevId && prevId !== user.uid) {
+      ['cfa_study_log','cfa_daily_goal','cfa_completed','cfa_custom_subjects',
+       'cfa_subject_overlays','cfa_last_updated',
+       'french_study_log','french_daily_goal','french_weeks_data','french_checklist']
+        .forEach(k => localStorage.removeItem(k));
     }
 
-    const defaultName = user.displayName || (user.email ? user.email.split('@')[0] : '');
-    const enteredName = window.prompt('What name should appear on your profile?', defaultName);
-    const finalName = enteredName && enteredName.trim() ? enteredName.trim() : (defaultName || 'Student');
+    const defaultName  = user.displayName || (user.email ? user.email.split('@')[0] : '');
+    const enteredName  = window.prompt('What name should appear on your profile?', defaultName);
+    const finalName    = enteredName?.trim() || defaultName || 'Student';
 
-    localStorage.setItem('user_id', user.uid);
+    localStorage.setItem('user_id',    user.uid);
     localStorage.setItem('user_email', user.email || '');
-    localStorage.setItem('user_name', finalName);
+    localStorage.setItem('user_name',  finalName);
 
-    // Load cloud data if exists
-    const docRef = doc(db, 'users', user.uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const cloudData = docSnap.data();
-      if (cloudData.studyLog) localStorage.setItem('cfa_study_log', JSON.stringify(cloudData.studyLog));
-      if (cloudData.dailyGoal) localStorage.setItem('cfa_daily_goal', cloudData.dailyGoal);
-      if (cloudData.completed) localStorage.setItem('cfa_completed', JSON.stringify(cloudData.completed));
-      if (cloudData.customSubjects) localStorage.setItem('cfa_custom_subjects', JSON.stringify(cloudData.customSubjects));
-      if (cloudData.subjectOverlays) {
-        const overlays = cloudData.subjectOverlays || {};
-        // Never hide built-in subjects (id 1-10) on login
+    // ── Pull ALL cloud data (CFA + French) ──
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    if (snap.exists()) {
+      const d = snap.data();
+
+      // CFA data
+      if (d.studyLog)        localStorage.setItem('cfa_study_log',       JSON.stringify(d.studyLog));
+      if (d.dailyGoal)       localStorage.setItem('cfa_daily_goal',      d.dailyGoal);
+      if (d.completed)       localStorage.setItem('cfa_completed',       JSON.stringify(d.completed));
+      if (d.customSubjects)  localStorage.setItem('cfa_custom_subjects', JSON.stringify(d.customSubjects));
+      if (d.subjectOverlays) {
+        const ov = d.subjectOverlays || {};
         for (let i = 1; i <= 10; i++) {
-          if (overlays[i]) delete overlays[i].hidden;
-          if (overlays[String(i)]) delete overlays[String(i)].hidden;
+          if (ov[i])         delete ov[i].hidden;
+          if (ov[String(i)]) delete ov[String(i)].hidden;
         }
-        localStorage.setItem('cfa_subject_overlays', JSON.stringify(overlays));
+        localStorage.setItem('cfa_subject_overlays', JSON.stringify(ov));
       }
-      localStorage.setItem('cfa_last_updated', cloudData.updatedAt || new Date().toISOString());
+      if (d.startDate) localStorage.setItem('cfa_start_date', d.startDate);
+      if (d.endDate)   localStorage.setItem('cfa_end_date',   d.endDate);
+      localStorage.setItem('cfa_last_updated', d.updatedAt || new Date().toISOString());
+
+      // ── French data (NEW — was missing before) ──
+      if (d.frenchStudyLog  && d.frenchStudyLog.length)
+        localStorage.setItem('french_study_log',   JSON.stringify(d.frenchStudyLog));
+      if (d.frenchDailyGoal)
+        localStorage.setItem('french_daily_goal',  String(d.frenchDailyGoal));
+      if (d.frenchWeeks     && d.frenchWeeks.length)
+        localStorage.setItem('french_weeks_data',  JSON.stringify(d.frenchWeeks));
+      if (d.frenchChecklist && Object.keys(d.frenchChecklist).length)
+        localStorage.setItem('french_checklist',   JSON.stringify(d.frenchChecklist));
     } else {
       localStorage.setItem('cfa_last_updated', new Date().toISOString());
     }
@@ -184,13 +154,11 @@ document.getElementById('googleSignIn').addEventListener('click', async () => {
   } catch (error) {
     isSigningIn = false;
     btn.disabled = false;
-    btn.innerHTML = `<svg class="google-logo" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Sign in with Google`;
-    
+    btn.innerHTML = GOOGLE_SVG;
     if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
       errorMsg.style.display = 'block';
       if (error.code === 'auth/unauthorized-domain') {
-        const host = window.location.hostname || '(no hostname)';
-        errorMsg.textContent = `Sign-in blocked: "${host}" is not in Firebase Auth authorized domains. Add it in Firebase Console -> Authentication -> Settings -> Authorized domains.`;
+        errorMsg.textContent = `Sign-in blocked: "${window.location.hostname}" is not in Firebase Auth authorized domains.`;
       } else {
         errorMsg.textContent = 'Sign-in failed: ' + error.message;
       }

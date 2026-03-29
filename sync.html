@@ -5,6 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Study Time Table Tracker — Sync Data</title>
 <link rel="stylesheet" href="style.css"/>
+<style>
+.sync-section {
+  border: 1.5px solid var(--border); border-radius: var(--radius);
+  padding: 1.5rem; background: var(--surface);
+}
+.sync-section h3 { margin-bottom: 0.4rem; font-size: 1rem; font-weight: 800; }
+.sync-section p  { color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem; line-height: 1.5; }
+
+/* Cloud status card */
+.cloud-status {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  padding: 1rem 1.25rem; border-radius: var(--radius);
+  border: 1.5px solid var(--border); background: var(--surface);
+  margin-bottom: 1.5rem;
+}
+.cloud-status-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  background: var(--text-muted);
+}
+.cloud-status-dot.green  { background: var(--success); box-shadow: 0 0 6px rgba(0,200,150,.5); }
+.cloud-status-dot.yellow { background: var(--warning); }
+.cloud-status-dot.red    { background: var(--danger); }
+.cloud-status-text { flex: 1; min-width: 0; }
+.cloud-status-text strong { font-size: .9rem; display: block; }
+.cloud-status-text span   { font-size: .75rem; color: var(--text-muted); }
+.sync-btn-row { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+/* Data breakdown */
+.data-chips {
+  display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem;
+}
+.data-chip {
+  font-size: .72rem; font-weight: 600; padding: .22rem .65rem;
+  border-radius: 99px; border: 1.5px solid var(--border);
+  background: var(--surface2); color: var(--text-muted);
+  font-family: var(--mono);
+}
+.data-chip.has-data { border-color: rgba(0,200,150,.35); color: var(--success); background: rgba(0,200,150,.07); }
+</style>
 </head>
 <body>
 
@@ -13,39 +52,64 @@
   <div class="nav-links">
     <a href="index.html">Dashboard</a>
     <a href="subjects.html">Subjects</a>
+    <a href="french.html">🇫🇷 French</a>
+    <a href="sync.html">Sync</a>
   </div>
 </nav>
 
 <div class="page">
-  <div class="card fade-up">
-    <h1 style="margin-bottom:1rem">Sync Your Data</h1>
-    <p style="color:var(--text-muted);margin-bottom:2rem">Export your data to use across different browsers or devices</p>
+  <div style="margin-bottom:1.5rem">
+    <p style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:.4rem">Data Management</p>
+    <h1 style="font-size:1.8rem;font-weight:800;letter-spacing:-.02em">Sync & Backup</h1>
+    <p style="color:var(--text-muted);margin-top:.4rem;font-size:.9rem">Manage your CFA and French study data across devices</p>
+  </div>
 
-    <div style="display:flex;flex-direction:column;gap:1.5rem">
-      
-      <div style="border:1px solid var(--border);border-radius:8px;padding:1.5rem">
-        <h3 style="margin-bottom:0.5rem">📤 Export Data</h3>
-        <p style="color:var(--text-muted);font-size:0.875rem;margin-bottom:1rem">Download all your study data as a JSON file</p>
-        <button class="btn btn-primary" onclick="exportData()">Download Data</button>
-      </div>
+  <!-- Cloud sync status -->
+  <div class="cloud-status" id="cloudStatus">
+    <div class="cloud-status-dot" id="statusDot"></div>
+    <div class="cloud-status-text">
+      <strong id="statusTitle">Checking…</strong>
+      <span id="statusSub"></span>
+    </div>
+    <div class="sync-btn-row">
+      <button class="btn btn-primary" id="syncNowBtn" style="font-size:.85rem;padding:.4rem .9rem">☁️ Sync Now</button>
+      <button class="btn btn-ghost"   id="pullBtn"    style="font-size:.85rem;padding:.4rem .9rem">⬇️ Pull from Cloud</button>
+    </div>
+  </div>
 
-      <div style="border:1px solid var(--border);border-radius:8px;padding:1.5rem">
-        <h3 style="margin-bottom:0.5rem">📥 Import Data</h3>
-        <p style="color:var(--text-muted);font-size:0.875rem;margin-bottom:1rem">Upload a previously exported JSON file to restore your data</p>
-        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"/>
-        <button class="btn btn-primary" onclick="document.getElementById('importFile').click()">Upload Data</button>
-      </div>
+  <!-- Data summary -->
+  <div class="card" style="margin-bottom:1.5rem">
+    <p class="label" style="margin-bottom:.75rem">What's stored locally</p>
+    <div class="data-chips" id="dataChips"></div>
+  </div>
 
-      <div style="border:1px solid var(--danger);border-radius:8px;padding:1.5rem;background:rgba(239,68,68,0.05)">
-        <h3 style="margin-bottom:0.5rem;color:var(--danger)">⚠️ Clear All Data</h3>
-        <p style="color:var(--text-muted);font-size:0.875rem;margin-bottom:1rem">This will permanently delete all your study data from this browser</p>
-        <button class="btn btn-danger" onclick="clearAllData()">Clear All Data</button>
-      </div>
+  <div style="display:flex;flex-direction:column;gap:1.25rem">
 
+    <!-- Export -->
+    <div class="sync-section">
+      <h3>📤 Export Data</h3>
+      <p>Download all your CFA <em>and</em> French study data as a single JSON backup file. Use this to move between browsers or keep an offline backup.</p>
+      <button class="btn btn-primary" onclick="exportData()">Download Backup</button>
     </div>
 
-    <a href="index.html" class="btn btn-ghost" style="margin-top:2rem">← Back to Dashboard</a>
+    <!-- Import -->
+    <div class="sync-section">
+      <h3>📥 Import Data</h3>
+      <p>Upload a previously exported JSON file to restore your data. This will overwrite current data.</p>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"/>
+      <button class="btn btn-primary" onclick="document.getElementById('importFile').click()">Upload Backup File</button>
+    </div>
+
+    <!-- Danger -->
+    <div class="sync-section" style="border-color:rgba(255,77,109,.35);background:rgba(255,77,109,.04)">
+      <h3 style="color:var(--danger)">⚠️ Clear All Data</h3>
+      <p>Permanently deletes <strong>all</strong> CFA and French study data from this browser. This cannot be undone.</p>
+      <button class="btn btn-danger" onclick="clearAllData()">Clear All Data</button>
+    </div>
+
   </div>
+
+  <a href="index.html" class="btn btn-ghost" style="margin-top:2rem">← Back to Dashboard</a>
 </div>
 
 <script src="app.js"></script>
@@ -53,89 +117,161 @@
 <script>
 setActiveNav();
 
-function exportData() {
-  const data = {
-    studyLog: getStudyLog(),
-    dailyGoal: getDailyGoal(),
-    completed: getCompleted(),
-    customSubjects: JSON.parse(localStorage.getItem('cfa_custom_subjects') || '[]'),
-    subjectOverlays: JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}'),
-    startDate: localStorage.getItem('cfa_start_date') || null,
-    endDate: localStorage.getItem('cfa_end_date') || null,
-    exportDate: new Date().toISOString()
-  };
+/* ── Data summary chips ── */
+function renderDataChips() {
+  const chips = [
+    { label: 'CFA Log',       val: (JSON.parse(localStorage.getItem('cfa_study_log')||'[]')).length + ' entries' },
+    { label: 'CFA Completed', val: Object.keys(JSON.parse(localStorage.getItem('cfa_completed')||'{}')).filter(k=>JSON.parse(localStorage.getItem('cfa_completed')||'{}')[k]).length + ' topics' },
+    { label: 'French Log',    val: (JSON.parse(localStorage.getItem('french_study_log')||'[]')).length + ' entries' },
+    { label: 'French Weeks',  val: (JSON.parse(localStorage.getItem('french_weeks_data')||'[]')).length + ' weeks' },
+    { label: 'French Tasks',  val: Object.keys(JSON.parse(localStorage.getItem('french_checklist')||'{}')).filter(k=>JSON.parse(localStorage.getItem('french_checklist')||'{}')[k]).length + ' done' },
+  ];
+  document.getElementById('dataChips').innerHTML = chips.map(c => {
+    const hasData = !c.val.startsWith('0');
+    return `<div class="data-chip ${hasData?'has-data':''}">${c.label}: ${c.val}</div>`;
+  }).join('');
+}
+renderDataChips();
 
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `study-tracker-backup-${new Date().toISOString().split('T')[0]}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-
-  alert('Data exported successfully! Save this file to import on another browser.');
+/* ── Cloud status UI ── */
+function setStatus(state, title, sub) {
+  const dot = document.getElementById('statusDot');
+  dot.className = 'cloud-status-dot ' + (state === 'ok' ? 'green' : state === 'warn' ? 'yellow' : state === 'error' ? 'red' : '');
+  document.getElementById('statusTitle').textContent = title;
+  document.getElementById('statusSub').textContent   = sub || '';
 }
 
-function importData(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+const uid = localStorage.getItem('user_id');
+if (uid) {
+  const email = localStorage.getItem('user_email') || '';
+  const lastSync = localStorage.getItem('cfa_last_updated');
+  const lastStr  = lastSync ? new Date(lastSync).toLocaleString() : 'never';
+  setStatus('ok', `Signed in as ${localStorage.getItem('user_name') || email}`, `Last synced: ${lastStr}`);
+} else {
+  setStatus('warn', 'Not signed in', 'Sign in to sync data across devices');
+  document.getElementById('syncNowBtn').disabled = true;
+  document.getElementById('pullBtn').disabled = true;
+}
 
+/* ── Sync Now ── */
+document.getElementById('syncNowBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('syncNowBtn');
+  btn.disabled = true; btn.textContent = '⏳ Syncing…';
+  try {
+    if (window.cloudSyncReady) await window.cloudSyncReady;
+    if (window.forceCloudSync) {
+      await window.forceCloudSync('manual-sync-page');
+      setStatus('ok', `Signed in as ${localStorage.getItem('user_name')||''}`, `Synced: ${new Date().toLocaleString()}`);
+      btn.textContent = '✓ Synced!';
+    } else {
+      btn.textContent = '☁️ Sync Now';
+    }
+  } catch(e) {
+    setStatus('error', 'Sync failed', e.message);
+    btn.textContent = '☁️ Sync Now';
+  }
+  setTimeout(() => { btn.disabled = false; btn.textContent = '☁️ Sync Now'; }, 2000);
+});
+
+/* ── Pull from Cloud ── */
+document.getElementById('pullBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('pullBtn');
+  btn.disabled = true; btn.textContent = '⏳ Pulling…';
+  try {
+    if (window.pullCloudData) await window.pullCloudData();
+    renderDataChips();
+    btn.textContent = '✓ Done!';
+    setStatus('ok', `Signed in as ${localStorage.getItem('user_name')||''}`, `Pulled: ${new Date().toLocaleString()}`);
+  } catch(e) {
+    btn.textContent = '⬇️ Pull from Cloud';
+  }
+  setTimeout(() => { btn.disabled = false; btn.textContent = '⬇️ Pull from Cloud'; }, 2000);
+});
+
+/* ── Export — includes French data ── */
+function exportData() {
+  const data = {
+    // CFA
+    studyLog:        getStudyLog(),
+    dailyGoal:       getDailyGoal(),
+    completed:       getCompleted(),
+    customSubjects:  JSON.parse(localStorage.getItem('cfa_custom_subjects')  || '[]'),
+    subjectOverlays: JSON.parse(localStorage.getItem('cfa_subject_overlays') || '{}'),
+    startDate:       localStorage.getItem('cfa_start_date') || null,
+    endDate:         localStorage.getItem('cfa_end_date')   || null,
+    // French
+    frenchStudyLog:  JSON.parse(localStorage.getItem('french_study_log')   || '[]'),
+    frenchDailyGoal: parseFloat(localStorage.getItem('french_daily_goal'))  || 2,
+    frenchWeeks:     JSON.parse(localStorage.getItem('french_weeks_data')  || '[]'),
+    frenchChecklist: JSON.parse(localStorage.getItem('french_checklist')   || '{}'),
+    // Meta
+    exportDate: new Date().toISOString(),
+    version:    2
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `study-tracker-backup-${new Date().toISOString().split('T')[0]}.json`;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+  alert('Backup downloaded! This includes all CFA and French data.');
+}
+
+/* ── Import — restores French data too ── */
+async function importData(event) {
+  const file = event.target.files[0]; if (!file) return;
   const reader = new FileReader();
-  reader.onload = async function(e) {
+  reader.onload = async e => {
     try {
       const data = JSON.parse(e.target.result);
-      
-      if (!data.studyLog || !data.completed) {
-        alert('Invalid backup file format');
-        return;
-      }
+      if (!data.studyLog && !data.frenchStudyLog) { alert('Invalid backup file.'); return; }
+      if (!confirm('This will replace all current data (CFA + French). Continue?')) return;
 
-      if (!confirm('This will replace all current data. Continue?')) {
-        return;
-      }
+      // CFA
+      if (data.studyLog)        localStorage.setItem('cfa_study_log',       JSON.stringify(data.studyLog));
+      if (data.dailyGoal)       localStorage.setItem('cfa_daily_goal',      data.dailyGoal);
+      if (data.completed)       localStorage.setItem('cfa_completed',       JSON.stringify(data.completed));
+      if (data.customSubjects)  localStorage.setItem('cfa_custom_subjects', JSON.stringify(data.customSubjects));
+      if (data.subjectOverlays) localStorage.setItem('cfa_subject_overlays',JSON.stringify(data.subjectOverlays));
+      if (data.startDate)       localStorage.setItem('cfa_start_date',      data.startDate);
+      if (data.endDate)         localStorage.setItem('cfa_end_date',        data.endDate);
 
-      localStorage.setItem('cfa_study_log', JSON.stringify(data.studyLog));
-      localStorage.setItem('cfa_daily_goal', data.dailyGoal || '3');
-      localStorage.setItem('cfa_completed', JSON.stringify(data.completed));
-      localStorage.setItem('cfa_custom_subjects', JSON.stringify(data.customSubjects || []));
-      localStorage.setItem('cfa_subject_overlays', JSON.stringify(data.subjectOverlays || {}));
-      if (data.startDate) localStorage.setItem('cfa_start_date', data.startDate);
-      if (data.endDate) localStorage.setItem('cfa_end_date', data.endDate);
+      // French
+      if (data.frenchStudyLog  && data.frenchStudyLog.length)
+        localStorage.setItem('french_study_log',  JSON.stringify(data.frenchStudyLog));
+      if (data.frenchDailyGoal)
+        localStorage.setItem('french_daily_goal', String(data.frenchDailyGoal));
+      if (data.frenchWeeks     && data.frenchWeeks.length)
+        localStorage.setItem('french_weeks_data', JSON.stringify(data.frenchWeeks));
+      if (data.frenchChecklist && Object.keys(data.frenchChecklist).length)
+        localStorage.setItem('french_checklist',  JSON.stringify(data.frenchChecklist));
 
-      // Wait for firebase to be ready, force a full sync BEFORE redirecting
+      // Push everything to cloud
       try {
         if (window.cloudSyncReady) await window.cloudSyncReady;
-        if (window.forceCloudSync) {
-          await window.forceCloudSync('import');
-        } else if (window.queueCloudSync) {
-          window.queueCloudSync('import');
-          await new Promise(r => setTimeout(r, 2000)); // wait for debounce + push
-        }
+        if (window.forceCloudSync) await window.forceCloudSync('import');
+        else if (window.queueCloudSync) { window.queueCloudSync('import'); await new Promise(r=>setTimeout(r,2000)); }
       } catch(e) { console.warn('Sync after import failed', e); }
 
+      renderDataChips();
       alert('Data imported and synced successfully!');
       window.location.href = 'index.html';
-    } catch (err) {
-      alert('Error importing data: ' + err.message);
-    }
+    } catch(err) { alert('Error importing data: ' + err.message); }
   };
   reader.readAsText(file);
 }
 
+/* ── Clear All ── */
 function clearAllData() {
-  if (!confirm('Are you sure? This will delete ALL your study data permanently!')) return;
-  if (!confirm('Last chance! This cannot be undone. Delete everything?')) return;
-
-  localStorage.removeItem('cfa_study_log');
-  localStorage.removeItem('cfa_daily_goal');
-  localStorage.removeItem('cfa_completed');
-  localStorage.removeItem('cfa_custom_subjects');
-  localStorage.removeItem('cfa_subject_overlays');
+  if (!confirm('Are you sure? This will delete ALL CFA and French data permanently!')) return;
+  if (!confirm('Last chance — this cannot be undone. Delete everything?')) return;
+  [
+    'cfa_study_log','cfa_daily_goal','cfa_completed','cfa_custom_subjects','cfa_subject_overlays',
+    'french_study_log','french_daily_goal','french_weeks_data','french_checklist'
+  ].forEach(k => localStorage.removeItem(k));
   if (window.queueCloudSync) window.queueCloudSync('clear-all');
-
-  alert('All data cleared');
+  alert('All data cleared.');
   window.location.href = 'index.html';
 }
 </script>
