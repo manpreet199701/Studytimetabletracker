@@ -85,7 +85,6 @@
 .heat-3 { background: rgba(0,200,150,.75); }
 .heat-4 { background: var(--success); }
 
-/* Modals */
 .modal {
   display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,.5); z-index: 1000;
@@ -108,23 +107,11 @@
   width: 100%; padding: .5rem .75rem; margin: .75rem 0; box-sizing: border-box;
 }
 .modal-input:focus { outline: none; border-color: var(--accent); }
-.modal-input.sm {
-  font-size: 1rem; font-weight: 500; color: var(--text);
-  font-family: var(--font); margin: .4rem 0;
-}
-.modal-label {
-  font-size: .7rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .08em; color: var(--text-muted); margin-top: .6rem; display: block;
-}
-.cat-select {
-  font-family: var(--font); font-size: .85rem; font-weight: 500;
-  background: var(--surface2); border: 1.5px solid var(--border);
-  border-radius: 8px; color: var(--text); padding: .45rem .65rem;
-  cursor: pointer; width: 100%; margin-top: .4rem;
-}
+.modal-input.sm { font-size: 1rem; font-weight: 500; color: var(--text); font-family: var(--font); margin: .4rem 0; }
+.modal-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-top: .6rem; display: block; }
+.cat-select { font-family: var(--font); font-size: .85rem; font-weight: 500; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 8px; color: var(--text); padding: .45rem .65rem; cursor: pointer; width: 100%; margin-top: .4rem; }
 .cat-select:focus { outline: none; border-color: var(--accent); }
 
-/* Weeks */
 .weeks-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
 .weeks-header h2 { font-size: 1rem; font-weight: 800; }
 .weeks-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; margin-bottom: 2rem; }
@@ -136,7 +123,6 @@
   transition: border-color .2s, box-shadow .2s;
 }
 .week-card:hover { border-color: rgba(108,71,255,.22); box-shadow: var(--shadow-lg); }
-
 .wk-stripe { height: 4px; }
 .s0{background:linear-gradient(90deg,#888,#bbb)}
 .s1{background:linear-gradient(90deg,var(--accent),var(--lavender))}
@@ -150,16 +136,12 @@
 
 .card-head { padding: .9rem 1rem .7rem; display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; }
 .card-head-left { display: flex; align-items: flex-start; gap: .6rem; flex: 1; min-width: 0; }
-.week-emoji  { font-size: 1.5rem; flex-shrink: 0; }
-.week-meta   { flex: 1; min-width: 0; }
-.week-label  { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); }
-.week-title  { font-size: .92rem; font-weight: 800; color: var(--text); line-height: 1.3; word-break: break-word; }
+.week-emoji { font-size: 1.5rem; flex-shrink: 0; }
+.week-meta  { flex: 1; min-width: 0; }
+.week-label { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); }
+.week-title { font-size: .92rem; font-weight: 800; color: var(--text); line-height: 1.3; word-break: break-word; }
 .week-actions { display: flex; gap: .3rem; flex-shrink: 0; }
-.week-action-btn {
-  background: none; border: 1px solid var(--border); border-radius: 6px;
-  font-size: .72rem; cursor: pointer; color: var(--text-muted);
-  padding: .22rem .45rem; transition: all .15s; line-height: 1;
-}
+.week-action-btn { background: none; border: 1px solid var(--border); border-radius: 6px; font-size: .72rem; cursor: pointer; color: var(--text-muted); padding: .22rem .45rem; transition: all .15s; line-height: 1; }
 .week-action-btn:hover { background: var(--surface2); color: var(--text); }
 .week-action-btn.danger:hover { background: rgba(255,77,109,.1); color: var(--danger); border-color: rgba(255,77,109,.3); }
 
@@ -168,40 +150,24 @@
 .cp-pct { font-family: var(--mono); font-size: .68rem; font-weight: 600; color: var(--text-muted); min-width: 28px; text-align: right; }
 .card-body { padding: 0 .6rem .3rem; display: flex; flex-direction: column; gap: .2rem; }
 
-.topic-row {
-  display: flex; align-items: center; gap: .6rem;
-  padding: .5rem .4rem; border-radius: 8px;
-  border: 1.5px solid transparent; user-select: none;
-  transition: background .12s, border-color .12s;
-}
+.topic-row { display: flex; align-items: center; gap: .6rem; padding: .5rem .4rem; border-radius: 8px; border: 1.5px solid transparent; user-select: none; transition: background .12s, border-color .12s; }
 .topic-row:hover { background: var(--surface2); border-color: var(--border); }
 .topic-row.done .topic-name { text-decoration: line-through; color: var(--text-muted); opacity: .65; }
-
-.check-box {
-  width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border);
-  background: var(--surface); display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; cursor: pointer; transition: all .15s; font-size: 11px; color: transparent;
-}
+.check-box { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; transition: all .15s; font-size: 11px; color: transparent; }
 .topic-row.done .check-box { border-color: transparent; background: linear-gradient(135deg,var(--success),var(--mint)); color: #fff; }
-
 .topic-name { font-size: .82rem; font-weight: 500; color: var(--text); flex: 1; line-height: 1.3; }
 
 .cat-pill { display: inline-flex; align-items: center; padding: .14rem .48rem; border-radius: 99px; font-size: .57rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; flex-shrink: 0; }
-.cat-pill.grammar { background: rgba(108,71,255,.10); color: var(--accent); }
-.cat-pill.vocab   { background: rgba(0,200,150,.12);  color: var(--success); }
-.cat-pill.listen  { background: rgba(56,191,255,.12); color: var(--sky); }
-.cat-pill.read    { background: rgba(255,159,28,.12); color: var(--warning); }
-.cat-pill.write   { background: rgba(255,107,157,.12);color: var(--accent2); }
-.cat-pill.review  { background: rgba(167,139,250,.15);color: var(--lavender); }
-.cat-pill.speak   { background: rgba(255,75,109,.10); color: var(--danger); }
-.cat-pill.other   { background: rgba(120,120,120,.1); color: var(--text-muted); }
+.cat-pill.grammar{background:rgba(108,71,255,.10);color:var(--accent)}
+.cat-pill.vocab  {background:rgba(0,200,150,.12); color:var(--success)}
+.cat-pill.listen {background:rgba(56,191,255,.12);color:var(--sky)}
+.cat-pill.read   {background:rgba(255,159,28,.12);color:var(--warning)}
+.cat-pill.write  {background:rgba(255,107,157,.12);color:var(--accent2)}
+.cat-pill.review {background:rgba(167,139,250,.15);color:var(--lavender)}
+.cat-pill.speak  {background:rgba(255,75,109,.10); color:var(--danger)}
+.cat-pill.other  {background:rgba(120,120,120,.1); color:var(--text-muted)}
 
-.topic-btn {
-  flex-shrink: 0; background: none; border: none; cursor: pointer;
-  font-size: .78rem; line-height: 1; padding: .22rem .3rem;
-  border-radius: 5px; opacity: 0; transition: opacity .12s, background .12s;
-  color: var(--text-muted);
-}
+.topic-btn { flex-shrink:0;background:none;border:none;cursor:pointer;font-size:.78rem;line-height:1;padding:.22rem .3rem;border-radius:5px;opacity:0;transition:opacity .12s,background .12s;color:var(--text-muted); }
 .topic-row:hover .topic-btn { opacity: 1; }
 .topic-btn.edit-btn:hover { background: rgba(108,71,255,.12); color: var(--accent); }
 .topic-btn.del-btn:hover  { background: rgba(255,77,109,.12); color: var(--danger); }
@@ -210,77 +176,33 @@
 .footer-count { font-size: .7rem; color: var(--text-muted); font-family: var(--mono); font-weight: 600; }
 .footer-badge { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: .18rem .55rem; border-radius: 99px; background: rgba(0,200,150,.12); color: var(--success); display: none; }
 .footer-badge.visible { display: inline-flex; }
-.add-topic-btn {
-  font-size: .72rem; font-weight: 700; color: var(--accent);
-  background: rgba(108,71,255,.07); border: 1px dashed rgba(108,71,255,.3);
-  border-radius: 7px; padding: .25rem .65rem; cursor: pointer; transition: all .15s; margin-left: auto;
-}
+.add-topic-btn { font-size: .72rem; font-weight: 700; color: var(--accent); background: rgba(108,71,255,.07); border: 1px dashed rgba(108,71,255,.3); border-radius: 7px; padding: .25rem .65rem; cursor: pointer; transition: all .15s; margin-left: auto; }
 .add-topic-btn:hover { background: rgba(108,71,255,.14); border-style: solid; }
 
-/* Sync bar */
-.sync-bar {
-  display: flex; align-items: center; gap: .6rem;
-  font-size: .75rem; font-weight: 600; color: var(--text-muted);
-  margin-bottom: 1.25rem; padding: .6rem 1rem;
-  border-radius: var(--radius-sm); border: 1.5px solid var(--border);
-  background: var(--surface); width: fit-content; transition: all .3s;
-}
+.sync-bar { display: flex; align-items: center; gap: .6rem; font-size: .75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 1.25rem; padding: .6rem 1rem; border-radius: var(--radius-sm); border: 1.5px solid var(--border); background: var(--surface); width: fit-content; transition: all .3s; }
 .sync-bar.saving { border-color: rgba(108,71,255,.3); color: var(--accent); background: rgba(108,71,255,.05); }
 .sync-bar.saved  { border-color: rgba(0,200,150,.3);  color: var(--success); background: rgba(0,200,150,.05); }
 .sync-bar.error  { border-color: rgba(255,77,109,.3);  color: var(--danger);  background: rgba(255,77,109,.05); }
 .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
 
-/* User menu */
 .user-menu { margin-left: auto; position: relative; }
-.user-menu-toggle {
-  display: inline-flex; align-items: center; gap: .55rem;
-  border: 1.5px solid var(--border); background: var(--surface); color: var(--text);
-  border-radius: 999px; padding: .28rem .75rem .28rem .32rem;
-  cursor: pointer; font-family: var(--font); font-size: .8rem; font-weight: 700; transition: all .18s;
-}
+.user-menu-toggle { display: inline-flex; align-items: center; gap: .55rem; border: 1.5px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: .28rem .75rem .28rem .32rem; cursor: pointer; font-family: var(--font); font-size: .8rem; font-weight: 700; transition: all .18s; }
 .user-menu-toggle:hover { border-color: var(--accent); }
-.user-avatar {
-  width: 26px; height: 26px; border-radius: 50%;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: #fff; font-family: var(--mono); font-size: .72rem; font-weight: 700;
-}
-.user-menu-dropdown {
-  position: absolute; top: calc(100% + 12px); right: 0; min-width: 210px;
-  border-radius: var(--radius); border: 1.5px solid var(--border);
-  background: var(--surface); box-shadow: var(--shadow-lg);
-  padding: 1rem; display: none; z-index: 200;
-}
+.user-avatar { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-family: var(--mono); font-size: .72rem; font-weight: 700; }
+.user-menu-dropdown { position: absolute; top: calc(100% + 12px); right: 0; min-width: 210px; border-radius: var(--radius); border: 1.5px solid var(--border); background: var(--surface); box-shadow: var(--shadow-lg); padding: 1rem; display: none; z-index: 200; }
 .user-menu-dropdown.open { display: block; }
 .user-menu-name  { font-size: .875rem; font-weight: 800; color: var(--text); }
 .user-menu-email { margin-top: .2rem; font-size: .75rem; color: var(--text-muted); word-break: break-word; }
 .user-menu-divider { border: none; border-top: 1px solid var(--border); margin: .75rem 0; }
-/* Sync buttons in dropdown — matches dashboard style */
-.user-save-btn {
-  width: 100%; border: 1.5px solid rgba(108,71,255,.25); background: rgba(108,71,255,.07);
-  color: var(--accent); border-radius: 8px; padding: .45rem .65rem;
-  font-family: var(--font); font-size: .8rem; font-weight: 700; cursor: pointer; transition: all .15s; margin-bottom: .5rem;
-}
+.user-save-btn { width: 100%; border: 1.5px solid rgba(108,71,255,.25); background: rgba(108,71,255,.07); color: var(--accent); border-radius: 8px; padding: .45rem .65rem; font-family: var(--font); font-size: .8rem; font-weight: 700; cursor: pointer; transition: all .15s; margin-bottom: .5rem; display: block; }
 .user-save-btn:hover { background: rgba(108,71,255,.15); }
 .user-save-btn:disabled { opacity: .5; cursor: not-allowed; }
-.user-logout-btn {
-  width: 100%; border: 1.5px solid rgba(255,77,109,.25); background: rgba(255,77,109,.08);
-  color: var(--danger); border-radius: 8px; padding: .45rem .65rem;
-  font-family: var(--font); font-size: .8rem; font-weight: 700; cursor: pointer; transition: all .15s;
-}
+.user-logout-btn { width: 100%; border: 1.5px solid rgba(255,77,109,.25); background: rgba(255,77,109,.08); color: var(--danger); border-radius: 8px; padding: .45rem .65rem; font-family: var(--font); font-size: .8rem; font-weight: 700; cursor: pointer; transition: all .15s; }
 .user-logout-btn:hover { background: rgba(255,77,109,.16); }
 
-#loading-overlay {
-  position: fixed; inset: 0; background: var(--bg);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 1rem; z-index: 999; transition: opacity .4s;
-}
+#loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; z-index: 999; transition: opacity .4s; }
 #loading-overlay.hidden { opacity: 0; pointer-events: none; }
-.loader-spinner {
-  width: 36px; height: 36px; border-radius: 50%;
-  border: 3px solid var(--border); border-top-color: var(--accent);
-  animation: spin .7s linear infinite;
-}
+.loader-spinner { width: 36px; height: 36px; border-radius: 50%; border: 3px solid var(--border); border-top-color: var(--accent); animation: spin .7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 .fade-up { animation: fadeUp .4s cubic-bezier(.22,1,.36,1) both; }
@@ -299,23 +221,25 @@
   <div class="nav-links">
     <a href="index.html">Dashboard</a>
     <a href="subjects.html">Subjects</a>
-    <a href="sync.html">Sync</a>
     <a href="french.html">🇫🇷 French</a>
-    
+    <a href="sync.html">Sync</a>
+  </div>
+  <div class="user-menu" id="frUserMenu">
+    <button class="user-menu-toggle" id="userToggle">
+      <div class="user-avatar" id="userAvatar">?</div>
+      <span id="userNameDisplay">…</span>
+    </button>
+    <div class="user-menu-dropdown" id="userDropdown">
+      <div class="user-menu-name"  id="dropName">—</div>
+      <div class="user-menu-email" id="dropEmail">—</div>
+      <hr class="user-menu-divider"/>
+      <button class="user-save-btn" id="syncNowBtn">☁️ Sync Now</button>
+      <button class="user-logout-btn" id="logoutBtn">Sign Out</button>
+    </div>
   </div>
 </nav>
-(async () => {
-  // If the user is logged in, wait for the initial cloud data to be loaded.
-  // window.cloudDataReady is a promise from firebase-sync.js that resolves after
-  // the first successful pull from Firestore (or immediately if not logged in).
-  if (window.cloudDataReady) await window.cloudDataReady;
-  // Now localStorage contains the most recent data (cloud or local).
-  loadFromLocal();   // loads weeks, checklist, etc. and renders
-  hideLoader();
-})();
 
 <div class="page">
-
   <div class="page-hero fade-up">
     <div>
       <div class="page-hero-eyebrow">🇫🇷 French Study Plan</div>
@@ -324,35 +248,22 @@
     </div>
     <div class="overall-progress">
       <div class="op-label">Overall Progress</div>
-      <div class="op-count" id="op-count">0<span style="font-size:1rem;color:var(--text-muted)" id="op-total">/0</span></div>
+      <div class="op-count" id="op-count">0<span style="font-size:1rem;color:var(--text-muted)">/0</span></div>
       <div class="op-sub">tasks completed</div>
-      <div class="progress-track" style="margin-top:.3rem">
-        <div class="progress-fill" id="op-bar" style="width:0%"></div>
-      </div>
+      <div class="progress-track" style="margin-top:.3rem"><div class="progress-fill" id="op-bar" style="width:0%"></div></div>
     </div>
   </div>
 
-  <!-- Hours strip -->
   <div class="french-dash fade-up">
     <div class="fd-card">
       <div class="fd-label">Today's Session — French</div>
       <div class="hours-row">
-        <div>
-          <p class="section-label">Hours studied</p>
-          <input id="hoursInput" class="big-input" type="number" min="0" max="24" step="0.5" placeholder="0"/>
-        </div>
+        <div><p class="section-label">Hours studied</p><input id="hoursInput" class="big-input" type="number" min="0" max="24" step="0.5" placeholder="0"/></div>
         <span style="font-size:1.2rem;color:var(--text-dim);padding-bottom:.4rem">/</span>
-        <div>
-          <p class="section-label">Daily goal</p>
-          <input id="frDailyGoalInput" class="big-input" type="number" min="0" max="24" step="0.5"
-            style="color:var(--text-muted);cursor:pointer;width:80px"
-            title="Click to set your French daily goal"/>
-        </div>
+        <div><p class="section-label">Daily goal</p><input id="frDailyGoalInput" class="big-input" type="number" min="0" max="24" step="0.5" style="color:var(--text-muted);cursor:pointer;width:80px"/></div>
         <span style="font-size:.9rem;color:var(--text-dim);padding-bottom:.4rem">hrs</span>
       </div>
-      <div class="progress-track" style="height:8px;margin-top:.5rem">
-        <div id="todayBar" class="progress-fill" style="width:0%"></div>
-      </div>
+      <div class="progress-track" style="height:8px;margin-top:.5rem"><div id="todayBar" class="progress-fill" style="width:0%"></div></div>
       <div class="log-controls">
         <button class="btn btn-primary" id="logBtn">Log Hours</button>
         <button class="btn btn-danger" id="clearTodayBtn" style="padding:.3rem .7rem;font-size:.8rem">Clear Today</button>
@@ -370,7 +281,6 @@
     </div>
   </div>
 
-  <!-- Calendar + Heatmap -->
   <div class="french-cal-grid fade-up">
     <div class="card">
       <div class="section-header">
@@ -399,20 +309,16 @@
     </div>
   </div>
 
-  <div class="sync-bar" id="syncBar">
-    <div class="sync-dot"></div>
-    <span id="syncMsg">Ready</span>
-  </div>
+  <div class="sync-bar" id="syncBar"><div class="sync-dot"></div><span id="syncMsg">Ready</span></div>
 
   <div class="weeks-header">
     <h2>📋 Study Weeks</h2>
     <button class="btn btn-primary" id="addWeekBtn" style="font-size:.8rem;padding:.4rem .9rem">＋ Add Week</button>
   </div>
   <div class="weeks-grid" id="weeksGrid"></div>
-
 </div>
 
-<!-- Day modal -->
+<!-- Modals -->
 <div class="modal" id="dayModal">
   <div class="modal-content">
     <div class="modal-header"><h3 id="modalDateTitle">Log French hours</h3><button class="modal-close" id="dayModalClose">×</button></div>
@@ -425,8 +331,6 @@
     </div>
   </div>
 </div>
-
-<!-- Edit topic modal -->
 <div class="modal" id="editTopicModal">
   <div class="modal-content">
     <div class="modal-header"><h3>Edit Topic</h3><button class="modal-close" id="editTopicClose">×</button></div>
@@ -445,8 +349,6 @@
     </div>
   </div>
 </div>
-
-<!-- Add topic modal -->
 <div class="modal" id="addTopicModal">
   <div class="modal-content">
     <div class="modal-header"><h3 id="addTopicModalTitle">Add Topic</h3><button class="modal-close" id="addTopicClose">×</button></div>
@@ -465,8 +367,6 @@
     </div>
   </div>
 </div>
-
-<!-- Add/Edit week modal -->
 <div class="modal" id="weekModal">
   <div class="modal-content">
     <div class="modal-header"><h3 id="weekModalHeading">Add Week</h3><button class="modal-close" id="weekModalClose">×</button></div>
@@ -480,8 +380,6 @@
     </div>
   </div>
 </div>
-
-<!-- Confirm delete modal -->
 <div class="modal" id="confirmModal">
   <div class="modal-content" style="max-width:340px">
     <div class="modal-header"><h3 id="confirmTitle">Delete?</h3><button class="modal-close" id="confirmClose">×</button></div>
@@ -493,8 +391,15 @@
   </div>
 </div>
 
+<!--
+  KEY FIX: Override initUserNav BEFORE app.js runs (as a plain synchronous script).
+  Modules are deferred — they run after all regular scripts. So if we put the override
+  inside <script type="module">, app.js has already called initUserNav() and destroyed
+  the nav before the override takes effect. This plain script runs synchronously first.
+-->
+<script>window.initUserNav = function() { /* French page owns its nav — no-op */ };</script>
+
 <script src="app.js"></script>
-<!-- firebase-sync.js intentionally NOT loaded here — French page manages its own sync -->
 
 <script type="module">
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
@@ -511,30 +416,25 @@ const firebaseConfig = {
   messagingSenderId: "93337267809",
   appId:             "1:93337267809:web:835f83be980310a54a0420"
 };
-
 const fbApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth  = getAuth(fbApp);
 const db    = getFirestore(fbApp);
 
-/* ── French-only storage (never touches cfa_* keys) ── */
-const FR_LOG_KEY   = 'french_study_log';
-const FR_GOAL_KEY  = 'french_daily_goal';
-const FR_WEEKS_KEY = 'french_weeks_data';
-const FR_CHECK_KEY = 'french_checklist';
+/* ── French-only storage keys ── */
+const FR_LOG   = 'french_study_log';
+const FR_GOAL  = 'french_daily_goal';
+const FR_WEEKS = 'french_weeks_data';
+const FR_CHECK = 'french_checklist';
 
-// Bypass firebase-sync.js localStorage hook so French writes don't trigger CFA syncs
-const rawSet = (k,v) => Object.getPrototypeOf(localStorage).setItem.call(localStorage,k,v);
-const rawGet = (k)   => Object.getPrototypeOf(localStorage).getItem.call(localStorage,k);
-
-const frGetLog    = () => { try{return JSON.parse(rawGet(FR_LOG_KEY))||[];}catch(e){return[];} };
-const frSaveLog   = l  => rawSet(FR_LOG_KEY, JSON.stringify(l));
-const frGetGoal   = () => parseFloat(rawGet(FR_GOAL_KEY))||2;
-const frSetGoal   = v  => { const g=parseFloat(v); if(!isNaN(g)&&g>=0) rawSet(FR_GOAL_KEY,String(g)); };
+const frGetLog    = () => { try{return JSON.parse(localStorage.getItem(FR_LOG))||[];}catch(e){return[];} };
+const frSaveLog   = l  => localStorage.setItem(FR_LOG, JSON.stringify(l));
+const frGetGoal   = () => parseFloat(localStorage.getItem(FR_GOAL))||2;
+const frSetGoal   = v  => { const g=parseFloat(v); if(!isNaN(g)&&g>=0) localStorage.setItem(FR_GOAL,String(g)); };
 const frGetHours  = d  => { const e=frGetLog().find(l=>l.date===d); return e?e.hours:0; };
-const frGetCheck  = () => { try{return JSON.parse(rawGet(FR_CHECK_KEY))||{};}catch(e){return{};} };
-const frSaveCheck = c  => rawSet(FR_CHECK_KEY, JSON.stringify(c));
-const frGetWeeks  = () => { try{return JSON.parse(rawGet(FR_WEEKS_KEY))||null;}catch(e){return null;} };
-const frSaveWeeks = w  => rawSet(FR_WEEKS_KEY, JSON.stringify(w));
+const frGetCheck  = () => { try{return JSON.parse(localStorage.getItem(FR_CHECK))||{};}catch(e){return{};} };
+const frSaveCheck = c  => localStorage.setItem(FR_CHECK, JSON.stringify(c));
+const frGetWeeks  = () => { try{return JSON.parse(localStorage.getItem(FR_WEEKS))||null;}catch(e){return null;} };
+const frSaveWeeks = w  => localStorage.setItem(FR_WEEKS, JSON.stringify(w));
 
 function frLogHours(dateStr, hours) {
   const log=frGetLog(), ex=log.find(l=>l.date===dateStr);
@@ -544,104 +444,102 @@ function frLogHours(dateStr, hours) {
 }
 
 /* ── Default weeks ── */
-const STRIPES = ['s1','s2','s3','s4','s5','s6','s7','s8'];
-function defaultWeeks() {
-  return [
-    {id:'w1',title:'The Absolute Foundation',emoji:'🔤',stripe:'s1',topics:[
-      {id:'w1t1',name:'French alphabet + accent marks (é, è, ê, à, ç)',cat:'grammar'},
-      {id:'w1t2',name:'Nasal sounds + silent letters rule',cat:'grammar'},
-      {id:'w1t3',name:'Gender of nouns — masculine vs feminine',cat:'grammar'},
-      {id:'w1t4',name:'Definite articles le/la/les + indefinite un/une/des',cat:'grammar'},
-      {id:'w1t5',name:'Greetings, farewells + Numbers 1–20',cat:'vocab'},
-      {id:'w1t6',name:'Days of the week + Colors',cat:'vocab'},
-      {id:'w1t7',name:'Write 5 intro sentences about yourself',cat:'write'},
-    ]},
-    {id:'w2',title:'Personal Identity & Basic Verbs',emoji:'👤',stripe:'s2',topics:[
-      {id:'w2t1',name:'Personal pronouns je/tu/il/elle/nous/vous/ils/elles',cat:'grammar'},
-      {id:'w2t2',name:'Verb être — full present tense conjugation',cat:'grammar'},
-      {id:'w2t3',name:'Verb avoir — full present tense conjugation',cat:'grammar'},
-      {id:'w2t4',name:'Simple negation with ne...pas',cat:'grammar'},
-      {id:'w2t5',name:'Family members + Nationalities + Professions',cat:'vocab'},
-      {id:'w2t6',name:'Numbers 20–100 + Listen to intro dialogues',cat:'listen'},
-      {id:'w2t7',name:'Fill out a personal information form',cat:'write'},
-    ]},
-    {id:'w3',title:'Daily Life & Regular Verbs',emoji:'🌅',stripe:'s3',topics:[
-      {id:'w3t1',name:'Regular -er verbs: parler, manger, habiter, aimer',cat:'grammar'},
-      {id:'w3t2',name:'Basic sentence structure + yes/no questions (est-ce que)',cat:'grammar'},
-      {id:'w3t3',name:'Daily routine vocabulary + Times of day',cat:'vocab'},
-      {id:'w3t4',name:'Places in a city vocabulary',cat:'vocab'},
-      {id:'w3t5',name:'Read a short paragraph about a daily routine',cat:'read'},
-      {id:'w3t6',name:'Listen to someone describe their daily schedule',cat:'listen'},
-      {id:'w3t7',name:'Write a 60–80 word paragraph about your day',cat:'write'},
-    ]},
-    {id:'w4',title:'Questions, Descriptions & Preferences',emoji:'💬',stripe:'s4',topics:[
-      {id:'w4t1',name:'Question words: qui, quoi, où, quand, comment, pourquoi',cat:'grammar'},
-      {id:'w4t2',name:'Adjective agreement — masculine and feminine forms',cat:'grammar'},
-      {id:'w4t3',name:"Possessive adjectives: mon/ma/mes, ton/ta/tes, son/sa/ses",cat:'grammar'},
-      {id:'w4t4',name:'Physical + personality description vocabulary',cat:'vocab'},
-      {id:'w4t5',name:'Hobbies + leisure + express likes/dislikes',cat:'speak'},
-      {id:'w4t6',name:'Listen to a likes/dislikes dialogue + short reading',cat:'listen'},
-      {id:'w4t7',name:'Write a description of yourself or a friend',cat:'write'},
-    ]},
-    {id:'w5',title:'Shopping, Food & Numbers in Context',emoji:'🛒',stripe:'s5',topics:[
-      {id:'w5t1',name:"Partitive articles: du / de la / de l' / des",cat:'grammar'},
-      {id:'w5t2',name:'Verbs vouloir and pouvoir — present tense',cat:'grammar'},
-      {id:'w5t3',name:'Quantities: un kilo de, beaucoup de, un peu de',cat:'vocab'},
-      {id:'w5t4',name:'Food, drinks + shops vocabulary',cat:'vocab'},
-      {id:'w5t5',name:'Money + prices + read a menu or shopping list',cat:'read'},
-      {id:'w5t6',name:'Listen to a shopping dialogue + role-play',cat:'speak'},
-      {id:'w5t7',name:'Write a short shopping dialogue (3 sentences)',cat:'write'},
-    ]},
-    {id:'w6',title:'Time, Weather & Location',emoji:'🌦️',stripe:'s6',topics:[
-      {id:'w6t1',name:'Telling time: il est... heures',cat:'grammar'},
-      {id:'w6t2',name:'Prepositions of place: à/de/sur/sous/dans/devant/derrière',cat:'grammar'},
-      {id:'w6t3',name:'Verb aller + near future: aller + infinitive',cat:'grammar'},
-      {id:'w6t4',name:'Weather + Months + Seasons vocabulary',cat:'vocab'},
-      {id:'w6t5',name:'Directions: à gauche, à droite, tout droit, près de',cat:'vocab'},
-      {id:'w6t6',name:'Listen to a weather forecast + practice giving directions',cat:'listen'},
-      {id:'w6t7',name:'Write a short message: weather + plans for the day',cat:'write'},
-    ]},
-    {id:'w7',title:'Communication & Social Situations',emoji:'📱',stripe:'s7',topics:[
-      {id:'w7t1',name:'Irregular verbs faire and prendre — present tense',cat:'grammar'},
-      {id:'w7t2',name:'Irregular verbs venir and savoir — present tense',cat:'grammar'},
-      {id:'w7t3',name:'Stressed pronouns + conjunctions et/mais/ou/parce que',cat:'grammar'},
-      {id:'w7t4',name:'Transport + communication vocabulary',cat:'vocab'},
-      {id:'w7t5',name:"Common expressions: s'il vous plaît, je ne comprends pas",cat:'speak'},
-      {id:'w7t6',name:'Read an informal email + listen to a phone conversation',cat:'read'},
-      {id:'w7t7',name:'Write an 80–100 word informal email making plans',cat:'write'},
-    ]},
-    {id:'w8',title:'Full Integration & Exam Readiness',emoji:'🏆',stripe:'s8',topics:[
-      {id:'w8t1',name:'Full grammar review: articles, pronouns, negation, adjectives',cat:'review'},
-      {id:'w8t2',name:'Full vocabulary review: all themes from weeks 1–7',cat:'review'},
-      {id:'w8t3',name:'Timed listening — 3-min dialogue + comprehension questions',cat:'listen'},
-      {id:'w8t4',name:'Timed reading — short texts + fill-in comprehension',cat:'read'},
-      {id:'w8t5',name:'Timed writing — personal info form + 80-word paragraph',cat:'write'},
-      {id:'w8t6',name:'Mock speaking — record intro + role-play dialogue',cat:'speak'},
-      {id:'w8t7',name:'Final full mock test — all 4 skills in DELF A1 format',cat:'review'},
-    ]},
-  ];
-}
+const STRIPES=['s1','s2','s3','s4','s5','s6','s7','s8'];
+function defaultWeeks(){return[
+  {id:'w1',title:'The Absolute Foundation',emoji:'🔤',stripe:'s1',topics:[
+    {id:'w1t1',name:'French alphabet + accent marks (é, è, ê, à, ç)',cat:'grammar'},
+    {id:'w1t2',name:'Nasal sounds + silent letters rule',cat:'grammar'},
+    {id:'w1t3',name:'Gender of nouns — masculine vs feminine',cat:'grammar'},
+    {id:'w1t4',name:'Definite articles le/la/les + indefinite un/une/des',cat:'grammar'},
+    {id:'w1t5',name:'Greetings, farewells + Numbers 1–20',cat:'vocab'},
+    {id:'w1t6',name:'Days of the week + Colors',cat:'vocab'},
+    {id:'w1t7',name:'Write 5 intro sentences about yourself',cat:'write'},
+  ]},
+  {id:'w2',title:'Personal Identity & Basic Verbs',emoji:'👤',stripe:'s2',topics:[
+    {id:'w2t1',name:'Personal pronouns je/tu/il/elle/nous/vous/ils/elles',cat:'grammar'},
+    {id:'w2t2',name:'Verb être — full present tense conjugation',cat:'grammar'},
+    {id:'w2t3',name:'Verb avoir — full present tense conjugation',cat:'grammar'},
+    {id:'w2t4',name:'Simple negation with ne...pas',cat:'grammar'},
+    {id:'w2t5',name:'Family members + Nationalities + Professions',cat:'vocab'},
+    {id:'w2t6',name:'Numbers 20–100 + Listen to intro dialogues',cat:'listen'},
+    {id:'w2t7',name:'Fill out a personal information form',cat:'write'},
+  ]},
+  {id:'w3',title:'Daily Life & Regular Verbs',emoji:'🌅',stripe:'s3',topics:[
+    {id:'w3t1',name:'Regular -er verbs: parler, manger, habiter, aimer',cat:'grammar'},
+    {id:'w3t2',name:'Basic sentence structure + yes/no questions (est-ce que)',cat:'grammar'},
+    {id:'w3t3',name:'Daily routine vocabulary + Times of day',cat:'vocab'},
+    {id:'w3t4',name:'Places in a city vocabulary',cat:'vocab'},
+    {id:'w3t5',name:'Read a short paragraph about a daily routine',cat:'read'},
+    {id:'w3t6',name:'Listen to someone describe their daily schedule',cat:'listen'},
+    {id:'w3t7',name:'Write a 60–80 word paragraph about your day',cat:'write'},
+  ]},
+  {id:'w4',title:'Questions, Descriptions & Preferences',emoji:'💬',stripe:'s4',topics:[
+    {id:'w4t1',name:'Question words: qui, quoi, où, quand, comment, pourquoi',cat:'grammar'},
+    {id:'w4t2',name:'Adjective agreement — masculine and feminine forms',cat:'grammar'},
+    {id:'w4t3',name:"Possessive adjectives: mon/ma/mes, ton/ta/tes, son/sa/ses",cat:'grammar'},
+    {id:'w4t4',name:'Physical + personality description vocabulary',cat:'vocab'},
+    {id:'w4t5',name:'Hobbies + leisure + express likes/dislikes',cat:'speak'},
+    {id:'w4t6',name:'Listen to a likes/dislikes dialogue + short reading',cat:'listen'},
+    {id:'w4t7',name:'Write a description of yourself or a friend',cat:'write'},
+  ]},
+  {id:'w5',title:'Shopping, Food & Numbers in Context',emoji:'🛒',stripe:'s5',topics:[
+    {id:'w5t1',name:"Partitive articles: du / de la / de l' / des",cat:'grammar'},
+    {id:'w5t2',name:'Verbs vouloir and pouvoir — present tense',cat:'grammar'},
+    {id:'w5t3',name:'Quantities: un kilo de, beaucoup de, un peu de',cat:'vocab'},
+    {id:'w5t4',name:'Food, drinks + shops vocabulary',cat:'vocab'},
+    {id:'w5t5',name:'Money + prices + read a menu or shopping list',cat:'read'},
+    {id:'w5t6',name:'Listen to a shopping dialogue + role-play',cat:'speak'},
+    {id:'w5t7',name:'Write a short shopping dialogue (3 sentences)',cat:'write'},
+  ]},
+  {id:'w6',title:'Time, Weather & Location',emoji:'🌦️',stripe:'s6',topics:[
+    {id:'w6t1',name:'Telling time: il est... heures',cat:'grammar'},
+    {id:'w6t2',name:'Prepositions of place: à/de/sur/sous/dans/devant/derrière',cat:'grammar'},
+    {id:'w6t3',name:'Verb aller + near future: aller + infinitive',cat:'grammar'},
+    {id:'w6t4',name:'Weather + Months + Seasons vocabulary',cat:'vocab'},
+    {id:'w6t5',name:'Directions: à gauche, à droite, tout droit, près de',cat:'vocab'},
+    {id:'w6t6',name:'Listen to a weather forecast + practice giving directions',cat:'listen'},
+    {id:'w6t7',name:'Write a short message: weather + plans for the day',cat:'write'},
+  ]},
+  {id:'w7',title:'Communication & Social Situations',emoji:'📱',stripe:'s7',topics:[
+    {id:'w7t1',name:'Irregular verbs faire and prendre — present tense',cat:'grammar'},
+    {id:'w7t2',name:'Irregular verbs venir and savoir — present tense',cat:'grammar'},
+    {id:'w7t3',name:'Stressed pronouns + conjunctions et/mais/ou/parce que',cat:'grammar'},
+    {id:'w7t4',name:'Transport + communication vocabulary',cat:'vocab'},
+    {id:'w7t5',name:"Common expressions: s'il vous plaît, je ne comprends pas",cat:'speak'},
+    {id:'w7t6',name:'Read an informal email + listen to a phone conversation',cat:'read'},
+    {id:'w7t7',name:'Write an 80–100 word informal email making plans',cat:'write'},
+  ]},
+  {id:'w8',title:'Full Integration & Exam Readiness',emoji:'🏆',stripe:'s8',topics:[
+    {id:'w8t1',name:'Full grammar review: articles, pronouns, negation, adjectives',cat:'review'},
+    {id:'w8t2',name:'Full vocabulary review: all themes from weeks 1–7',cat:'review'},
+    {id:'w8t3',name:'Timed listening — 3-min dialogue + comprehension questions',cat:'listen'},
+    {id:'w8t4',name:'Timed reading — short texts + fill-in comprehension',cat:'read'},
+    {id:'w8t5',name:'Timed writing — personal info form + 80-word paragraph',cat:'write'},
+    {id:'w8t6',name:'Mock speaking — record intro + role-play dialogue',cat:'speak'},
+    {id:'w8t7',name:'Final full mock test — all 4 skills in DELF A1 format',cat:'review'},
+  ]},
+];}
 
-/* ── App state ── */
-let weeks=[], checklist={}, uid=null, saveTimer=null, modalDate=null;
-let editingTopic=null, addingToWeek=null, editingWeek=null, confirmCb=null;
+/* ── State ── */
+let weeks=[],checklist={},uid=null,saveTimer=null,modalDate=null;
+let editingTopic=null,addingToWeek=null,editingWeek=null,confirmCb=null;
 let appInitialised=false;
 let currentCalendarMonth=new Date(); currentCalendarMonth.setDate(1);
 
-const $    = id => document.getElementById(id);
-const ss   = (s,m) => { $('syncBar').className='sync-bar '+s; $('syncMsg').textContent=m; };
-const uid_ = () => Date.now().toString(36)+Math.random().toString(36).slice(2,5);
-const fmtH = h => { const r=Math.round(h*2)/2; return (r%1===0?r.toString():r.toFixed(1))+'h'; };
-const esc  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const catLabel = c => ({grammar:'Grammar',vocab:'Vocab',listen:'Listening',read:'Reading',
+const $=id=>document.getElementById(id);
+const ss=(s,m)=>{ $('syncBar').className='sync-bar '+s; $('syncMsg').textContent=m; };
+const uid_=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const fmtH=h=>{ const r=Math.round(h*2)/2; return (r%1===0?r.toString():r.toFixed(1))+'h'; };
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const catLabel=c=>({grammar:'Grammar',vocab:'Vocab',listen:'Listening',read:'Reading',
   write:'Writing',speak:'Speaking',review:'Review',other:'Other'}[c]||c);
 
-/* ══ RENDER WEEKS ══ */
-function renderWeeks() {
+/* ── Weeks ── */
+function renderWeeks(){
   const grid=$('weeksGrid'); grid.innerHTML='';
   weeks.forEach((week,wi)=>{
     const stripe=week.stripe||STRIPES[wi%STRIPES.length];
-    const done=week.topics.filter(t=>checklist[t.id]).length, total=week.topics.length;
+    const done=week.topics.filter(t=>checklist[t.id]).length,total=week.topics.length;
     const pct=total?Math.round(done/total*100):0;
     const card=document.createElement('div');
     card.className='week-card'; card.dataset.weekId=week.id;
@@ -650,10 +548,7 @@ function renderWeeks() {
       <div class="card-head">
         <div class="card-head-left">
           <div class="week-emoji">${week.emoji||'📖'}</div>
-          <div class="week-meta">
-            <div class="week-label">Week ${wi+1}</div>
-            <div class="week-title">${esc(week.title)}</div>
-          </div>
+          <div class="week-meta"><div class="week-label">Week ${wi+1}</div><div class="week-title">${esc(week.title)}</div></div>
         </div>
         <div class="week-actions">
           <button class="week-action-btn" data-action="edit-week" data-wid="${week.id}">✏️ Edit</button>
@@ -685,7 +580,7 @@ function renderWeeks() {
   updateOverall();
 }
 
-function topicHTML(t) {
+function topicHTML(t){
   const done=!!checklist[t.id];
   return `<div class="topic-row ${done?'done':''}" data-tid="${t.id}">
     <div class="check-box" data-action="toggle" data-tid="${t.id}">${done?'✓':''}</div>
@@ -707,7 +602,7 @@ function handleToggle(tid){
 
 function updateWeekUI(wid){
   const week=weeks.find(w=>w.id===wid); if(!week) return;
-  const done=week.topics.filter(t=>checklist[t.id]).length, total=week.topics.length;
+  const done=week.topics.filter(t=>checklist[t.id]).length,total=week.topics.length;
   const pct=total?Math.round(done/total*100):0;
   const pb=$('pb-'+wid),pp=$('pp-'+wid),fc=$('fc-'+wid),fb=$('fb-'+wid);
   if(pb)pb.style.width=pct+'%'; if(pp)pp.textContent=pct+'%';
@@ -716,16 +611,16 @@ function updateWeekUI(wid){
 }
 
 function updateOverall(){
-  const all=weeks.flatMap(w=>w.topics), total=all.length;
+  const all=weeks.flatMap(w=>w.topics),total=all.length;
   const done=all.filter(t=>checklist[t.id]).length;
   const pct=total?Math.round(done/total*100):0;
   $('op-count').innerHTML=`${done}<span style="font-size:1rem;color:var(--text-muted)">/${total}</span>`;
   $('op-bar').style.width=pct+'%';
 }
 
-/* ══ EDIT TOPIC ══ */
+/* ── Edit topic ── */
 function openEditTopic(tid){
-  const week=weeks.find(w=>w.topics.some(t=>t.id===tid)), topic=week?.topics.find(t=>t.id===tid); if(!topic) return;
+  const week=weeks.find(w=>w.topics.some(t=>t.id===tid)),topic=week?.topics.find(t=>t.id===tid); if(!topic) return;
   editingTopic={weekId:week.id,topicId:tid};
   $('editTopicName').value=topic.name; $('editTopicCat').value=topic.cat||'grammar';
   openModal('editTopicModal'); setTimeout(()=>{$('editTopicName').focus();$('editTopicName').select();},80);
@@ -733,7 +628,7 @@ function openEditTopic(tid){
 $('editTopicSave').onclick=()=>{
   if(!editingTopic) return;
   const name=$('editTopicName').value.trim(); if(!name){$('editTopicName').focus();return;}
-  const week=weeks.find(w=>w.id===editingTopic.weekId), topic=week?.topics.find(t=>t.id===editingTopic.topicId); if(!topic) return;
+  const week=weeks.find(w=>w.id===editingTopic.weekId),topic=week?.topics.find(t=>t.id===editingTopic.topicId); if(!topic) return;
   topic.name=name; topic.cat=$('editTopicCat').value; frSaveWeeks(weeks); closeModal('editTopicModal');
   const row=document.querySelector(`.topic-row[data-tid="${topic.id}"]`);
   if(row){row.querySelector('.topic-name').textContent=topic.name;row.querySelector('.cat-pill').className=`cat-pill ${topic.cat}`;row.querySelector('.cat-pill').textContent=catLabel(topic.cat);}
@@ -742,9 +637,9 @@ $('editTopicSave').onclick=()=>{
 $('editTopicClose').onclick=$('editTopicCancel').onclick=()=>closeModal('editTopicModal');
 $('editTopicName').onkeydown=e=>{if(e.key==='Enter')$('editTopicSave').click();if(e.key==='Escape')closeModal('editTopicModal');};
 
-/* ══ DELETE TOPIC ══ */
+/* ── Delete topic ── */
 function confirmDeleteTopic(tid){
-  const week=weeks.find(w=>w.topics.some(t=>t.id===tid)), topic=week?.topics.find(t=>t.id===tid);
+  const week=weeks.find(w=>w.topics.some(t=>t.id===tid)),topic=week?.topics.find(t=>t.id===tid);
   openConfirm('Delete topic?',`"${topic?.name}" will be permanently removed.`,()=>{
     week.topics=week.topics.filter(t=>t.id!==tid); delete checklist[tid];
     frSaveWeeks(weeks); frSaveCheck(checklist);
@@ -753,7 +648,7 @@ function confirmDeleteTopic(tid){
   });
 }
 
-/* ══ ADD TOPIC ══ */
+/* ── Add topic ── */
 function openAddTopic(wid){
   addingToWeek=wid; const week=weeks.find(w=>w.id===wid);
   $('addTopicModalTitle').textContent=`Add Topic to "${week?.title||'Week'}"`;
@@ -771,7 +666,7 @@ $('addTopicSave').onclick=()=>{
 $('addTopicClose').onclick=$('addTopicCancel').onclick=()=>closeModal('addTopicModal');
 $('addTopicName').onkeydown=e=>{if(e.key==='Enter')$('addTopicSave').click();if(e.key==='Escape')closeModal('addTopicModal');};
 
-/* ══ ADD / EDIT WEEK ══ */
+/* ── Add/Edit week ── */
 $('addWeekBtn').onclick=()=>{
   editingWeek=null; $('weekModalHeading').textContent='Add New Week';
   $('weekModalTitleInput').value=''; $('weekModalEmoji').value='📖';
@@ -784,7 +679,7 @@ function openEditWeek(wid){
   openModal('weekModal'); setTimeout(()=>{$('weekModalTitleInput').focus();$('weekModalTitleInput').select();},80);
 }
 $('weekModalSave').onclick=()=>{
-  const title=$('weekModalTitleInput').value.trim(), emoji=$('weekModalEmoji').value.trim()||'📖';
+  const title=$('weekModalTitleInput').value.trim(),emoji=$('weekModalEmoji').value.trim()||'📖';
   if(!title){$('weekModalTitleInput').focus();return;}
   if(editingWeek){const w=weeks.find(w=>w.id===editingWeek);if(w){w.title=title;w.emoji=emoji;}}
   else weeks.push({id:'w'+uid_(),title,emoji,stripe:STRIPES[weeks.length%STRIPES.length],topics:[]});
@@ -793,7 +688,7 @@ $('weekModalSave').onclick=()=>{
 $('weekModalClose').onclick=$('weekModalCancel').onclick=()=>closeModal('weekModal');
 $('weekModalTitleInput').onkeydown=e=>{if(e.key==='Enter')$('weekModalSave').click();if(e.key==='Escape')closeModal('weekModal');};
 
-/* ══ DELETE WEEK ══ */
+/* ── Delete week ── */
 function confirmDeleteWeek(wid){
   const week=weeks.find(w=>w.id===wid);
   openConfirm('Delete week?',`"${week?.title}" and all ${week?.topics.length||0} topics will be permanently removed.`,()=>{
@@ -803,23 +698,23 @@ function confirmDeleteWeek(wid){
   });
 }
 
-/* ══ CONFIRM ══ */
+/* ── Confirm modal ── */
 function openConfirm(title,msg,cb){$('confirmTitle').textContent=title;$('confirmMsg').textContent=msg;confirmCb=cb;openModal('confirmModal');}
 $('confirmOk').onclick=()=>{if(confirmCb)confirmCb();confirmCb=null;closeModal('confirmModal');};
 $('confirmCancel').onclick=$('confirmClose').onclick=()=>{confirmCb=null;closeModal('confirmModal');};
 
-/* ══ MODAL HELPERS ══ */
+/* ── Modal helpers ── */
 function openModal(id){$(id).classList.add('open');}
 function closeModal(id){$(id).classList.remove('open');}
 document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
 
-/* ══ HOURS DASHBOARD ══ */
+/* ── Hours dashboard ── */
 function renderHoursDash(){
   const log=frGetLog(),goal=frGetGoal(),todayS=today(),hoursToday=frGetHours(todayS);
   $('hoursInput').value=hoursToday||''; $('frDailyGoalInput').value=goal.toFixed(1);
   const pct=goal>0?Math.min((hoursToday/goal)*100,100):100;
   $('todayBar').style.width=pct+'%'; $('todayBar').className='progress-fill '+(pct>=100?'success':pct>=60?'':'danger');
-  const totalH=log.reduce((s,l)=>s+(l.hours||0),0), sessions=log.filter(l=>!l.auto).length;
+  const totalH=log.reduce((s,l)=>s+(l.hours||0),0),sessions=log.filter(l=>!l.auto).length;
   $('totalHours').textContent=totalH.toFixed(1)+'h';
   $('totalSessions').textContent=`across ${sessions} session${sessions!==1?'s':''}`;
   let streak=0,d=new Date();
@@ -829,7 +724,7 @@ function renderHoursDash(){
 }
 $('frDailyGoalInput').addEventListener('change',()=>{frSetGoal($('frDailyGoalInput').value);renderHoursDash();queueSave();});
 
-/* ══ CALENDAR ══ */
+/* ── Calendar ── */
 function renderCalendar(log,goal){
   const yr=currentCalendarMonth.getFullYear(),mo=currentCalendarMonth.getMonth();
   const firstDay=new Date(yr,mo,1),startDay=firstDay.getDay(),daysInMonth=new Date(yr,mo+1,0).getDate(),todayS=today();
@@ -853,7 +748,7 @@ function renderCalendar(log,goal){
   $('calendar').querySelectorAll('.cal-day:not(.other-month)').forEach(c=>{c.addEventListener('click',()=>openDayModal(c.dataset.date));});
 }
 
-/* ══ DAY MODAL ══ */
+/* ── Day modal ── */
 function openDayModal(ds){
   modalDate=ds; const ex=frGetHours(ds);
   $('modalDateTitle').textContent='Log French hours — '+ds;
@@ -874,14 +769,14 @@ $('modalClearBtn').onclick=()=>{
 };
 $('modalHoursInput').onkeydown=e=>{if(e.key==='Enter')$('modalSaveBtn').click();if(e.key==='Escape'){closeModal('dayModal');modalDate=null;}};
 
-/* ══ TODAY LOG / CLEAR ══ */
+/* ── Today log/clear ── */
 $('logBtn').onclick=()=>{const h=parseFloat($('hoursInput').value);if(isNaN(h)||h<0)return;frLogHours(today(),h);renderHoursDash();queueSave();};
 $('hoursInput').onkeydown=e=>{if(e.key==='Enter')$('logBtn').click();};
 $('clearTodayBtn').onclick=()=>{frSaveLog(frGetLog().filter(l=>l.date!==today()));$('hoursInput').value='';renderHoursDash();queueSave();};
 $('prevMonth').onclick=()=>{currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()-1);renderCalendar(frGetLog(),frGetGoal());};
 $('nextMonth').onclick=()=>{currentCalendarMonth.setMonth(currentCalendarMonth.getMonth()+1);renderCalendar(frGetLog(),frGetGoal());};
 
-/* ══ FIRESTORE SAVE / LOAD ══ */
+/* ── Firestore save/load ── */
 function queueSave(){
   ss('saving','Saving…'); clearTimeout(saveTimer);
   saveTimer=setTimeout(saveToFirestore,1500);
@@ -911,7 +806,7 @@ async function loadFromFirestore(userId){
       else { weeks=frGetWeeks()||defaultWeeks(); frSaveWeeks(weeks); }
       checklist=d.frenchChecklist||frGetCheck(); frSaveCheck(checklist);
       if(d.frenchStudyLog) frSaveLog(d.frenchStudyLog);
-      if(d.frenchDailyGoal) rawSet(FR_GOAL_KEY,String(d.frenchDailyGoal));
+      if(d.frenchDailyGoal) localStorage.setItem(FR_GOAL,String(d.frenchDailyGoal));
     } else {
       weeks=frGetWeeks()||defaultWeeks(); frSaveWeeks(weeks);
       checklist=frGetCheck();
@@ -931,10 +826,7 @@ function loadFromLocal(){
 
 function hideLoader(){$('loading-overlay').classList.add('hidden');}
 
-/* ══ USER MENU
-   Override app.js's initUserNav so it doesn't inject a second user menu button ══ */
-window.initUserNav = function(){};
-
+/* ── User menu ── */
 $('userToggle').onclick=e=>{e.stopPropagation();$('userDropdown').classList.toggle('open');};
 document.addEventListener('click',()=>$('userDropdown').classList.remove('open'));
 
@@ -942,17 +834,13 @@ function setUserUI(name,email){
   const ini=name?name.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase():'?';
   $('userAvatar').textContent=ini; $('userNameDisplay').textContent=name||'Guest';
   $('dropName').textContent=name||'Guest'; $('dropEmail').textContent=email||'Not signed in';
-  // Show/hide sync button based on login state
-  $('syncNowBtn').style.display = name && name !== 'Guest' ? 'block' : 'none';
+  $('syncNowBtn').style.display=(uid?'block':'none');
 }
 
-/* Sync Now button in dropdown */
-$('syncNowBtn').addEventListener('click', async () => {
-  const btn = $('syncNowBtn');
-  btn.disabled=true; btn.textContent='⏳ Syncing…';
+$('syncNowBtn').addEventListener('click',async()=>{
+  const btn=$('syncNowBtn'); btn.disabled=true; btn.textContent='⏳ Syncing…';
   await saveToFirestore();
-  btn.textContent='☁️ Sync Now';
-  setTimeout(()=>{btn.disabled=false;},1500);
+  btn.textContent='☁️ Sync Now'; setTimeout(()=>{btn.disabled=false;},1500);
 });
 
 $('logoutBtn').onclick=async()=>{
@@ -961,9 +849,9 @@ $('logoutBtn').onclick=async()=>{
   window.location.href='login.html';
 };
 
-/* ══ SINGLE AUTH LISTENER ══ */
-onAuthStateChanged(auth, user=>{
-  if(appInitialised){ if(user) setUserUI(localStorage.getItem('user_name')||user.displayName||'Student',user.email); return; }
+/* ── Single auth listener ── */
+onAuthStateChanged(auth,user=>{
+  if(appInitialised){if(user) setUserUI(localStorage.getItem('user_name')||user.displayName||'Student',user.email); return;}
   appInitialised=true;
   if(user){
     uid=user.uid;
