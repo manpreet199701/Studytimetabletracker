@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Study Time Table Tracker — Weekly Test Tracker</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ── Summary metric cards ── */
+.tracker-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 700px) { .tracker-metrics { grid-template-columns: repeat(2,1fr); } }
+
+.metric-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow);
+}
+.metric-card .label { margin-bottom: 0.4rem; }
+.metric-card .stat-value { font-size: 1.8rem; }
+.metric-card.good .stat-value { color: var(--success); }
+.metric-card.warn .stat-value { color: var(--warning); }
+.metric-card.bad  .stat-value { color: var(--danger);  }
+
+/* ── Score trend chart ── */
+.chart-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 72px;
+  margin-top: 1rem;
+}
+.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+.bar-inner {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  min-height: 4px;
+  background: var(--surface2);
+  transition: height 0.4s cubic-bezier(.4,0,.2,1);
+  cursor: default;
+}
+.bar-inner.good { background: linear-gradient(180deg, var(--success), var(--mint)); }
+.bar-inner.ok   { background: linear-gradient(180deg, var(--warning), var(--accent3)); }
+.bar-inner.low  { background: linear-gradient(180deg, var(--danger), var(--accent2)); }
+.bar-lbl { font-size: 9px; color: var(--text-dim); font-family: var(--mono); }
+
+/* ── Filter pills ── */
+.filter-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.filter-pill {
+  padding: 0.35rem 1rem;
+  border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.15s;
+}
+.filter-pill:hover { background: var(--surface2); color: var(--text); border-color: var(--accent); }
+.filter-pill.active { background: rgba(108,71,255,0.12); color: var(--accent); border-color: rgba(108,71,255,0.3); }
+
+/* ── Week cards ── */
+.week-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 0.75rem;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+.week-card:hover { border-color: rgba(108,71,255,0.25); box-shadow: var(--shadow-lg); }
+
+.week-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.week-badge {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  border: 1.5px solid var(--border);
+}
+.week-badge.done   { background: rgba(0,200,150,0.12); color: var(--success); border-color: rgba(0,200,150,0.3); }
+.week-badge.warn   { background: rgba(255,159,28,0.12); color: var(--warning); border-color: rgba(255,159,28,0.3); }
+.week-badge.danger { background: rgba(255,77,109,0.12); color: var(--danger); border-color: rgba(255,77,109,0.3); }
+
+.week-info { flex: 1; min-width: 0; }
+.week-label { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+.week-dates { font-size: 0.75rem; color: var(--text-dim); margin-top: 1px; font-family: var(--mono); }
+.week-modules { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.score-badge {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.3rem 0.85rem;
+  border-radius: 99px;
+  background: var(--surface2);
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+}
+.score-badge.good { background: rgba(0,200,150,0.12); color: var(--success); border-color: rgba(0,200,150,0.3); }
+.score-badge.ok   { background: rgba(255,159,28,0.12); color: var(--warning); border-color: rgba(255,159,28,0.3); }
+.score-badge.low  { background: rgba(255,77,109,0.12); color: var(--danger);  border-color: rgba(255,77,109,0.25); }
+
+.week-chevron { font-size: 0.65rem; color: var(--text-dim); transition: transform 0.2s; flex-shrink: 0; }
+.week-chevron.open { transform: rotate(180deg); }
+
+/* ── Expanded body ── */
+.week-body { display: none; padding: 0 1.25rem 1.25rem; border-top: 1.5px solid var(--border); }
+.week-body.open { display: block; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+@media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group.full { grid-column: 1 / -1; }
+.form-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+/* Score slider */
+.score-row { display: flex; align-items: center; gap: 0.75rem; }
+.score-row input[type=range] {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 5px;
+  background: var(--surface2);
+  border-radius: 99px;
+  outline: none;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+}
+.score-row input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--lavender));
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(108,71,255,0.35);
+}
+.score-row input[type=range]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--lavender));
+  border: none;
+  cursor: pointer;
+}
+.score-num {
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 46px;
+  text-align: right;
+}
+
+/* Confidence buttons */
+.conf-row { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.conf-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: var(--surface2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--mono);
+  transition: all 0.15s;
+}
+.conf-btn:hover { background: var(--surface); color: var(--text); border-color: var(--accent); }
+.conf-btn.active { background: rgba(108,71,255,0.12); color: var(--accent); border-color: rgba(108,71,255,0.4); }
+
+/* Textareas inherit from style.css global — just set min-height */
+.tracker-textarea { min-height: 60px; resize: vertical; }
+
+/* Save button */
+.save-btn {
+  margin-top: 1rem;
+}
+.save-btn.saved {
+  background: linear-gradient(135deg, var(--success), var(--mint));
+  box-shadow: 0 4px 14px rgba(0,200,150,0.35);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV (matches your existing site exactly) ══ -->
+<nav>
+  <a href="index.html" class="nav-brand">Study Time Table <span>Tracker</span></a>
+  <div class="nav-links">
+    <a href="index.html">Dashboard</a>
+    <a href="subjects.html">Subjects</a>
+    <a href="sync.html">Sync</a>
+    <a href="french.html">🇫🇷 French</a>
+    <a href="test-tracker.html">📋 Test Tracker</a>
+    <a href="login.html" id="loginLink">Login</a>
+  </div>
+</nav>
+
+<!-- ══ PAGE ══ -->
+<div class="page">
+
+  <!-- Header -->
+  <div class="fade-up" style="margin-bottom:1.75rem">
+    <p class="label" style="margin-bottom:0.4rem">CFA Level I · 15 Weeks</p>
+    <h1>Weekly Test Tracker</h1>
+    <p class="stat-sub">Apr 27 – Aug 10, 2025 &nbsp;·&nbsp; Log your Sunday test scores and track weak areas</p>
+  </div>
+
+  <!-- Summary metric cards -->
+  <div class="tracker-metrics fade-up delay-1">
+    <div class="metric-card" id="cardLogged">
+      <p class="label">Tests logged</p>
+      <div class="stat-value mono" id="sumLogged">0/15</div>
+    </div>
+    <div class="metric-card" id="cardAvg">
+      <p class="label">Avg score</p>
+      <div class="stat-value mono" id="sumAvg">—</div>
+    </div>
+    <div class="metric-card warn" id="cardWeak">
+      <p class="label">Needs review</p>
+      <div class="stat-value mono warn" id="sumWeak">—</div>
+    </div>
+    <div class="metric-card" id="cardConf">
+      <p class="label">Avg confidence</p>
+      <div class="stat-value mono" id="sumConf">—</div>
+    </div>
+  </div>
+
+  <!-- Score trend chart -->
+  <div class="chart-card fade-up delay-2">
+    <div class="section-header">
+      <p class="label">Score trend — all 15 weeks</p>
+      <span class="badge badge-blue" id="trendBadge">0 logged</span>
+    </div>
+    <div class="chart-bars" id="chartBars"></div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="card fade-up delay-2" style="margin-bottom:1.5rem">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem">
+      <p class="label">Syllabus progress</p>
+      <span class="mono" style="font-size:0.8rem;font-weight:700;color:var(--accent)" id="progPct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- Filter row -->
+  <div class="filter-row fade-up delay-2">
+    <button class="filter-pill active" onclick="setFilter('all',this)">All weeks</button>
+    <button class="filter-pill" onclick="setFilter('done',this)">Logged</button>
+    <button class="filter-pill" onclick="setFilter('pending',this)">Pending</button>
+    <button class="filter-pill" onclick="setFilter('weak',this)">Needs review (&lt;65%)</button>
+  </div>
+
+  <!-- Week list -->
+  <div id="weekList" class="fade-up delay-3"></div>
+
+  <p style="font-size:0.75rem;color:var(--text-dim);margin-top:2rem;text-align:center">
+    Data saved in your browser · syncs across devices when signed in
+  </p>
+
+</div><!-- /.page -->
+
+<!-- ══ SCRIPTS ══ -->
+<script src="app.js"></script>
+<script type="module" src="firebase-sync.js"></script>
+<script>
+/* ── Week definitions ── */
+const WEEKS = [
+  { week:1,  dates:'Apr 27 – May 3',   primary:'Derivatives',                secondary:'FSA',               modules:'Der M1–M5 + FSA M1–M5' },
+  { week:2,  dates:'May 4 – May 10',   primary:'Derivatives',                secondary:'FSA',               modules:'Der M6–M10 + FSA M6–M12' },
+  { week:3,  dates:'May 11 – May 17',  primary:'FSA (finish)',               secondary:'Corporate Issuers', modules:'Full FSA + CI M1–M7' },
+  { week:4,  dates:'May 18 – May 24',  primary:'Corporate Issuers (finish)', secondary:'Ethics',            modules:'Full CI + Ethics M1–M5' },
+  { week:5,  dates:'May 25 – May 31',  primary:'Ethics (finish)',            secondary:'Equity',            modules:'Full Ethics + Equity M1–M6' },
+  { week:6,  dates:'Jun 1 – Jun 7',    primary:'Equity Investments',         secondary:'Fixed Income',      modules:'Equity M7–M12 + FI M1–M6' },
+  { week:7,  dates:'Jun 8 – Jun 14',   primary:'Fixed Income (finish)',      secondary:'Quant Methods',     modules:'Full FI + QM M1–M5' },
+  { week:8,  dates:'Jun 15 – Jun 21',  primary:'Quantitative Methods',       secondary:'Economics',         modules:'QM M6–M10 + Econ M1–M5' },
+  { week:9,  dates:'Jun 22 – Jun 28',  primary:'Economics (finish)',         secondary:'Portfolio Mgmt',    modules:'Full Econ + PM M1–M4' },
+  { week:10, dates:'Jun 29 – Jul 5',   primary:'Portfolio Management',       secondary:'Full Mock 1',       modules:'Full PM + Mock exam #1' },
+  { week:11, dates:'Jul 6 – Jul 12',   primary:'Weak Area Review 1',         secondary:'Ethics deep dive',  modules:'Ethics + lowest-scoring topics W1–W5' },
+  { week:12, dates:'Jul 13 – Jul 19',  primary:'Weak Area Review 2',         secondary:'Fixed Income focus',modules:'FI + lowest-scoring topics W6–W9' },
+  { week:13, dates:'Jul 20 – Jul 26',  primary:'Full Mock 2',                secondary:'Review',            modules:'Mock exam #2 + targeted revision' },
+  { week:14, dates:'Jul 27 – Aug 2',   primary:'Full Mock 3',                secondary:'Final review',      modules:'Mock exam #3 + all red gaps' },
+  { week:15, dates:'Aug 3 – Aug 10',   primary:'Full syllabus sweep',        secondary:'Mixed practice',    modules:'Mixed full syllabus practice test' },
+];
+
+const STORAGE_KEY = 'cfa_tracker_v2';
+let state = {};
+let activeFilter = 'all';
+let openWeek = null;
+
+/* ── Persistence ── */
+function loadState() {
+  try { const s = localStorage.getItem(STORAGE_KEY); if (s) state = JSON.parse(s); } catch(e) {}
+}
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    // Tell firebase-sync something changed so it pushes to cloud
+    if (window.queueCloudSync) window.queueCloudSync('test-tracker-save');
+  } catch(e) {}
+}
+
+/* ── Helpers ── */
+function pillClass(score) {
+  if (score == null) return '';
+  return score >= 70 ? 'good' : score >= 55 ? 'ok' : 'low';
+}
+function badgeClass(d) {
+  if (!d || d.score == null) return '';
+  return d.score >= 70 ? 'done' : d.score < 55 ? 'danger' : 'warn';
+}
+
+/* ── Summary + chart ── */
+function updateSummary() {
+  const logged = WEEKS.filter(w => state[w.week] && state[w.week].score != null);
+  const scores = logged.map(w => state[w.week].score);
+  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
+  const weak = logged.filter(w => state[w.week].score < 65).length;
+  const confs = logged.map(w => state[w.week].conf).filter(Boolean);
+  const avgConf = confs.length ? (confs.reduce((a,b)=>a+b,0)/confs.length).toFixed(1) : null;
+  const pct = Math.round((logged.length / 15) * 100);
+
+  document.getElementById('sumLogged').textContent = logged.length + '/15';
+  const avgEl = document.getElementById('sumAvg');
+  avgEl.textContent = avg != null ? avg + '%' : '—';
+  const cardAvg = document.getElementById('cardAvg');
+  cardAvg.className = 'metric-card' + (avg == null ? '' : avg >= 70 ? ' good' : avg >= 55 ? ' warn' : ' bad');
+  document.getElementById('sumWeak').textContent = logged.length ? weak + (weak === 1 ? ' week' : ' weeks') : '—';
+  document.getElementById('sumConf').textContent = avgConf != null ? avgConf + '/10' : '—';
+  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('trendBadge').textContent = logged.length + ' logged';
+
+  updateChart(logged.length);
+}
+
+function updateChart() {
+  const bars = document.getElementById('chartBars');
+  bars.innerHTML = '';
+  WEEKS.forEach(w => {
+    const d = state[w.week] || {};
+    const score = d.score != null ? d.score : null;
+    const height = score != null ? Math.max(4, Math.round(score * 0.72)) : 4;
+    const cls = score != null ? pillClass(score) : '';
+    const col = document.createElement('div');
+    col.className = 'bar-col';
+    col.innerHTML = `
+      <div class="bar-inner ${cls}" style="height:${height}px" title="Week ${w.week}: ${score != null ? score+'%' : 'not logged'}"></div>
+      <div class="bar-lbl">${w.week}</div>`;
+    bars.appendChild(col);
+  });
+}
+
+/* ── Filters ── */
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function toggleWeek(num) {
+  openWeek = openWeek === num ? null : num;
+  render();
+}
+
+/* ── Per-week interaction ── */
+function setConf(week, n) {
+  if (!state[week]) state[week] = {};
+  state[week].conf = n;
+  document.querySelectorAll(`#confRow_${week} .conf-btn`).forEach((b, i) => {
+    b.classList.toggle('active', i + 1 === n);
+  });
+}
+
+function saveWeek(week) {
+  const rangeEl = document.getElementById('scoreRange_' + week);
+  const weakEl  = document.getElementById('weak_' + week);
+  const notesEl = document.getElementById('notes_' + week);
+  if (!state[week]) state[week] = {};
+  state[week].score = parseInt(rangeEl.value, 10);
+  state[week].weak  = weakEl.value;
+  state[week].notes = notesEl.value;
+  saveState();
+  const btn = document.getElementById('saveBtn_' + week);
+  btn.textContent = '✓ Saved!';
+  btn.classList.add('saved');
+  setTimeout(() => { openWeek = null; render(); }, 650);
+}
+
+/* ── Main render ── */
+function render() {
+  updateSummary();
+  const list = document.getElementById('weekList');
+  list.innerHTML = '';
+  let visible = 0;
+
+  WEEKS.forEach(w => {
+    const d = state[w.week] || {};
+    const hasScore = d.score != null;
+
+    if (activeFilter === 'done'    && !hasScore) return;
+    if (activeFilter === 'pending' && hasScore) return;
+    if (activeFilter === 'weak'    && (!hasScore || d.score >= 65)) return;
+
+    visible++;
+    const isOpen = openWeek === w.week;
+    const bc = badgeClass(d);
+    const pc = pillClass(hasScore ? d.score : null);
+    const scoreVal = hasScore ? d.score : 65;
+
+    const card = document.createElement('div');
+    card.className = 'week-card';
+    card.innerHTML = `
+      <div class="week-header" onclick="toggleWeek(${w.week})">
+        <div class="week-badge ${bc}">${w.week}</div>
+        <div class="week-info">
+          <div class="week-label">${w.primary} · ${w.secondary}</div>
+          <div class="week-dates">${w.dates}</div>
+          <div class="week-modules">${w.modules}</div>
+        </div>
+        ${hasScore
+          ? `<div class="score-badge ${pc}">${d.score}%</div>`
+          : `<div class="score-badge">No score</div>`}
+        <div class="week-chevron ${isOpen ? 'open' : ''}">▼</div>
+      </div>
+      ${isOpen ? `
+      <div class="week-body open">
+        <div class="form-grid">
+          <div class="form-group">
+            <div class="form-label">Test score</div>
+            <div class="score-row">
+              <input type="range" min="0" max="100" step="1" value="${scoreVal}"
+                id="scoreRange_${w.week}"
+                oninput="document.getElementById('scoreNum_${w.week}').textContent=this.value+'%'">
+              <span class="score-num" id="scoreNum_${w.week}">${scoreVal}%</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">Confidence (1–10)</div>
+            <div class="conf-row" id="confRow_${w.week}">
+              ${[1,2,3,4,5,6,7,8,9,10].map(n =>
+                `<button class="conf-btn ${d.conf === n ? 'active' : ''}" onclick="setConf(${w.week},${n})">${n}</button>`
+              ).join('')}
+            </div>
+          </div>
+          <div class="form-group full">
+            <div class="form-label">Weak areas (red gaps)</div>
+            <textarea class="tracker-textarea" id="weak_${w.week}"
+              placeholder="e.g. Duration &amp; Convexity, FSA accruals, EV multiples…">${d.weak || ''}</textarea>
+          </div>
+          <div class="form-group full">
+            <div class="form-label">Action taken / notes</div>
+            <textarea class="tracker-textarea" id="notes_${w.week}"
+              placeholder="e.g. Redo 50 FSA vignettes next week, revisit swap pricing…">${d.notes || ''}</textarea>
+          </div>
+        </div>
+        <button class="btn btn-primary save-btn" id="saveBtn_${w.week}" onclick="saveWeek(${w.week})">
+          Save week ${w.week}
+        </button>
+      </div>` : ''}
+    `;
+    list.appendChild(card);
+  });
+
+  if (visible === 0) {
+    list.innerHTML = '<div class="empty-state">No weeks match this filter yet.</div>';
+  }
+}
+
+/* ── Boot ── */
+loadState();
+render();
+if (typeof setActiveNav === 'function') setActiveNav();
+</script>
+
+</body>
+</html>
