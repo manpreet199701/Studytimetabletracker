@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFA Chapter Study — 4 Hour Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f11;
+    --surface: #16181c;
+    --surface2: #1e2128;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #f0f0ee;
+    --muted: #7a7d85;
+    --hint: #454850;
+    --green: #4ade80;
+    --green-dim: rgba(74,222,128,0.12);
+    --amber: #fbbf24;
+    --amber-dim: rgba(251,191,36,0.12);
+    --red: #f87171;
+    --red-dim: rgba(248,113,113,0.12);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.12);
+    --blue: #60a5fa;
+    --blue-dim: rgba(96,165,250,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* grid noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+  /* Header */
+  .header { margin-bottom: 3rem; }
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .header h1 span { color: var(--green); }
+  .header-sub {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 520px;
+  }
+
+  /* Summary pills */
+  .summary-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 2.5rem;
+  }
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border2);
+    background: var(--surface);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .pill-label { color: var(--muted); }
+  .pill-val { color: var(--text); font-weight: 500; }
+
+  /* Section label */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--hint);
+    margin: 2rem 0 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Block cards */
+  .block {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: default;
+  }
+  .block:hover { border-color: var(--border2); transform: translateX(2px); }
+  .block.active-block { border-color: var(--amber) !important; }
+
+  .block-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0;
+    border-right: 1px solid var(--border);
+    gap: 6px;
+  }
+  .block-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .block-mins {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .block-body { padding: 14px 18px; }
+  .block-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text);
+  }
+  .block-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+  }
+  .tag-red { background: var(--red-dim); color: var(--red); }
+  .tag-amber { background: var(--amber-dim); color: var(--amber); }
+  .tag-green { background: var(--green-dim); color: var(--green); }
+  .tag-purple { background: var(--purple-dim); color: var(--purple); }
+
+  /* Timer */
+  .timer-wrap {
+    margin-top: 2.5rem;
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    background: var(--surface);
+    padding: 28px;
+  }
+  .timer-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .timer-top-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .timer-select-wrap { position: relative; }
+  .timer-select-wrap select {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 8px 36px 8px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    appearance: none;
+    cursor: pointer;
+    outline: none;
+    min-width: 240px;
+  }
+  .timer-select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+    font-size: 12px;
+  }
+
+  .timer-face {
+    text-align: center;
+    margin: 24px 0;
+  }
+  .timer-digits {
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(4rem, 12vw, 7rem);
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 4px;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .timer-digits.warning { color: var(--amber); }
+  .timer-digits.done-state { color: var(--green); }
+  .timer-block-name {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* Progress arc */
+  .arc-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .arc-wrap svg { overflow: visible; }
+
+  /* Progress bar track */
+  .prog-track {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 24px;
+  }
+  .prog-seg {
+    flex: 1;
+    height: 3px;
+    border-radius: 99px;
+    background: var(--border2);
+    transition: background 0.4s;
+  }
+  .prog-seg.seg-done { background: var(--green); }
+  .prog-seg.seg-active { background: var(--amber); }
+
+  /* Buttons */
+  .btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 28px;
+    border-radius: 8px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    letter-spacing: 0.02em;
+  }
+  .btn:hover { background: var(--surface2); border-color: rgba(255,255,255,0.2); }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+  .btn-primary:hover { background: rgba(74,222,128,0.2); }
+
+  /* Chapter progress */
+  .chapter-progress {
+    margin-top: 2.5rem;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    padding: 24px;
+  }
+  .cp-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cp-total {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .los-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+  .los-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: var(--surface2);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    user-select: none;
+  }
+  .los-card:hover { border-color: var(--border2); }
+  .los-card.los-done { border-color: var(--green); background: var(--green-dim); }
+  .los-card-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .los-card-name {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .los-card.los-done .los-card-name { color: var(--green); }
+  .los-card.los-done .los-card-num { color: rgba(74,222,128,0.6); }
+  .los-check {
+    font-size: 11px;
+    color: var(--green);
+    margin-top: 6px;
+    font-family: 'DM Mono', monospace;
+    display: none;
+  }
+  .los-card.los-done .los-check { display: block; }
+  .add-los-btn {
+    border: 1px dashed var(--border2);
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: transparent;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    transition: border-color 0.2s, color 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    width: 100%;
+  }
+  .add-los-btn:hover { border-color: var(--text); color: var(--text); }
+
+  /* Golden rule box */
+  .rule-box {
+    margin-top: 2.5rem;
+    border-left: 3px solid var(--amber);
+    padding: 16px 20px;
+    background: var(--amber-dim);
+    border-radius: 0 10px 10px 0;
+  }
+  .rule-box-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .rule-box p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .rule-box p + p { margin-top: 6px; }
+
+  /* Responsive */
+  @media (max-width: 540px) {
+    .block { grid-template-columns: 44px 1fr; }
+    .timer-wrap { padding: 18px; }
+    .timer-select-wrap select { min-width: 200px; }
+  }
+
+  /* Fade-in */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .block, .timer-wrap, .chapter-progress, .rule-box, .summary-row {
+    animation: fadeUp 0.4s ease both;
+  }
+  .block:nth-child(1) { animation-delay: 0.05s; }
+  .block:nth-child(2) { animation-delay: 0.1s; }
+  .block:nth-child(3) { animation-delay: 0.15s; }
+  .block:nth-child(4) { animation-delay: 0.2s; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-eyebrow">CFA Level — Study System</div>
+    <h1>4-Hour<br><span>Chapter Plan</span></h1>
+    <p class="header-sub">All four elements kept. Sequenced for maximum retention in minimum time.</p>
+  </div>
+
+  <div class="summary-row">
+    <div class="pill"><div class="pill-dot" style="background:var(--green);"></div><span class="pill-label">Notion notes</span><span class="pill-val">40 min</span></div>
+    <div class="pill"><div class="pill-dot" style="background:var(--purple);"></div><span class="pill-label">Mind map</span><span class="pill-val">20 min</span></div>
+    <div class="pill"><div class="pill-dot" style="background:var(--amber);"></div><span class="pill-label">Big quiz</span><span class="pill-val">30 min</span></div>
+    <div class="pill"><div class="pill-dot" style="background:var(--blue);"></div><span class="pill-label">Flashcards</span><span class="pill-val">20 min</span></div>
+    <div class="pill"><div class="pill-dot" style="background:var(--red);"></div><span class="pill-label">Total</span><span class="pill-val">~4 hours</span></div>
+  </div>
+
+  <div class="section-label">Per LOS — repeat for each learning outcome</div>
+
+  <div class="block" id="blk-0">
+    <div class="block-left">
+      <div class="block-num" style="color:var(--green);">1</div>
+      <div class="block-mins">40 min</div>
+    </div>
+    <div class="block-body">
+      <div class="block-name">Notion notes — full read, primary material</div>
+      <div class="block-desc">Read your Notion notes in full for this LOS. This is your main study material. Read carefully, understand everything. No skipping — this is the foundation everything else builds on.</div>
+      <div class="tags"><span class="tag tag-red">hard stop at 40 min</span><span class="tag tag-green">your primary source</span></div>
+    </div>
+  </div>
+
+  <div class="block" id="blk-1">
+    <div class="block-left">
+      <div class="block-num" style="color:var(--green);">2</div>
+      <div class="block-mins">15 min</div>
+    </div>
+    <div class="block-body">
+      <div class="block-name">Schweser — confirmation pass</div>
+      <div class="block-desc">Now that you know the content from Notion, read Schweser quickly as a second angle. Since the material isn't new, this goes fast — you're checking for any different framing or angles you might have missed.</div>
+      <div class="tags"><span class="tag tag-amber">second pass — goes faster</span><span class="tag tag-red">hard stop at 15 min</span></div>
+    </div>
+  </div>
+
+  <div class="block" id="blk-2">
+    <div class="block-left">
+      <div class="block-num" style="color:var(--green);">3</div>
+      <div class="block-mins">15 min</div>
+    </div>
+    <div class="block-body">
+      <div class="block-name">LOS mini quiz</div>
+      <div class="block-desc">Do your 10–15 question quiz now, while the material is fresh. Aim for full score but don't re-read if you miss — flag the question and note the concept.</div>
+      <div class="tags"><span class="tag tag-green">retrieval while fresh</span></div>
+    </div>
+  </div>
+
+  <div class="block" id="blk-3">
+    <div class="block-left">
+      <div class="block-num" style="color:var(--green);">4</div>
+      <div class="block-mins">5 min</div>
+    </div>
+    <div class="block-body">
+      <div class="block-name">Fix what you got wrong</div>
+      <div class="block-desc">Return to Schweser or Notion only for the specific concepts behind wrong answers. One wrong answer = one paragraph re-read, maximum. Do not re-read the full LOS.</div>
+      <div class="tags"><span class="tag tag-red">targeted only</span><span class="tag tag-red">no full re-reads</span></div>
+    </div>
+  </div>
+
+  <div class="section-label">End of chapter — once only, not per LOS</div>
+
+  <div class="block" id="blk-4">
+    <div class="block-left">
+      <div class="block-num" style="color:var(--purple);">5</div>
+      <div class="block-mins">20 min</div>
+    </div>
+    <div class="block-body">
+      <div class="block-name">Mind map — recall first</div>
+      <div class="block-desc">Close the mind map. Spend 5 min writing everything you remember. Then open and check what you missed. Only re-read branches you forgot — not the full map.</div>
+      <div class="tags"><span class="tag tag-green">recall first, then check</span><span class="tag tag-red">don't read it top to bottom</span></div>
+    </div>
+  </div>
+
+  <div class="block" id="blk-5">
+    <div class="block-left">
+      <div class="block-num" style="color:var(--amber);">6</div>
+      <div class="block-mins">30 min</div>
+    </div>
+    <div class="block-body">
+      <div class="block-name">Big 50–60 question Notion quiz</div>
+      <div class="block-desc">Do this before flashcards while your brain is still in the chapter. Any concept you miss goes on a weak list to revisit during spaced review — not right now.</div>
+      <div class="tags"><span class="tag tag-green">chapter-wide confidence check</span></div>
+    </div>
+  </div>
+
+  <div class="block" id="blk-6">
+    <div class="block-left">
+      <div class="block-num" style="color:var(--blue);">7</div>
+      <div class="block-mins">20 min</div>
+    </div>
+    <div class="block-body">
+      <div class="block-name">Flashcards — this chapter only</div>
+      <div class="block-desc">Today, only review flashcards for this chapter. Older chapter flashcards get their own separate daily slot — completely outside your chapter study time.</div>
+      <div class="tags"><span class="tag tag-green">this chapter only</span><span class="tag tag-amber">older cards = separate session</span></div>
+    </div>
+  </div>
+
+  <!-- Timer -->
+  <div class="timer-wrap">
+    <div class="timer-top">
+      <div class="timer-top-label">Block timer</div>
+      <div class="timer-select-wrap">
+        <select id="block-select">
+          <option value="40,0">Block 1 — Notion notes full read (40 min)</option>
+          <option value="15,1">Block 2 — Schweser confirmation (15 min)</option>
+          <option value="15,2">Block 3 — LOS mini quiz (15 min)</option>
+          <option value="5,3">Block 4 — Fix wrong answers (5 min)</option>
+          <option value="20,4">Block 5 — Mind map recall (20 min)</option>
+          <option value="30,5">Block 6 — Big quiz (30 min)</option>
+          <option value="20,6">Block 7 — Flashcards (20 min)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="prog-track" id="prog-track">
+      <div class="prog-seg" id="ps0"></div>
+      <div class="prog-seg" id="ps1"></div>
+      <div class="prog-seg" id="ps2"></div>
+      <div class="prog-seg" id="ps3"></div>
+      <div class="prog-seg" id="ps4"></div>
+      <div class="prog-seg" id="ps5"></div>
+      <div class="prog-seg" id="ps6"></div>
+    </div>
+
+    <div class="timer-face">
+      <div class="timer-digits" id="timer-digits">40:00</div>
+      <div class="timer-block-name" id="timer-block-name">Block 1 — Notion notes full read</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="startTimer()">Start</button>
+      <button class="btn" onclick="pauseTimer()">Pause</button>
+      <button class="btn" onclick="resetTimer()">Reset</button>
+      <button class="btn" onclick="markDone()">Mark done ✓</button>
+    </div>
+  </div>
+
+  <!-- LOS tracker -->
+  <div class="chapter-progress">
+    <div class="cp-title">
+      <span>LOS tracker</span>
+      <span class="cp-total" id="cp-total">0 / 3 done</span>
+    </div>
+    <div class="los-grid" id="los-grid">
+      <div class="los-card" onclick="toggleLos(this)">
+        <div class="los-card-num">LOS 1</div>
+        <div class="los-card-name">Learning outcome 1</div>
+        <div class="los-check">✓ complete</div>
+      </div>
+      <div class="los-card" onclick="toggleLos(this)">
+        <div class="los-card-num">LOS 2</div>
+        <div class="los-card-name">Learning outcome 2</div>
+        <div class="los-check">✓ complete</div>
+      </div>
+      <div class="los-card" onclick="toggleLos(this)">
+        <div class="los-card-num">LOS 3</div>
+        <div class="los-card-name">Learning outcome 3</div>
+        <div class="los-check">✓ complete</div>
+      </div>
+    </div>
+    <button class="add-los-btn" style="margin-top:8px;" onclick="addLos()">+ Add LOS</button>
+  </div>
+
+  <div class="rule-box">
+    <div class="rule-box-title">The golden rule</div>
+    <p>Notion notes are your primary material — read them fully, every time. Schweser comes second and goes fast because the content is already familiar.</p>
+    <p>Flashcards for older chapters belong in a separate 20-minute daily slot. Never mix them into your chapter session.</p>
+    <p>If you score &gt;80% on the LOS quiz on the first attempt, skip Block 4 entirely and bank 5 minutes.</p>
+  </div>
+
+</div>
+
+<script>
+  // Timer logic
+  const blockMins = [40, 15, 15, 5, 20, 30, 20];
+  const blockNames = [
+    'Block 1 — Notion notes full read',
+    'Block 2 — Schweser confirmation',
+    'Block 3 — LOS mini quiz',
+    'Block 4 — Fix wrong answers',
+    'Block 5 — Mind map recall',
+    'Block 6 — Big quiz',
+    'Block 7 — Flashcards'
+  ];
+
+  let remaining = 40 * 60;
+  let totalSecs = 40 * 60;
+  let currentBlockIdx = 0;
+  let interval = null;
+  let running = false;
+  let doneBlocks = [];
+
+  const digitsEl = document.getElementById('timer-digits');
+  const nameEl = document.getElementById('timer-block-name');
+  const sel = document.getElementById('block-select');
+
+  function fmt(s) {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+  }
+
+  function updateDisplay() {
+    digitsEl.textContent = fmt(remaining);
+    const pct = remaining / totalSecs;
+    digitsEl.classList.remove('warning','done-state');
+    if (remaining === 0) digitsEl.classList.add('done-state');
+    else if (pct < 0.2) digitsEl.classList.add('warning');
+  }
+
+  function updateProg() {
+    for (let i = 0; i < 7; i++) {
+      const el = document.getElementById('ps' + i);
+      el.classList.remove('seg-done','seg-active');
+      if (doneBlocks.includes(i)) el.classList.add('seg-done');
+      else if (i === currentBlockIdx && running) el.classList.add('seg-active');
+    }
+    // highlight active block card
+    document.querySelectorAll('.block').forEach((b,i) => {
+      b.classList.toggle('active-block', i === currentBlockIdx && running);
+    });
+  }
+
+  sel.addEventListener('change', function() {
+    const parts = this.value.split(',');
+    currentBlockIdx = parseInt(parts[1]);
+    totalSecs = blockMins[currentBlockIdx] * 60;
+    remaining = totalSecs;
+    running = false;
+    clearInterval(interval);
+    nameEl.textContent = blockNames[currentBlockIdx];
+    updateDisplay();
+    updateProg();
+  });
+
+  function startTimer() {
+    if (running) return;
+    if (remaining <= 0) return;
+    running = true;
+    updateProg();
+    interval = setInterval(function() {
+      if (remaining <= 0) {
+        clearInterval(interval);
+        running = false;
+        digitsEl.textContent = 'Done!';
+        digitsEl.classList.add('done-state');
+        updateProg();
+        return;
+      }
+      remaining--;
+      updateDisplay();
+    }, 1000);
+  }
+
+  function pauseTimer() {
+    clearInterval(interval);
+    running = false;
+    updateProg();
+  }
+
+  function resetTimer() {
+    clearInterval(interval);
+    running = false;
+    remaining = totalSecs;
+    digitsEl.classList.remove('warning','done-state');
+    updateDisplay();
+    updateProg();
+  }
+
+  function markDone() {
+    if (!doneBlocks.includes(currentBlockIdx)) {
+      doneBlocks.push(currentBlockIdx);
+    }
+    clearInterval(interval);
+    running = false;
+    // auto-advance to next block
+    if (currentBlockIdx < 6) {
+      currentBlockIdx++;
+      sel.selectedIndex = currentBlockIdx;
+      totalSecs = blockMins[currentBlockIdx] * 60;
+      remaining = totalSecs;
+      nameEl.textContent = blockNames[currentBlockIdx];
+    }
+    updateDisplay();
+    updateProg();
+  }
+
+  // LOS tracker
+  let losCount = 3;
+
+  function toggleLos(el) {
+    el.classList.toggle('los-done');
+    updateLosCount();
+  }
+
+  function updateLosCount() {
+    const done = document.querySelectorAll('.los-card.los-done').length;
+    const total = document.querySelectorAll('.los-card').length;
+    document.getElementById('cp-total').textContent = done + ' / ' + total + ' done';
+  }
+
+  function addLos() {
+    losCount++;
+    const grid = document.getElementById('los-grid');
+    const card = document.createElement('div');
+    card.className = 'los-card';
+    card.onclick = function() { toggleLos(this); };
+    card.innerHTML = '<div class="los-card-num">LOS ' + losCount + '</div><div class="los-card-name">Learning outcome ' + losCount + '</div><div class="los-check">✓ complete</div>';
+    grid.appendChild(card);
+    updateLosCount();
+  }
+
+  updateDisplay();
+  updateProg();
+</script>
+</body>
+</html>
